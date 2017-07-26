@@ -12,14 +12,17 @@ namespace Restaurants.API.Models.Context
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<AssignedEmployeeTypes> AssignedEmployeeTypes { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Currencies> Currencies { get; set; }
         public DbSet<Employees> Employees { get; set; }
-        public DbSet<EmployeeType> EmployeeType { get; set; }
+        public DbSet<EmployeeTypes> EmployeeType { get; set; }
         public DbSet<Employers> Employers { get; set; }
+        public DbSet<EmployersRestaurants> EmployersRestaurants { get; set; }
         public DbSet<Guests> Guests { get; set; }
         public DbSet<Languages> Languages { get; set; }
         public DbSet<LocationContact> LocationContact { get; set; }
+        public DbSet<LocationPoints> LocationPoints { get; set; }
         public DbSet<MenuCategories> MenuCategories { get; set; }
         public DbSet<MenuCurrencies> MenuCurrencies { get; set; }
         public DbSet<MenuItemContents> MenuItemContents { get; set; }
@@ -46,6 +49,37 @@ namespace Restaurants.API.Models.Context
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<People>()
+                .HasOne(x => x.ThePersonAsGuest)
+                .WithOne(x => x.TheGuestDetails)
+                .HasForeignKey<Guests>(x => x.PersonId);
+
+            modelBuilder.Entity<People>()
+                .HasOne(x => x.ThePersonAsEmployee)
+                .WithOne(x => x.TheEmployeeDetails)
+                .HasForeignKey<Employees>(x => x.PersonId);
+
+            modelBuilder.Entity<People>()
+                .HasOne(x => x.ThePersonAsEmployer)
+                .WithOne(x => x.TheEmployerDetails)
+                .HasForeignKey<Employers>(x => x.PersonId);
+
+            modelBuilder.Entity<MenuCurrencies>()
+                .HasIndex(x => new { x.MenuId, x.CurrencyId })
+                .IsUnique();
+
+            modelBuilder.Entity<MenuLanguages>()
+                .HasIndex(x => new { x.MenuId, x.LanguageId })
+                .IsUnique();
+
+            modelBuilder.Entity<AssignedEmployeeTypes>()
+                .HasIndex(x => new { x.EmployeeId, x.TypeId })
+                .IsUnique();
+
+            modelBuilder.Entity<EmployersRestaurants>()
+                .HasIndex(x => new { x.EmployerId, x.RestaurantId })
+                .IsUnique();
+
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
@@ -63,7 +97,7 @@ namespace Restaurants.API.Models.Context
                 context.Currencies.SeedEnumValues<Currencies, CurrencyEnum>(@enum => @enum);
                 context.SaveChanges();
 
-                context.EmployeeType.SeedEnumValues<EmployeeType, EmployeeTypeEnum>(@enum => @enum);
+                context.EmployeeType.SeedEnumValues<EmployeeTypes, EmployeeTypeEnum>(@enum => @enum);
                 context.SaveChanges();
 
                 context.Languages.SeedEnumValues<Languages, LanguageEnum>(@enum => @enum);

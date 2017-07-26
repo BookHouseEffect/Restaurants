@@ -8,13 +8,16 @@ namespace Restaurants.API.Models.EntityFramework
     public class MenuItemValues : BaseEntity
     {
         [Required]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Currency)]
+        [Column(Order = 1)]
         public float Price { get; set; }
 
         [Required]
+        [Column(Order = 2)]
         public long MenuCurrencyId { get; set; }
 
         [Required]
+        [Column(Order = 3)]
         public long MenuItemId { get; set; }
 
         [NonSerialized]

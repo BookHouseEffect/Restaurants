@@ -8,7 +8,7 @@ using Restaurants.API.Models.Context;
 namespace Restaurants.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20170725224424_InitialCreate")]
+    [Migration("20170726162530_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -16,6 +16,37 @@ namespace Restaurants.API.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Restaurants.API.Models.EntityFramework.AssignedEmployeeTypes", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("CreatedByUserId");
+
+                    b.Property<DateTime>("CreatedDateTime");
+
+                    b.Property<long>("EmployeeId");
+
+                    b.Property<long>("ModifiedByUserId");
+
+                    b.Property<DateTime>("ModifiedDateTime");
+
+                    b.Property<long>("TypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedByUserId");
+
+                    b.HasIndex("ModifiedByUserId");
+
+                    b.HasIndex("TypeId");
+
+                    b.HasIndex("EmployeeId", "TypeId")
+                        .IsUnique();
+
+                    b.ToTable("AssignedEmployeeTypes");
+                });
 
             modelBuilder.Entity("Restaurants.API.Models.EntityFramework.Categories", b =>
                 {
@@ -95,24 +126,22 @@ namespace Restaurants.API.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("Restaurants.API.Models.EntityFramework.EmployeeType", b =>
+            modelBuilder.Entity("Restaurants.API.Models.EntityFramework.EmployeeTypes", b =>
                 {
                     b.Property<long>("Id");
 
-                    b.Property<string>("EmployeeTypeName");
-
-                    b.Property<long?>("EmployeesId");
+                    b.Property<string>("EmployeeTypeName")
+                        .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeesId");
 
                     b.ToTable("EmployeeType");
                 });
@@ -138,7 +167,8 @@ namespace Restaurants.API.Migrations
 
                     b.HasIndex("ModifiedByUserId");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Employers");
                 });
@@ -164,11 +194,12 @@ namespace Restaurants.API.Migrations
 
                     b.HasIndex("CreatedByUserId");
 
-                    b.HasIndex("EmployerId");
-
                     b.HasIndex("ModifiedByUserId");
 
                     b.HasIndex("RestaurantId");
+
+                    b.HasIndex("EmployerId", "RestaurantId")
+                        .IsUnique();
 
                     b.ToTable("EmployersRestaurants");
                 });
@@ -194,7 +225,8 @@ namespace Restaurants.API.Migrations
 
                     b.HasIndex("ModifiedByUserId");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Guests");
                 });
@@ -203,7 +235,8 @@ namespace Restaurants.API.Migrations
                 {
                     b.Property<long>("Id");
 
-                    b.Property<string>("LanguageName");
+                    b.Property<string>("LanguageName")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -333,9 +366,10 @@ namespace Restaurants.API.Migrations
 
                     b.HasIndex("CurrencyId");
 
-                    b.HasIndex("MenuId");
-
                     b.HasIndex("ModifiedByUserId");
+
+                    b.HasIndex("MenuId", "CurrencyId")
+                        .IsUnique();
 
                     b.ToTable("MenuCurrencies");
                 });
@@ -357,8 +391,6 @@ namespace Restaurants.API.Migrations
 
                     b.Property<string>("ItemWarnings");
 
-                    b.Property<long?>("MenuCategoryId");
-
                     b.Property<long>("MenuItemId");
 
                     b.Property<long>("MenuLanguageId");
@@ -370,8 +402,6 @@ namespace Restaurants.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedByUserId");
-
-                    b.HasIndex("MenuCategoryId");
 
                     b.HasIndex("MenuItemId");
 
@@ -467,9 +497,10 @@ namespace Restaurants.API.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.HasIndex("MenuId");
-
                     b.HasIndex("ModifiedByUserId");
+
+                    b.HasIndex("MenuId", "LanguageId")
+                        .IsUnique();
 
                     b.ToTable("MenuLanguages");
                 });
@@ -563,8 +594,7 @@ namespace Restaurants.API.Migrations
 
                     b.HasIndex("ModifiedByUserId");
 
-                    b.HasIndex("OrderId")
-                        .IsUnique();
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("OrderItemStatusId");
 
@@ -577,7 +607,8 @@ namespace Restaurants.API.Migrations
                 {
                     b.Property<long>("Id");
 
-                    b.Property<string>("StatusName");
+                    b.Property<string>("StatusName")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -620,7 +651,8 @@ namespace Restaurants.API.Migrations
                 {
                     b.Property<long>("Id");
 
-                    b.Property<string>("StatusName");
+                    b.Property<string>("StatusName")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -669,8 +701,6 @@ namespace Restaurants.API.Migrations
 
                     b.Property<DateTime>("CreatedDateTime");
 
-                    b.Property<string>("MiddleName");
-
                     b.Property<long>("ModifiedByUserId");
 
                     b.Property<DateTime>("ModifiedDateTime");
@@ -680,6 +710,8 @@ namespace Restaurants.API.Migrations
 
                     b.Property<string>("PersonLastName")
                         .IsRequired();
+
+                    b.Property<string>("PersonMiddleName");
 
                     b.HasKey("Id");
 
@@ -750,6 +782,25 @@ namespace Restaurants.API.Migrations
                     b.ToTable("RestaurantObjects");
                 });
 
+            modelBuilder.Entity("Restaurants.API.Models.EntityFramework.AssignedEmployeeTypes", b =>
+                {
+                    b.HasOne("Restaurants.API.Models.EntityFramework.People", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedByUserId");
+
+                    b.HasOne("Restaurants.API.Models.EntityFramework.Employees", "TheEmployee")
+                        .WithMany("TheAssignedTypes")
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("Restaurants.API.Models.EntityFramework.People", "ModifiedBy")
+                        .WithMany()
+                        .HasForeignKey("ModifiedByUserId");
+
+                    b.HasOne("Restaurants.API.Models.EntityFramework.EmployeeTypes", "TheType")
+                        .WithMany("TheAssignedEmployees")
+                        .HasForeignKey("TypeId");
+                });
+
             modelBuilder.Entity("Restaurants.API.Models.EntityFramework.Categories", b =>
                 {
                     b.HasOne("Restaurants.API.Models.EntityFramework.People", "CreatedBy")
@@ -784,19 +835,12 @@ namespace Restaurants.API.Migrations
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("Restaurants.API.Models.EntityFramework.People", "TheEmployeeDetails")
-                        .WithMany()
-                        .HasForeignKey("PersonId");
+                        .WithOne("ThePersonAsEmployee")
+                        .HasForeignKey("Restaurants.API.Models.EntityFramework.Employees", "PersonId");
 
                     b.HasOne("Restaurants.API.Models.EntityFramework.RestaurantObjects", "TheRestaurantEmployeeWorksIn")
                         .WithMany("TheRestaurantsEmployees")
                         .HasForeignKey("RestaurantId");
-                });
-
-            modelBuilder.Entity("Restaurants.API.Models.EntityFramework.EmployeeType", b =>
-                {
-                    b.HasOne("Restaurants.API.Models.EntityFramework.Employees")
-                        .WithMany("TheTypesOfThisEmployee")
-                        .HasForeignKey("EmployeesId");
                 });
 
             modelBuilder.Entity("Restaurants.API.Models.EntityFramework.Employers", b =>
@@ -810,8 +854,8 @@ namespace Restaurants.API.Migrations
                         .HasForeignKey("ModifiedByUserId");
 
                     b.HasOne("Restaurants.API.Models.EntityFramework.People", "TheEmployerDetails")
-                        .WithMany()
-                        .HasForeignKey("PersonId");
+                        .WithOne("ThePersonAsEmployer")
+                        .HasForeignKey("Restaurants.API.Models.EntityFramework.Employers", "PersonId");
                 });
 
             modelBuilder.Entity("Restaurants.API.Models.EntityFramework.EmployersRestaurants", b =>
@@ -844,8 +888,8 @@ namespace Restaurants.API.Migrations
                         .HasForeignKey("ModifiedByUserId");
 
                     b.HasOne("Restaurants.API.Models.EntityFramework.People", "TheGuestDetails")
-                        .WithMany()
-                        .HasForeignKey("PersonId");
+                        .WithOne("ThePersonAsGuest")
+                        .HasForeignKey("Restaurants.API.Models.EntityFramework.Guests", "PersonId");
                 });
 
             modelBuilder.Entity("Restaurants.API.Models.EntityFramework.LocationContact", b =>
@@ -914,12 +958,8 @@ namespace Restaurants.API.Migrations
                         .WithMany()
                         .HasForeignKey("CreatedByUserId");
 
-                    b.HasOne("Restaurants.API.Models.EntityFramework.MenuItems")
-                        .WithMany("TheContent")
-                        .HasForeignKey("MenuCategoryId");
-
                     b.HasOne("Restaurants.API.Models.EntityFramework.MenuItems", "TheMenuItem")
-                        .WithMany()
+                        .WithMany("TheContent")
                         .HasForeignKey("MenuItemId");
 
                     b.HasOne("Restaurants.API.Models.EntityFramework.MenuLanguages", "TheMenuLanguage")
@@ -1029,8 +1069,8 @@ namespace Restaurants.API.Migrations
                         .HasForeignKey("ModifiedByUserId");
 
                     b.HasOne("Restaurants.API.Models.EntityFramework.Orders", "TheOrderForThisOrderItem")
-                        .WithOne("TheItemsForThisOrder")
-                        .HasForeignKey("Restaurants.API.Models.EntityFramework.OrderItems", "OrderId");
+                        .WithMany("TheItemsForThisOrder")
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("Restaurants.API.Models.EntityFramework.OrderItemStatuses", "TheStatusForThisOrderItem")
                         .WithMany()

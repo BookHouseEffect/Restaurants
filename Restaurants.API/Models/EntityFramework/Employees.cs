@@ -8,15 +8,17 @@ namespace Restaurants.API.Models.EntityFramework
     [Serializable]
     public class Employees : BaseEntity
     {
-
         [Required]
-        public long PersonId { get; set; }
-
-        [Required]
+        [Column(Order = 1)]
         public long RestaurantId { get; set; }
 
         [Required]
+        [Column(Order = 2)]
         public long OwnerId { get; set; }
+
+        [Required]
+        [Column(Order = 3)]
+        public long PersonId { get; set; }
 
         [NonSerialized]
         private People _Person;
@@ -67,17 +69,17 @@ namespace Restaurants.API.Models.EntityFramework
         }
 
         [NonSerialized]
-        private ICollection<EmployeeType> _Type;
+        private ICollection<AssignedEmployeeTypes> _AssignedType;
 
-        public virtual ICollection<EmployeeType> TheTypesOfThisEmployee
+        public virtual ICollection<AssignedEmployeeTypes> TheAssignedTypes
         {
             get
             {
-                return _Type;
+                return _AssignedType;
             }
             set
             {
-                _Type = value;
+                _AssignedType = value;
             }
         }
     }

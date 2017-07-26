@@ -8,6 +8,7 @@ namespace Restaurants.API.Models.EntityFramework
     public class BaseEnumEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Column(Order = 0)]
         public long Id { get; set; }
     }
 }

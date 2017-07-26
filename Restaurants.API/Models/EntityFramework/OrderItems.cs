@@ -8,19 +8,25 @@ namespace Restaurants.API.Models.EntityFramework
     public class OrderItems : BaseEntity
     {
         [Required]
+        [Column(Order = 1)]
         public long OrderedItemId { get; set; }
 
-        [Range(minimum: 1, maximum: 1000)]
+        [Range(minimum: 1, maximum: 100)]
         [Required]
+        [Column(Order = 2)]
         public int Count { get; set; }
 
         [Required]
+        [DataType(DataType.Currency)]
+        [Column(Order = 3)]
         public float SubTotal { get; set; }
 
         [Required]
+        [Column(Order = 4)]
         public long OrderId { get; set; }
 
         [Required]
+        [Column(Order = 5)]
         public long OrderItemStatusId { get; set; }
 
         [NonSerialized]

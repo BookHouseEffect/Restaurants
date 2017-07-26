@@ -23,11 +23,23 @@ namespace Restaurants.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EmployeeType",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false),
+                    EmployeeTypeName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Languages",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false),
-                    LanguageName = table.Column<string>(nullable: true)
+                    LanguageName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -39,7 +51,7 @@ namespace Restaurants.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false),
-                    StatusName = table.Column<string>(nullable: true)
+                    StatusName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,7 +63,7 @@ namespace Restaurants.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false),
-                    StatusName = table.Column<string>(nullable: true)
+                    StatusName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,11 +78,11 @@ namespace Restaurants.API.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CreatedByUserId = table.Column<long>(nullable: false),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    MiddleName = table.Column<string>(nullable: true),
                     ModifiedByUserId = table.Column<long>(nullable: false),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     PersonFirstName = table.Column<string>(nullable: false),
-                    PersonLastName = table.Column<string>(nullable: false)
+                    PersonLastName = table.Column<string>(nullable: false),
+                    PersonMiddleName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -544,20 +556,43 @@ namespace Restaurants.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeType",
+                name: "AssignedEmployeeTypes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false),
-                    EmployeeTypeName = table.Column<string>(nullable: true),
-                    EmployeesId = table.Column<long>(nullable: true)
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedDateTime = table.Column<DateTime>(nullable: false),
+                    EmployeeId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedDateTime = table.Column<DateTime>(nullable: false),
+                    TypeId = table.Column<long>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeType", x => x.Id);
+                    table.PrimaryKey("PK_AssignedEmployeeTypes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EmployeeType_Employees_EmployeesId",
-                        column: x => x.EmployeesId,
+                        name: "FK_AssignedEmployeeTypes_People_CreatedByUserId",
+                        column: x => x.CreatedByUserId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AssignedEmployeeTypes_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AssignedEmployeeTypes_People_ModifiedByUserId",
+                        column: x => x.ModifiedByUserId,
+                        principalTable: "People",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_AssignedEmployeeTypes_EmployeeType_TypeId",
+                        column: x => x.TypeId,
+                        principalTable: "EmployeeType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -875,7 +910,6 @@ namespace Restaurants.API.Migrations
                     ItemDescription = table.Column<string>(nullable: false),
                     ItemName = table.Column<string>(nullable: false),
                     ItemWarnings = table.Column<string>(nullable: true),
-                    MenuCategoryId = table.Column<long>(nullable: true),
                     MenuItemId = table.Column<long>(nullable: false),
                     MenuLanguageId = table.Column<long>(nullable: false),
                     ModifiedByUserId = table.Column<long>(nullable: false),
@@ -888,12 +922,6 @@ namespace Restaurants.API.Migrations
                         name: "FK_MenuItemContents_People_CreatedByUserId",
                         column: x => x.CreatedByUserId,
                         principalTable: "People",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_MenuItemContents_MenuItems_MenuCategoryId",
-                        column: x => x.MenuCategoryId,
-                        principalTable: "MenuItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -915,6 +943,27 @@ namespace Restaurants.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignedEmployeeTypes_CreatedByUserId",
+                table: "AssignedEmployeeTypes",
+                column: "CreatedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignedEmployeeTypes_ModifiedByUserId",
+                table: "AssignedEmployeeTypes",
+                column: "ModifiedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignedEmployeeTypes_TypeId",
+                table: "AssignedEmployeeTypes",
+                column: "TypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AssignedEmployeeTypes_EmployeeId_TypeId",
+                table: "AssignedEmployeeTypes",
+                columns: new[] { "EmployeeId", "TypeId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_CreatedByUserId",
@@ -954,17 +1003,13 @@ namespace Restaurants.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_PersonId",
                 table: "Employees",
-                column: "PersonId");
+                column: "PersonId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_RestaurantId",
                 table: "Employees",
                 column: "RestaurantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeType_EmployeesId",
-                table: "EmployeeType",
-                column: "EmployeesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employers_CreatedByUserId",
@@ -979,17 +1024,13 @@ namespace Restaurants.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Employers_PersonId",
                 table: "Employers",
-                column: "PersonId");
+                column: "PersonId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployersRestaurants_CreatedByUserId",
                 table: "EmployersRestaurants",
                 column: "CreatedByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployersRestaurants_EmployerId",
-                table: "EmployersRestaurants",
-                column: "EmployerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployersRestaurants_ModifiedByUserId",
@@ -1000,6 +1041,12 @@ namespace Restaurants.API.Migrations
                 name: "IX_EmployersRestaurants_RestaurantId",
                 table: "EmployersRestaurants",
                 column: "RestaurantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmployersRestaurants_EmployerId_RestaurantId",
+                table: "EmployersRestaurants",
+                columns: new[] { "EmployerId", "RestaurantId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Guests_CreatedByUserId",
@@ -1014,7 +1061,8 @@ namespace Restaurants.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Guests_PersonId",
                 table: "Guests",
-                column: "PersonId");
+                column: "PersonId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_LocationContact_CreatedByUserId",
@@ -1067,24 +1115,20 @@ namespace Restaurants.API.Migrations
                 column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuCurrencies_MenuId",
-                table: "MenuCurrencies",
-                column: "MenuId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MenuCurrencies_ModifiedByUserId",
                 table: "MenuCurrencies",
                 column: "ModifiedByUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MenuCurrencies_MenuId_CurrencyId",
+                table: "MenuCurrencies",
+                columns: new[] { "MenuId", "CurrencyId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MenuItemContents_CreatedByUserId",
                 table: "MenuItemContents",
                 column: "CreatedByUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MenuItemContents_MenuCategoryId",
-                table: "MenuItemContents",
-                column: "MenuCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MenuItemContents_MenuItemId",
@@ -1152,14 +1196,15 @@ namespace Restaurants.API.Migrations
                 column: "LanguageId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuLanguages_MenuId",
-                table: "MenuLanguages",
-                column: "MenuId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_MenuLanguages_ModifiedByUserId",
                 table: "MenuLanguages",
                 column: "ModifiedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MenuLanguages_MenuId_LanguageId",
+                table: "MenuLanguages",
+                columns: new[] { "MenuId", "LanguageId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Menus_CreatedByUserId",
@@ -1204,8 +1249,7 @@ namespace Restaurants.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
                 table: "OrderItems",
-                column: "OrderId",
-                unique: true);
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderItemStatusId",
@@ -1291,10 +1335,10 @@ namespace Restaurants.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "AssignedEmployeeTypes");
 
             migrationBuilder.DropTable(
-                name: "EmployeeType");
+                name: "Categories");
 
             migrationBuilder.DropTable(
                 name: "EmployersRestaurants");
@@ -1319,6 +1363,9 @@ namespace Restaurants.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeType");
 
             migrationBuilder.DropTable(
                 name: "LocationPoints");

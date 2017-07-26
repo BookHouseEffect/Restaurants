@@ -1,13 +1,16 @@
 ﻿using Restaurants.API.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
     [Serializable]
     public class Languages : BaseEnumEntity
     {
-        
+        [Required]
+        [Column(Order = 1)]
         public string LanguageName { get; set; }
 
         protected Languages() { } //For EF

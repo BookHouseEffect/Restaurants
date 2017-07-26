@@ -8,14 +8,18 @@ namespace Restaurants.API.Models.EntityFramework
     public class Categories : BaseEntity
     {
         [Required]
+        [Column(Order = 1)]
         public string CategoryName { get; set; }
 
+        [Column(Order = 2)]
         public string CategoryDescription { get; set; }
 
         [Required]
+        [Column(Order = 3)]
         public long MenuCategoryId { get; set; }
 
         [Required]
+        [Column(Order = 4)]
         public long MenuLanguageId { get; set; }
 
         [NonSerialized]

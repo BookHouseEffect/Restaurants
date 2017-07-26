@@ -9,17 +9,22 @@ namespace Restaurants.API.Models.EntityFramework
     {
 
         [Required]
+        [Column(Order = 1)]
         public string ItemName { get; set; }
 
         [Required]
+        [Column(Order = 2)]
         public string ItemDescription { get; set; }
 
+        [Column(Order = 2)]
         public string ItemWarnings { get; set; }
 
         [Required]
+        [Column(Order = 4)]
         public long MenuItemId { get; set; }
 
         [Required]
+        [Column(Order = 5)]
         public long MenuLanguageId { get; set; }
 
         [NonSerialized]

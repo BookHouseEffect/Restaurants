@@ -9,20 +9,25 @@ namespace Restaurants.API.Models.EntityFramework
     public class OpenHoursSchedule : BaseEntity
     {
         [Required]
+        [Column(Order = 1)]
         public DayOfWeek StartDay { get; set; }
 
         [Required]
         [DataType(DataType.Time)]
+        [Column(Order = 2)]
         public TimeSpan StartTime { get; set; }
 
         [Required]
+        [Column(Order = 3)]
         public DayOfWeek EndDay { get; set; }
 
         [Required]
         [DataType(DataType.Time)]
+        [Column(Order = 4)]
         public TimeSpan EndTime { get; set; }
 
         [Required]
+        [Column(Order = 5)]
         public long RestaurantId { get; set; }
 
         [NonSerialized]

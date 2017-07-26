@@ -9,7 +9,12 @@ namespace Restaurants.API.Models.EntityFramework
     public class MenuItems : BaseEntity
     {
         [Required]
+        [Column(Order = 1)]
         public long MenuId { get; set; }
+
+        [Required]
+        [Column(Order = 2)]
+        public long MenuCategoryId { get; set; }
 
         [NonSerialized]
         private Menus _Menu;
@@ -26,8 +31,6 @@ namespace Restaurants.API.Models.EntityFramework
                 _Menu = value;
             }
         }
-
-        public long MenuCategoryId { get; set; }
 
         [NonSerialized]
         private MenuCategories _Category;
@@ -48,7 +51,6 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<MenuItemContents> _Content;
 
-        [ForeignKey("MenuCategoryId")]
         public virtual ICollection<MenuItemContents> TheContent
         {
             get

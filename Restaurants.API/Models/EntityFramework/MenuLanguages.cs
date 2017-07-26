@@ -8,10 +8,12 @@ namespace Restaurants.API.Models.EntityFramework
     [Serializable]
     public class MenuLanguages : BaseEntity
     {
-        [Required]         
+        [Required]
+        [Column(Order = 1)]
         public long MenuId { get; set; }
 
         [Required]
+        [Column(Order = 2)]
         public long LanguageId { get; set; }
 
         [NonSerialized]

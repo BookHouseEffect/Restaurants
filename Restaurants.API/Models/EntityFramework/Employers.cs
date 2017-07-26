@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
@@ -7,6 +8,8 @@ namespace Restaurants.API.Models.EntityFramework
     [Serializable]
     public class Employers : BaseEntity
     {
+        [Required]
+        [Column(Order =1)]
         public long PersonId { get; set; }
 
         [NonSerialized]

@@ -10,12 +10,15 @@ namespace Restaurants.API.Models.EntityFramework
         [Required(AllowEmptyStrings = false)]
         [DataType(DataType.PhoneNumber)]
         [Phone]
+        [Column(Order = 1)]
         public string PhoneNumber { get; set; }
 
         [Required]
+        [Column(Order = 2)]
         public string PhoneDescription { get; set; }
 
         [Required]
+        [Column(Order = 3)]
         public long RestaurantId { get; set; }
 
         [NonSerialized]

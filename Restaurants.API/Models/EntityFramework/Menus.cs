@@ -9,6 +9,7 @@ namespace Restaurants.API.Models.EntityFramework
     public class Menus : BaseEntity
     {
         [Required]
+        [Column(Order = 1)]
         public long RestaurantId { get; set; }
 
         [NonSerialized]

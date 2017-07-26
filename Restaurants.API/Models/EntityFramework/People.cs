@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
@@ -7,11 +8,59 @@ namespace Restaurants.API.Models.EntityFramework
     public class People : BaseEntity
     {
         [Required]
+        [Column(Order = 1)]
         public string PersonFirstName { get; set; }
 
-        public string MiddleName { get; set; }
+        [Column(Order = 2)]
+        public string PersonMiddleName { get; set; }
 
         [Required]
+        [Column(Order = 3)]
         public string PersonLastName { get; set; }
+
+        [NonSerialized]
+        private Guests _Guest;
+
+        public virtual Guests ThePersonAsGuest
+        {
+            get
+            {
+                return _Guest;
+            }
+            set
+            {
+                _Guest = value;
+            }
+        }
+
+        [NonSerialized]
+        private Employees _Employee;
+
+        public virtual Employees ThePersonAsEmployee
+        {
+            get
+            {
+                return _Employee;
+            }
+            set
+            {
+                _Employee = value;
+            }
+        }
+
+        [NonSerialized]
+        private Employers _Employer;
+
+        public virtual Employers ThePersonAsEmployer
+        {
+            get
+            {
+                return _Employer;
+            }
+            set
+            {
+                _Employer = value;
+            }
+        }
     }
 }

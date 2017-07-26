@@ -2,7 +2,7 @@
 using Restaurants.API.Models.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Builder;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
@@ -10,9 +10,11 @@ namespace Restaurants.API.Models.EntityFramework
     public class Currencies : BaseEnumEntity
     {
         [Required, MaxLength(100)]
+        [Column(Order = 1)]
         public string CurrencySign { get; set; }
 
         [MaxLength(100)]
+        [Column(Order = 2)]
         public string CurrencyFullName { get; set; }
 
         protected Currencies() { } //For EF

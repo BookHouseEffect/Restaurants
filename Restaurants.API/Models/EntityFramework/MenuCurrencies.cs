@@ -9,9 +9,11 @@ namespace Restaurants.API.Models.EntityFramework
     public class MenuCurrencies : BaseEntity
     {
         [Required]
+        [Column(Order = 1)]
         public long MenuId { get; set; }
 
         [Required]
+        [Column(Order = 1)]
         public long CurrencyId { get; set; }
 
         [NonSerialized]

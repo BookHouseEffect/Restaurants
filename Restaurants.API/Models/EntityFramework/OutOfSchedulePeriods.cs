@@ -12,16 +12,20 @@ namespace Restaurants.API.Models.EntityFramework
     {
         [Required]
         [DataType(DataType.DateTime)]
+        [Column(Order = 1)]
         public DateTime OutOfSchedulePeriodStarts { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
+        [Column(Order = 2)]
         public DateTime OutOfSchedulePeriodEnds { get; set; }
 
         [Required]
+        [Column(Order = 3)]
         public string Description { get; set; }
 
         [Required]
+        [Column(Order = 4)]
         public long OpenHoursScheduleId { get; set; }
 
         [NonSerialized]

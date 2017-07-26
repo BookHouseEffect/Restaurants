@@ -1,13 +1,17 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
     public class EmployersRestaurants : BaseEntity
     {
-
+        [Required]
+        [Column(Order = 1)]
         public long EmployerId { get; set; }
 
+        [Required]
+        [Column(Order = 2)]
         public long RestaurantId { get; set; }
 
         [NonSerialized]

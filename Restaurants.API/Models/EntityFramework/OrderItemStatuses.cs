@@ -1,11 +1,15 @@
 ﻿using Restaurants.API.Models.Enums;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
     [Serializable]
     public class OrderItemStatuses : BaseEnumEntity
     {
+        [Required]
+        [Column(Order = 1)]
         public string StatusName { get; set; }
 
         protected OrderItemStatuses() { } //For EF
