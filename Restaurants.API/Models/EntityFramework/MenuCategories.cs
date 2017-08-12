@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace Restaurants.API.Models.EntityFramework
@@ -10,7 +11,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<MenuItems> _Items;
 
-        public virtual ICollection<MenuItems> TheItems
+		[JsonIgnore]
+		public virtual ICollection<MenuItems> TheItems
         {
             get
             {
@@ -25,7 +27,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<Categories> _Categories;
 
-        public virtual ICollection<Categories> TheCategories
+		[JsonIgnore]
+		public virtual ICollection<Categories> TheCategories
         {
             get
             {

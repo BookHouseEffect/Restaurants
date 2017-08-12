@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,7 +26,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private MenuCategories _Category;
 
-        [ForeignKey("MenuCategoryId")]
+		[JsonIgnore]
+		[ForeignKey("MenuCategoryId")]
         public virtual MenuCategories TheMenuCategory
         {
             get
@@ -41,7 +43,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private MenuLanguages _MenuLanguages;
 
-        [ForeignKey("MenuLanguageId")]
+		[JsonIgnore]
+		[ForeignKey("MenuLanguageId")]
         public virtual MenuLanguages TheMenuLanguage
         {
             get

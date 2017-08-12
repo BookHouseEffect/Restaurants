@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Menus _Menu;
 
-        [ForeignKey("MenuId")]
+		[JsonIgnore]
+		[ForeignKey("MenuId")]
         public virtual Menus TheMenu
         {
             get
@@ -35,7 +37,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Currencies _Currency;
 
-        [ForeignKey("CurrencyId")]
+		[JsonIgnore]
+		[ForeignKey("CurrencyId")]
         public virtual Currencies TheCurrency
         {
             get
@@ -50,8 +53,9 @@ namespace Restaurants.API.Models.EntityFramework
 
         [NonSerialized]
         private ICollection<MenuItemValues> _Values;
-  
-        public virtual ICollection<MenuItemValues> TheMenuCurrencyValues
+
+		[JsonIgnore]
+		public virtual ICollection<MenuItemValues> TheMenuCurrencyValues
         {
             get
             {

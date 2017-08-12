@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,7 +16,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private People _Person;
 
-        [ForeignKey("PersonId")]
+		[JsonIgnore]
+		[ForeignKey("PersonId")]
         public virtual People TheGuestDetails
         {
             get
@@ -31,7 +33,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<Orders> _Orders;
 
-        public virtual ICollection<Orders> TheOrdersFromThisGuest
+		[JsonIgnore]
+		public virtual ICollection<Orders> TheOrdersFromThisGuest
         {
             get
             {

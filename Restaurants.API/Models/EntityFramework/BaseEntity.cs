@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,26 +12,25 @@ namespace Restaurants.API.Models.EntityFramework
         [Key, Column(Order = 0)]
         public long Id { get; set; }
 
-        [Required]
         [ForeignKey("CreatedBy")]
-        public long CreatedByUserId { get; set; }
+        public long? CreatedByUserId { get; set; }
         
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime CreatedDateTime { get; set; }
+        public DateTimeOffset CreatedDateTime { get; set; }
 
-        [Required]
         [ForeignKey("ModifiedBy")]
-        public long ModifiedByUserId { get; set; }
+        public long? ModifiedByUserId { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime ModifiedDateTime { get; set; }
+        public DateTimeOffset ModifiedDateTime { get; set; }
 
         [NonSerialized]
         private People _Created;
 
-        public virtual People CreatedBy
+		[JsonIgnore]
+		public virtual People CreatedBy
         {
             get
             {
@@ -45,7 +45,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private People _Modified;
 
-        public virtual People ModifiedBy
+		[JsonIgnore]
+		public virtual People ModifiedBy
         {
             get
             {

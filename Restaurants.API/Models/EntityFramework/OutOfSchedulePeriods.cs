@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,12 +14,12 @@ namespace Restaurants.API.Models.EntityFramework
         [Required]
         [DataType(DataType.DateTime)]
         [Column(Order = 1)]
-        public DateTime OutOfSchedulePeriodStarts { get; set; }
+        public DateTimeOffset OutOfSchedulePeriodStarts { get; set; }
 
         [Required]
         [DataType(DataType.DateTime)]
         [Column(Order = 2)]
-        public DateTime OutOfSchedulePeriodEnds { get; set; }
+        public DateTimeOffset OutOfSchedulePeriodEnds { get; set; }
 
         [Required]
         [Column(Order = 3)]
@@ -31,7 +32,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private OpenHoursSchedule _Schedule;
 
-        [ForeignKey("OpenHoursScheduleId")]
+		[JsonIgnore]
+		[ForeignKey("OpenHoursScheduleId")]
         public virtual OpenHoursSchedule TheRealSchedule
         {
             get

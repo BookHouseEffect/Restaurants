@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,7 +21,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private OrderStatuses _Status;
 
-        [ForeignKey("OrderStatusId")]
+		[JsonIgnore]
+		[ForeignKey("OrderStatusId")]
         public virtual OrderStatuses TheStatusForThisOrder
         {
             get
@@ -36,7 +38,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<OrderItems> _Items;
 
-        public virtual ICollection<OrderItems> TheItemsForThisOrder
+		[JsonIgnore]
+		public virtual ICollection<OrderItems> TheItemsForThisOrder
         {
             get
             {

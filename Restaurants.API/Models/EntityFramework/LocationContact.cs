@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -52,7 +53,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private RestaurantObjects _Restaurant;
 
-        [ForeignKey("RestaurantId")]
+		[JsonIgnore]
+		[ForeignKey("RestaurantId")]
         public virtual RestaurantObjects TheRestaurantOwningTheSchedule
         {
             get
@@ -65,7 +67,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [ForeignKey("LocationPointId")]
+		[JsonIgnore]
+		[ForeignKey("LocationPointId")]
         public LocationPoints TheLocationPoint { get; set; }
     }
 }

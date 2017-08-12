@@ -1,0 +1,81 @@
+﻿<div *ngIf="currentRestaurant">
+  <div class="row">
+    <div class="col-md-2">
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active"><a data-toggle="pill" href="#restaurant">About</a></li>
+        <li><a data-toggle="pill" href="#owners">Owners</a></li>
+        <li><a data-toggle="pill" href="#phone">Phone Numbers</a></li>
+        <li><a data-toggle="pill" href="#location">Locations</a></li>
+        <li><a data-toggle="pill" href="#schedule">Worktime</a></li>
+        <li><a data-toggle="pill" href="#language">Menu Languages</a></li>
+        <li><a data-toggle="pill" href="#currency">Menu Currencies</a></li>
+        <li><a data-toggle="pill" href="#category">Menu Categories</a></li>
+        <li><a data-toggle="pill" href="#content">Menu Content</a></li>
+        <li><a data-toggle="pill" href="#transfer" class="btn btn-warning">Transfer Ownership</a></li>
+        <li><a data-toggle="pill" href="#closerestaurant" class="btn btn-danger">Close Restaurant</a></li>
+      </ul>
+    </div>
+
+    <div class="col-md-10">
+      <h2 class="page-header">{{currentRestaurant.name}}'s details</h2>
+      <div class="tab-content">
+
+        <div id="restaurant" class="tab-pane fade in active">
+          <h3>ABOUT</h3>
+          <restaurant-form [isNew]="false" [restaurant]="currentRestaurant"></restaurant-form>
+        </div>
+
+        <div id="owners" class="tab-pane fade in">
+          <h3>OWNERS</h3>
+        </div>
+
+        <div id="phone" class="tab-pane fade in">
+          <h3>PHONE NUMBERS</h3>
+        </div>
+
+        <div id="location" class="tab-pane fade in">
+          <h3>LOCATIONS</h3>
+        </div>
+
+        <div id="schedule" class="tab-pane fade in">
+          <h3>WORKTIME</h3>
+        </div>
+
+        <div id="language" class="tab-pane fade in">
+          <h3>MENU LANGUAGES</h3>
+        </div>
+
+        <div id="currency" class="tab-pane fade in">
+          <h3>MENU CURRENCIES</h3>
+        </div>
+
+        <div id="category" class="tab-pane fade in">
+          <h3>MENU CATEGORIES</h3>
+        </div>
+
+        <div id="content" class="tab-pane fade in">
+          <h3>MENU CONTENT</h3>
+        </div>
+
+        <div id="transfer" class="tab-pane fade in">
+          <h3>TRANSFER OWNERSHIP</h3>
+        </div>
+
+        <div id="closerestaurant" class="tab-pane fade in">
+          <h3>CLOSE RESTAURANT</h3>
+          <p class="text text-danger">If you are sure you want to close the restaurant, please click on the button bellow.</p>
+          <button type="button" class="btn btn-danger btn-lg btn-block" (click)="closeRestaurant()">CLOSE RESTAURANT</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!currentRestaurant">
+  <p class="text text-danger">
+    The restaurant entry does not exist,
+    the data can not be fetched or
+    you do not have appropriate permission to access it
+  </p>
+</div>

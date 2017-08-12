@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,7 +24,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private People _Person;
 
-        [ForeignKey("PersonId")]
+		[JsonIgnore]
+		[ForeignKey("PersonId")]
         public virtual People TheEmployeeDetails
         {
             get
@@ -39,7 +41,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private RestaurantObjects _Restaurnant;
 
-        [ForeignKey("RestaurantId")]
+		[JsonIgnore]
+		[ForeignKey("RestaurantId")]
         public virtual RestaurantObjects TheRestaurantEmployeeWorksIn
         {
             get
@@ -55,7 +58,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Employers _Owner;
 
-        [ForeignKey("OwnerId")]
+		[JsonIgnore]
+		[ForeignKey("OwnerId")]
         public virtual Employers TheEmployerEmployeeWorksFor
         {
             get
@@ -71,7 +75,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<AssignedEmployeeTypes> _AssignedType;
 
-        public virtual ICollection<AssignedEmployeeTypes> TheAssignedTypes
+		[JsonIgnore]
+		public virtual ICollection<AssignedEmployeeTypes> TheAssignedTypes
         {
             get
             {

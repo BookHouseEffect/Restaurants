@@ -76,9 +76,9 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     PersonFirstName = table.Column<string>(nullable: false),
                     PersonLastName = table.Column<string>(nullable: false),
@@ -107,9 +107,9 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     PersonId = table.Column<long>(nullable: false)
                 },
@@ -142,9 +142,9 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     PersonId = table.Column<long>(nullable: false)
                 },
@@ -177,11 +177,11 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     Latitude = table.Column<float>(nullable: false),
                     Longitude = table.Column<float>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -207,9 +207,9 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -235,10 +235,10 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false)
                 },
@@ -265,10 +265,10 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     GuestsId = table.Column<long>(nullable: true),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     OrderStatusId = table.Column<long>(nullable: false),
                     Total = table.Column<float>(nullable: false)
@@ -308,9 +308,9 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     OwnerId = table.Column<long>(nullable: false),
                     PersonId = table.Column<long>(nullable: false),
@@ -357,10 +357,10 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     EmployerId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     RestaurantId = table.Column<long>(nullable: false)
                 },
@@ -402,13 +402,13 @@ namespace Restaurants.API.Migrations
                     AdministrativeAreaLevel1 = table.Column<string>(nullable: true),
                     AdministrativeAreaLevel2 = table.Column<string>(nullable: true),
                     Country = table.Column<string>(nullable: false),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     Floor = table.Column<int>(nullable: false),
                     GoogleLink = table.Column<string>(nullable: true),
                     Locality = table.Column<string>(nullable: false),
                     LocationPointId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     RestaurantId = table.Column<long>(nullable: false),
                     Route = table.Column<string>(nullable: false),
@@ -450,9 +450,9 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     RestaurantId = table.Column<long>(nullable: false)
                 },
@@ -485,11 +485,11 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     EndDay = table.Column<int>(nullable: false),
                     EndTime = table.Column<TimeSpan>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     RestaurantId = table.Column<long>(nullable: false),
                     StartDay = table.Column<int>(nullable: false),
@@ -524,9 +524,9 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     PhoneDescription = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: false),
@@ -561,10 +561,10 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     EmployeeId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     TypeId = table.Column<long>(nullable: false)
                 },
@@ -603,11 +603,11 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     CurrencyId = table.Column<long>(nullable: false),
                     MenuId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -645,11 +645,11 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     MenuCategoryId = table.Column<long>(nullable: false),
                     MenuId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -687,11 +687,11 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     LanguageId = table.Column<long>(nullable: false),
                     MenuId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -729,10 +729,10 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     OpenHoursScheduleId = table.Column<long>(nullable: false),
                     OutOfSchedulePeriodEnds = table.Column<DateTime>(nullable: false),
@@ -767,11 +767,11 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     MenuCurrencyId = table.Column<long>(nullable: false),
                     MenuItemId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     Price = table.Column<float>(nullable: false)
                 },
@@ -811,9 +811,9 @@ namespace Restaurants.API.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Count = table.Column<int>(nullable: false),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false),
                     OrderId = table.Column<long>(nullable: false),
                     OrderItemStatusId = table.Column<long>(nullable: false),
@@ -863,11 +863,11 @@ namespace Restaurants.API.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     CategoryDescription = table.Column<string>(nullable: true),
                     CategoryName = table.Column<string>(nullable: false),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     MenuCategoryId = table.Column<long>(nullable: false),
                     MenuLanguageId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -905,14 +905,14 @@ namespace Restaurants.API.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CreatedByUserId = table.Column<long>(nullable: false),
+                    CreatedByUserId = table.Column<long>(nullable: true),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     ItemDescription = table.Column<string>(nullable: false),
                     ItemName = table.Column<string>(nullable: false),
                     ItemWarnings = table.Column<string>(nullable: true),
                     MenuItemId = table.Column<long>(nullable: false),
                     MenuLanguageId = table.Column<long>(nullable: false),
-                    ModifiedByUserId = table.Column<long>(nullable: false),
+                    ModifiedByUserId = table.Column<long>(nullable: true),
                     ModifiedDateTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>

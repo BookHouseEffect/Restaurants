@@ -1,0 +1,118 @@
+﻿
+<div class="alert alert-danger alert-dismissable" *ngIf="error">
+  <button class="close" data-dismiss="alert" aria-label="close"
+          (click)="clearError()">
+    &times;
+  </button>
+  {{error}}
+</div>
+
+<div class="form-group">
+  <label class="control-label col-xs-2">ownerId</label>
+  <div class="col-xs-8">
+    <input type="number" class="form-control" [(ngModel)]="userMock" />
+  </div>
+  <button class="col-xs-2 btn btn-warning" (click)="mockClick()">Test</button>
+</div>
+
+<div class="panel panel-info">
+
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-md-10">
+        <h4>Restaurants</h4>
+      </div>
+      <div class="col-md-2 text-left">
+        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#restaurantModal">Add Restaurant</button>
+
+        <div id="restaurantModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+                <h4 class="modal-title">Add New Restaurant</h4>
+              </div>
+              <div class="modal-body">
+                <restaurant-form [isNew]="true" (notify)="onResultReturn($event)"></restaurant-form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="pane-body">
+
+    <div class="well-sm">
+      <div *ngIf="!restaurants || restaurants.length === 0">
+        <h3 class="text text-info">No results available.</h3>
+      </div>
+
+      <div class="list-group" *ngIf="restaurants.length !== 0">
+        <button type="button" *ngFor="let restaurant of restaurants"
+                class="list-group-item"
+                (click)="onClick(restaurant)">
+          <div class="row">
+            <div class="col-xs-8">
+              <h4 class="list-group-item-heading">{{restaurant.name}}</h4>
+              <p class="list-group-item-text">{{restaurant.description}}</p>
+            </div>
+            <div class="col-xs-4 text-right">
+              <p class="label label-info">Created on: 
+                {{restaurant.createdDateTime | date:'short' }}</p>
+              <p class="label label-info">Last modified on: 
+                {{restaurant.modifiedDateTime | date:'short'}}</p>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="panel-footer">
+
+    <div class="btn-group btn-group-justified">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary"
+                [disabled]="pageNumber <= 1"
+                (click)="getPreviousPage()">
+          Previous
+        </button>
+      </div>
+
+      <div class="btn-group text-center">
+        <span class="text text-primary ">
+          Page #{{pageNumber}}
+
+          <span *ngIf="restaurants.length !== 0">
+            ( Results from {{(pageNumber - 1) * pageSize + 1}}
+            to {{(pageNumber - 1) * pageSize + restaurants.length}} )
+          </span>
+
+          <span *ngIf="restaurants.length === 0">
+            ( No results available )
+          </span>
+
+        </span>
+      </div>
+
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary"
+                [disabled]="restaurants.length !== pageSize"
+                (click)="getNextPage()">
+          Next
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

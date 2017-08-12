@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -32,7 +33,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private MenuItems _Item;
 
-        [ForeignKey("OrderedItemId")]
+		[JsonIgnore]
+		[ForeignKey("OrderedItemId")]
         public virtual MenuItems TheOrderedItem {
             get {
                 return _Item;
@@ -46,7 +48,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Orders _Order;
 
-        [ForeignKey("OrderId")]
+		[JsonIgnore]
+		[ForeignKey("OrderId")]
         public virtual Orders TheOrderForThisOrderItem
         {
             get
@@ -62,7 +65,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private OrderItemStatuses _Status;
 
-        [ForeignKey("OrderItemStatusId")]
+		[JsonIgnore]
+		[ForeignKey("OrderItemStatusId")]
         public virtual OrderItemStatuses TheStatusForThisOrderItem
         {
             get

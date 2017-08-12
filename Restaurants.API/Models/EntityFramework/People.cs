@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,7 +22,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Guests _Guest;
 
-        public virtual Guests ThePersonAsGuest
+		[JsonIgnore]
+		public virtual Guests ThePersonAsGuest
         {
             get
             {
@@ -36,7 +38,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Employees _Employee;
 
-        public virtual Employees ThePersonAsEmployee
+		[JsonIgnore]
+		public virtual Employees ThePersonAsEmployee
         {
             get
             {
@@ -51,7 +54,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Employers _Employer;
 
-        public virtual Employers ThePersonAsEmployer
+		[JsonIgnore]
+		public virtual Employers ThePersonAsEmployer
         {
             get
             {

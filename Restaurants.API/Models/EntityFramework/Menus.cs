@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,7 +16,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private RestaurantObjects _Restaurant;
 
-        [ForeignKey("RestaurantId")]
+		[JsonIgnore]
+		[ForeignKey("RestaurantId")]
         public virtual RestaurantObjects TheRestaurantOwningTheNumber
         {
             get
@@ -31,7 +33,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<MenuLanguages> _MenuLanguage;
 
-        public virtual ICollection<MenuLanguages> TheMenuLanguagesAssosiatedWithThisMenu
+		[JsonIgnore]
+		public virtual ICollection<MenuLanguages> TheMenuLanguagesAssosiatedWithThisMenu
         {
             get
             {
@@ -46,7 +49,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<MenuItems> _Items;
 
-        public virtual ICollection<MenuItems> TheMenuItems
+		[JsonIgnore]
+		public virtual ICollection<MenuItems> TheMenuItems
         {
             get
             {

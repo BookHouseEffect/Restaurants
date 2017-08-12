@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
+	[Serializable]
     public class EmployersRestaurants : BaseEntity
     {
         [Required]

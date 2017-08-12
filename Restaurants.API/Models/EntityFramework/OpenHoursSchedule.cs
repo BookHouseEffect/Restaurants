@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -33,7 +34,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private RestaurantObjects _Restaurant;
 
-        [ForeignKey("RestaurantId")]
+		[JsonIgnore]
+		[ForeignKey("RestaurantId")]
         public virtual RestaurantObjects TheRestaurantOwningTheSchedule
         {
             get
@@ -49,7 +51,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<OutOfSchedulePeriods> _OutOfSchedule;
 
-        public virtual ICollection<OutOfSchedulePeriods> TheScheduleExceptions
+		[JsonIgnore]
+		public virtual ICollection<OutOfSchedulePeriods> TheScheduleExceptions
         {
             get
             {

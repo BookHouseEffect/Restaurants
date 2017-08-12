@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<OpenHoursSchedule> _OpenHours;
 
-        public virtual ICollection<OpenHoursSchedule> TheRestaurantsOpenHours
+		[JsonIgnore]
+		public virtual ICollection<OpenHoursSchedule> TheRestaurantsOpenHours
         {
             get
             {
@@ -34,7 +36,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<PhoneContacts> _PhoneContact;
 
-        public virtual ICollection<PhoneContacts> TheRestaurantsContactNumbers
+		[JsonIgnore]
+		public virtual ICollection<PhoneContacts> TheRestaurantsContactNumbers
         {
             get
             {
@@ -49,7 +52,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<LocationContact> _LocationContact;
 
-        public virtual ICollection<LocationContact> TheRestaurantLocationAddresses
+		[JsonIgnore]
+		public virtual ICollection<LocationContact> TheRestaurantLocationAddresses
         {
             get
             {
@@ -64,7 +68,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<Menus> _Menu;
 
-        public virtual ICollection<Menus> TheRestaurantMenu
+		[JsonIgnore]
+		public virtual ICollection<Menus> TheRestaurantMenu
         {
             get
             {
@@ -79,7 +84,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<EmployersRestaurants> _Owner;
 
-        public ICollection<EmployersRestaurants> TheRestaurantEmployers
+		[JsonIgnore]
+		public ICollection<EmployersRestaurants> TheRestaurantEmployers
         {
             get
             {
@@ -94,7 +100,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<Employees> _Employee;
 
-        public ICollection<Employees> TheRestaurantsEmployees
+		[JsonIgnore]
+		public ICollection<Employees> TheRestaurantsEmployees
         {
             get
             {

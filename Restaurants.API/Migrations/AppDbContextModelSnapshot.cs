@@ -21,15 +21,15 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long>("EmployeeId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("TypeId");
 
@@ -57,17 +57,17 @@ namespace Restaurants.API.Migrations
                     b.Property<string>("CategoryName")
                         .IsRequired();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long>("MenuCategoryId");
 
                     b.Property<long>("MenuLanguageId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.HasKey("Id");
 
@@ -103,13 +103,13 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("OwnerId");
 
@@ -150,13 +150,13 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("PersonId");
 
@@ -177,15 +177,15 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long>("EmployerId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("RestaurantId");
 
@@ -208,13 +208,13 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("PersonId");
 
@@ -254,9 +254,9 @@ namespace Restaurants.API.Migrations
                     b.Property<string>("Country")
                         .IsRequired();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<int>("Floor");
 
@@ -267,9 +267,9 @@ namespace Restaurants.API.Migrations
 
                     b.Property<long>("LocationPointId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("RestaurantId");
 
@@ -299,17 +299,17 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<float>("Latitude");
 
                     b.Property<float>("Longitude");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.HasKey("Id");
 
@@ -325,13 +325,13 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.HasKey("Id");
 
@@ -347,17 +347,17 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long>("CurrencyId");
 
                     b.Property<long>("MenuId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.HasKey("Id");
 
@@ -378,9 +378,9 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<string>("ItemDescription")
                         .IsRequired();
@@ -394,9 +394,9 @@ namespace Restaurants.API.Migrations
 
                     b.Property<long>("MenuLanguageId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.HasKey("Id");
 
@@ -416,17 +416,17 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long>("MenuCategoryId");
 
                     b.Property<long>("MenuId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.HasKey("Id");
 
@@ -446,17 +446,17 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long>("MenuCurrencyId");
 
                     b.Property<long>("MenuItemId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<float>("Price");
 
@@ -478,17 +478,17 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long>("LanguageId");
 
                     b.Property<long>("MenuId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.HasKey("Id");
 
@@ -509,13 +509,13 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("RestaurantId");
 
@@ -535,17 +535,17 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<int>("EndDay");
 
                     b.Property<TimeSpan>("EndTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("RestaurantId");
 
@@ -571,13 +571,13 @@ namespace Restaurants.API.Migrations
 
                     b.Property<int>("Count");
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("OrderId");
 
@@ -619,15 +619,15 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<long?>("GuestsId");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("OrderStatusId");
 
@@ -663,22 +663,22 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<long>("OpenHoursScheduleId");
 
-                    b.Property<DateTime>("OutOfSchedulePeriodEnds");
+                    b.Property<DateTimeOffset>("OutOfSchedulePeriodEnds");
 
-                    b.Property<DateTime>("OutOfSchedulePeriodStarts");
+                    b.Property<DateTimeOffset>("OutOfSchedulePeriodStarts");
 
                     b.HasKey("Id");
 
@@ -696,13 +696,13 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<string>("PersonFirstName")
                         .IsRequired();
@@ -726,13 +726,13 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<string>("PhoneDescription")
                         .IsRequired();
@@ -758,16 +758,16 @@ namespace Restaurants.API.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedByUserId");
+                    b.Property<long?>("CreatedByUserId");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTimeOffset>("CreatedDateTime");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<long>("ModifiedByUserId");
+                    b.Property<long?>("ModifiedByUserId");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTimeOffset>("ModifiedDateTime");
 
                     b.Property<string>("Name")
                         .IsRequired();
