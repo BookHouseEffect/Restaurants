@@ -1,0 +1,9 @@
+﻿<div class="alert alert-dismissable" [class.alert-danger]="isError" [class.alert-success]="!isError" *ngIf="messages.length !== 0">
+  <button class="close" data-dismiss="alert" aria-label="close"
+          (click)="clearMessages()">
+    &times;
+  </button>
+  <ul>
+    <li *ngFor="let msg of messages">{{msg}}</li>
+  </ul>
+</div>

@@ -12,7 +12,7 @@ namespace Restaurants.API.Persistence.Implementation
         IRepository<TEntity> where TEntity : BaseEntity
     {
 
-        DbSet<TEntity> DbSet;
+        protected DbSet<TEntity> DbSet;
 
         public EntityState Modified { get; private set; }
 
@@ -35,13 +35,18 @@ namespace Restaurants.API.Persistence.Implementation
 
         public TEntity FindById(long id)
         {
-            return DbSet.Find(id);
+			return DbSet.Where(x => x.Id == id)
+				.Include(x => x.CreatedBy)
+				.Include(x => x.ModifiedBy)
+				.SingleOrDefault();
         }
 
         public IEnumerable<TEntity> GetAll()
         {
             return DbSet
                 .AsNoTracking()
+				.Include(x=>x.CreatedBy)
+				.Include(x=>x.ModifiedBy)
                 .ToList();
         }
 
@@ -49,7 +54,9 @@ namespace Restaurants.API.Persistence.Implementation
         {
             return DbSet
                 .AsNoTracking()
-                .Skip((pageNumber - 1) * pageSize)
+				.Include(x => x.CreatedBy)
+				.Include(x => x.ModifiedBy)
+				.Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
         }
@@ -58,7 +65,9 @@ namespace Restaurants.API.Persistence.Implementation
         {
             return DbSet
                 .AsNoTracking()
-                .Where(predicate)
+				.Include(x => x.CreatedBy)
+				.Include(x => x.ModifiedBy)
+				.Where(predicate)
                 .ToList();
         }
 

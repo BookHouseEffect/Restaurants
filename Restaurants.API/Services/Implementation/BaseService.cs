@@ -7,6 +7,10 @@ namespace Restaurants.API.Services.Implementation
     {
 		protected People LogedInPerson;
 
+		protected BaseService(){
+			this.LogedInPerson = null;
+		}
+
 		protected BaseService(People logedInPerson){
 			this.LogedInPerson = logedInPerson;
 		}

@@ -77,7 +77,7 @@ namespace Restaurants.API.Services.Implementation
 
 		public List<RestaurantObjects> GetOwnerRestaurants(long ownerId, int pageNumber, int pageSize)
 		{
-			return EmployersRepo.GetRestaurantsByOwnerIdPaged(ownerId, pageNumber, pageSize);
+			return RestaurantRepo.GetRestaurantsByOwnerIdPaged(ownerId, pageNumber, pageSize);
 		}
 
 		public RestaurantObjects GetRestaurant(long id)
@@ -85,15 +85,22 @@ namespace Restaurants.API.Services.Implementation
 			return RestaurantRepo.FindById(id);
 		}
 
-		public List<Employers> GetRestaurantOwners(long restaurantId, int pageNumber, int pageSize)
+		public List<EmployersRestaurants> GetRestaurantOwners(long restaurantId, int pageNumber, int pageSize)
 		{
-			return RestaurantRepo.GetOwnersByRestaurantIdPaged(restaurantId, pageNumber, pageSize);
+			return EmployerRestaurantRepo.GetOwnersByRestaurantIdPaged(restaurantId, pageNumber, pageSize);
 		}
 
 		public bool RemoveCoowner(long ownerId, long restaurantId, long coownerId)
 		{
 			EmployersRestaurants currentConnection = CheckEmployerRestaurant(ownerId, restaurantId);
-			Employers newEmployer = CheckEmployerExistence(coownerId);
+			Employers employerToRemove = CheckEmployerExistence(coownerId);
+
+			long count = EmployerRestaurantRepo.GetNumbetOfEmployers(restaurantId);
+			if (count == 1)
+				throw new Exception("There's ony one owner to the restaurant. Use Close restaurant instead");
+
+			if (currentConnection.TheEmployer.Id == employerToRemove.Id)
+				throw new Exception("The owner cannot remove itself. Use Transfer ownership instead");
 			
 			EmployersRestaurants data = EmployerRestaurantRepo.GetByRestaurantIdAndEmployerId(restaurantId, coownerId);
 			if (data == null)

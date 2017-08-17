@@ -12,7 +12,7 @@ namespace Restaurants.API.Services.Helpers
 			int pageSize
 		);
 
-		List<Employers> GetRestaurantOwners(
+		List<EmployersRestaurants> GetRestaurantOwners(
 			long restaurantId,
 			int pageNumber,
 			int pageSize

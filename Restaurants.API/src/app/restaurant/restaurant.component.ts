@@ -1,29 +1,29 @@
-﻿import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Restaurant } from './restaurant';
+import { Restaurant } from './../common/model';
 import { RestaurantService } from "./restaurant.service";
 import { Subscription } from "rxjs/Subscription";
+
+import { BaseComponent } from './../common/base.component';
 
 @Component({
     selector: 'restaurant',
     templateUrl: './restaurant.component.html'
 })
 
-export class RestaurantComponent implements OnInit, OnDestroy {
+export class RestaurantComponent extends BaseComponent implements OnInit, OnDestroy {
         
     constructor(
         private restaurantService: RestaurantService,
         private route: ActivatedRoute,
-        private router: Router,
-    ) { }
+        injector: Injector
+    ) {
+        super('/restaurants', injector);
+    }
 
     private sub: Subscription;
-
-    error: string = "";
     restaurants: Restaurant[];
-    pageNumber: number;
-    pageSize: number;
     userMock: number;
 
     ngOnInit(): void {
@@ -42,14 +42,6 @@ export class RestaurantComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.sub.unsubscribe();
-    }
-
-    getPreviousPage() {
-        this.router.navigate(['/restaurants'], { queryParams: { page: this.pageNumber - 1 } });
-    }
-
-    getNextPage() {
-        this.router.navigate(['/restaurants'], { queryParams: { page: this.pageNumber + 1 } });
     }
 
     onClick(restaurant: Restaurant) {
@@ -71,7 +63,4 @@ export class RestaurantComponent implements OnInit, OnDestroy {
         this.closeBtn.nativeElement.click();
         this.onClick(returnedRestaurnat);
     }
-
-    clearError() { this.error = "" }
-
 }

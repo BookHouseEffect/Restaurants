@@ -15,7 +15,6 @@ namespace Restaurants.API.Models.EntityFramework
         [Column(Order = 2)]
         public long RestaurantId { get; set; }
 
-        [NonSerialized]
         private Employers _Employer;
 
         [ForeignKey("EmployerId")]
@@ -31,7 +30,6 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private RestaurantObjects _Restaurant;
 
         [ForeignKey("RestaurantId")]

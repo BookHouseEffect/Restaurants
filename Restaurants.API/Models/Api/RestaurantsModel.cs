@@ -18,7 +18,7 @@ namespace Restaurants.API.Models.Api
 	public class CoownerModel
 	{
 		[Required]
-		public long CoownerId { get; set; }
+		public long EmployerId { get; set; }
 	}
 
 	public class RestaurantCoownerModel : CoownerModel

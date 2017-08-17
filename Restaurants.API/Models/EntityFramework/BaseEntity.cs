@@ -26,10 +26,8 @@ namespace Restaurants.API.Models.EntityFramework
         [DataType(DataType.DateTime)]
         public DateTimeOffset ModifiedDateTime { get; set; }
 
-        [NonSerialized]
         private People _Created;
 
-		[JsonIgnore]
 		public virtual People CreatedBy
         {
             get
@@ -42,10 +40,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private People _Modified;
 
-		[JsonIgnore]
 		public virtual People ModifiedBy
         {
             get

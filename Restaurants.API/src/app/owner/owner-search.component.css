@@ -1,0 +1,9 @@
+﻿.list-group-item {
+  padding: 3px 3px;
+}
+
+.list-group-item-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

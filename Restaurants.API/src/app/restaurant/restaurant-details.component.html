@@ -2,17 +2,39 @@
   <div class="row">
     <div class="col-md-2">
       <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a data-toggle="pill" href="#restaurant">About</a></li>
-        <li><a data-toggle="pill" href="#owners">Owners</a></li>
-        <li><a data-toggle="pill" href="#phone">Phone Numbers</a></li>
-        <li><a data-toggle="pill" href="#location">Locations</a></li>
-        <li><a data-toggle="pill" href="#schedule">Worktime</a></li>
-        <li><a data-toggle="pill" href="#language">Menu Languages</a></li>
-        <li><a data-toggle="pill" href="#currency">Menu Currencies</a></li>
-        <li><a data-toggle="pill" href="#category">Menu Categories</a></li>
-        <li><a data-toggle="pill" href="#content">Menu Content</a></li>
-        <li><a data-toggle="pill" href="#transfer" class="btn btn-warning">Transfer Ownership</a></li>
-        <li><a data-toggle="pill" href="#closerestaurant" class="btn btn-danger">Close Restaurant</a></li>
+        <li [class.active]="currentFragment === 'about'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('about')">About</a>
+        </li>
+        <li [class.active]="currentFragment === 'owners'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('owners')">Owners</a>
+        </li>
+        <li [class.active]="currentFragment === 'phone'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('phone')">Phone Numbers</a>
+        </li>
+        <li [class.active]="currentFragment === 'location'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('location')">Locations</a>
+        </li>
+        <li [class.active]="currentFragment === 'schedule'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('schedule')">Worktime</a>
+        </li>
+        <li [class.active]="currentFragment === 'language'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('language')">Menu Languages</a>
+        </li>
+        <li [class.active]="currentFragment === 'currency'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('currency')">Menu Currencies</a>
+        </li>
+        <li [class.active]="currentFragment === 'category'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('category')">Menu Categories</a>
+        </li>
+        <li [class.active]="currentFragment === 'content'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('content')">Menu Content</a>
+        </li>
+        <li [class.active]="currentFragment === 'transfer'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('transfer')" class="btn btn-warning">Transfer Ownership</a>
+        </li>
+        <li [class.active]="currentFragment === 'closerestaurant'">
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('closerestaurant')" class="btn btn-danger">Close Restaurant</a>
+        </li>
       </ul>
     </div>
 
@@ -20,50 +42,66 @@
       <h2 class="page-header">{{currentRestaurant.name}}'s details</h2>
       <div class="tab-content">
 
-        <div id="restaurant" class="tab-pane fade in active">
+        <div [class.active]="currentFragment === 'about'" class="tab-pane fade in">
           <h3>ABOUT</h3>
           <restaurant-form [isNew]="false" [restaurant]="currentRestaurant"></restaurant-form>
         </div>
 
-        <div id="owners" class="tab-pane fade in">
-          <h3>OWNERS</h3>
+        <div [class.active]="currentFragment === 'owners'" class="tab-pane fade in">
+          <owner [restaurant]="currentRestaurant"></owner>
         </div>
 
-        <div id="phone" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'phone'" class="tab-pane fade in">
           <h3>PHONE NUMBERS</h3>
         </div>
 
-        <div id="location" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'location'" class="tab-pane fade in">
           <h3>LOCATIONS</h3>
         </div>
 
-        <div id="schedule" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'schedule'" class="tab-pane fade in">
           <h3>WORKTIME</h3>
         </div>
 
-        <div id="language" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'language'" class="tab-pane fade in">
           <h3>MENU LANGUAGES</h3>
         </div>
 
-        <div id="currency" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'currency'" class="tab-pane fade in">
           <h3>MENU CURRENCIES</h3>
         </div>
 
-        <div id="category" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'category'" class="tab-pane fade in">
           <h3>MENU CATEGORIES</h3>
         </div>
 
-        <div id="content" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'content'" class="tab-pane fade in">
           <h3>MENU CONTENT</h3>
         </div>
 
-        <div id="transfer" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'transfer'" class="tab-pane fade in">
           <h3>TRANSFER OWNERSHIP</h3>
+          <p class="text text-warning well">
+            With ownership transfer, you are transfering only your ownership, which means
+            that you can not manpulate the restaurant anymore, however the other owners if 
+            any can contunie to manipulate it. 
+          </p>
+          <owner-search [restaurant]="currentRestaurant" [isTransfer]="true"
+            (notify)="onResultReturn($event)">
+            </owner-search>
         </div>
 
-        <div id="closerestaurant" class="tab-pane fade in">
+        <div [class.active]="currentFragment === 'closerestaurant'" class="tab-pane fade in">
           <h3>CLOSE RESTAURANT</h3>
-          <p class="text text-danger">If you are sure you want to close the restaurant, please click on the button bellow.</p>
+          <p class="text text-danger well">
+            If you are sure you want to close the restaurant, please click on the button bellow.
+            All of the owners will lose access to the restaurant, however the restaurant will 
+            continue to exist and someone else can take it afterthat.
+          </p>
+
+          <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+          <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
           <button type="button" class="btn btn-danger btn-lg btn-block" (click)="closeRestaurant()">CLOSE RESTAURANT</button>
         </div>
 

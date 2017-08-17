@@ -1,8 +1,8 @@
 ﻿import { Injector, Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 
-import { BaseService } from './../base.service'
-import { Restaurant, EmployersRestaurants, Tupple } from './restaurant';
+import { BaseService } from './../common/base.service';
+import { Restaurant, EmployersRestaurants, Tupple } from './../common/model';
 
 @Injectable()
 export class RestaurantService extends BaseService<
@@ -12,17 +12,21 @@ export class RestaurantService extends BaseService<
         injector: Injector
     ) {
         const url = 'api/restaurant';
-        const headers = new Headers({
-            'Content-Type': 'application/json'
-        });
+        const headers = new Headers({ 'Content-Type': 'application/json;charset=utf-8' });
         super(url, headers, injector);
     }
 
     getList(ownerId: number): Promise<Restaurant[]> {
-        let url = `${this.baseUrl}?ownerId=${ownerId}`;
-        return this.http.get(url).toPromise()
-            .then(response => response.json() as Restaurant[]
-            ).catch(this.handleError);
+        let params = new URLSearchParams();
+        params.append("ownerId", ownerId.toString());
+
+        let options = new RequestOptions({ search: params });
+
+        return this.http
+            .get(this.baseUrl, options)
+            .toPromise()
+            .then(response => response.json() as Restaurant[])
+            .catch(this.handleError);
     }
 
     getPagedList(
@@ -30,10 +34,15 @@ export class RestaurantService extends BaseService<
         pageNumber: number,
         pageSize: number
     ): Promise<Restaurant[]> {
-        let url = `${this.baseUrl}?ownerId=${ownerId}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+        let params = new URLSearchParams();
+        params.append("ownerId", ownerId.toString());
+        params.append("pageNumber", pageNumber.toString());
+        params.append("pageSize", pageSize.toString());
+
+        let options = new RequestOptions({ search: params });
 
         return this.http
-            .get(url)
+            .get(this.baseUrl, options)
             .toPromise()
             .then(response => response.json() as Restaurant[]
             ).catch(this.handleError);

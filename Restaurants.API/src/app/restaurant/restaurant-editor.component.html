@@ -1,26 +1,13 @@
-﻿<div class="form-horizontal">
+﻿<div class="form">
 
-  <div class="alert alert-danger alert-dismissable" *ngIf="error">
-    <button class="close" data-dismiss="alert" aria-label="close"
-            (click)="clearError()">
-      &times;
-    </button>
-    {{error}}
-  </div>
-
-  <div class="alert alert-success alert-dismissable" *ngIf="success">
-    <button class="close" data-dismiss="alert" aria-label="close"
-            (click)="clearSuccesss()">
-      &times;
-    </button>
-    {{success}}
-  </div>
+  <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+  <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
 
   <input type="hidden" [value]="restaurant.Id" *ngIf="!isNew" />
 
   <div class="form-group">
-    <label class="control-label col-md-3">Restaurant's name:</label>
-    <div class="col-md-9">
+    <label class="control-label">Restaurant's name:</label>
+    <div>
       <input [(ngModel)]="restaurant.name"
              class="form-control"
              placeholder="name" />
@@ -28,19 +15,32 @@
   </div>
 
   <div class="form-group">
-    <label class="control-label col-md-3">Restaurant's description:</label>
-    <div class="col-md-9">
-      <input [(ngModel)]="restaurant.description"
-             class="form-control"
-             placeholder="description" />
+    <label class="control-label">Restaurant's description:</label>
+    <div>
+      <textarea rows="5"
+                [(ngModel)]="restaurant.description"
+                class="form-control"
+                placeholder="Some description">
+      </textarea>
     </div>
   </div>
 
-  <div class="form-group">
-    <div class="col-md-offset-9 col-md-3">
+  <div class="row">
+    <div class="col-xs-3" [class.col-xs-offset-3]="!isNew" *ngIf="!isNew">
+      <modify-info-popover [entity]="restaurant"></modify-info-popover>
+    </div>
+    <div class=" col-xs-3" *ngIf="!isNew">
+      <button class=" btn btn-danger btn-block"
+              (click)="getOriginal()">
+       <span class="glyphicon glyphicon-remove"></span>
+       <span> Discard </span>
+      </button>
+    </div>
+    <div class="col-xs-3" [class.col-xs-offset-9]="isNew">
       <button class=" btn btn-success btn-block"
               (click)="save()">
-        Save
+        <span class="glyphicon glyphicon-save"></span>
+        <span> Save </span>
       </button>
     </div>
   </div>

@@ -22,10 +22,6 @@
     <None Remove="node_modules\bootstrap\grunt\fonts\**" />
     <None Remove="wwwroot\**" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="src\app\owner\" />
-  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="1.5.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />

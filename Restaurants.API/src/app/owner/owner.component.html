@@ -1,0 +1,102 @@
+﻿
+<alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+<alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+<div *ngIf="employers">
+  
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-10">
+          <h3>Owners</h3>
+        </div>
+        <div class="col-md-2 text-left">
+          <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#ownersModal">Add Coowners</button>
+          <div id="ownersModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+                  <h4 class="modal-title">Add Coowners</h4>
+                </div>
+                <div class="modal-body">
+                  
+                  <owner-search [restaurant]="restaurant" (notify)="onResultReturn($event)"></owner-search>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <table class="table table-bordered table-condensed table-hover">
+        <thead>
+          <tr>
+            <th class="col-xs-3">First name</th>
+            <th class="col-xs-3">Middle name</th>
+            <th class="col-xs-4">Last name</th>
+            <th class="col-xs-1"></th>
+            <th class="col-xs-1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let empl of employers">
+            <td>{{empl.theEmployer.theEmployerDetails.personFirstName}}</td>
+            <td>{{empl.theEmployer.theEmployerDetails.personMiddleName}}</td>
+            <td>{{empl.theEmployer.theEmployerDetails.personLastName}}</td>
+            <td>
+              <modify-info-popover [entity]="empl"></modify-info-popover>
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="remove(empl.theEmployer)">
+                <span class="glyphicon glyphicon-remove"></span> <span> Remove </span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <ul class="pager">
+                <li class="previous">
+                  <button type="button" class="btn btn-primary"
+                          [class.disabled]="(pageNumber <= 1)"
+                          (click)="(pageNumber <= 1) || getPreviousPage()">
+                    Previous
+                  </button>
+                </li>
+                <li>
+                  <span *ngIf="employers.length !== 0">
+                    Page #{{pageNumber}} ( Results from {{(pageNumber - 1) * pageSize + 1}} to {{(pageNumber - 1) * pageSize + employers.length}} )
+                  </span>
+                  <span *ngIf="employers.length === 0">
+                    Page #{{pageNumber}} ( No results available )
+                  </span>
+                </li>
+                <li class="next">
+                  <button type="button" class="btn btn-primary"
+                          [class.disabled]="(employers.length !== pageSize)"
+                          (click)="(employers.length !== pageSize) || getNextPage()">
+                    Next
+                  </button>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!employers">
+  <p class="text text-danger">
+    Current Restaurant does not have owners!
+  </p>
+</div>

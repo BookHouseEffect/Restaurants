@@ -1,0 +1,21 @@
+﻿<popover-content #info_popover
+                 title="Modification Info"
+                 placement="auto left"
+                 [animation]="true"
+                 [closeOnClickOutside]="true">
+  <dl *ngIf="entity">
+    <dt *ngIf="entity.createdDateTime">Created on:</dt>
+    <dd *ngIf="entity.createdDateTime"> - {{entity.createdDateTime | date:'short'}}</dd>
+    <dt *ngIf="entity.createdBy">Created by:</dt>
+    <dd *ngIf="entity.createdBy"> - {{entity.createdBy.personFirstName}} {{entity.createdBy.personLastName}}</dd>
+    <dt *ngIf="entity.modifiedDateTime">Last modified on:</dt>
+    <dd *ngIf="entity.modifiedDateTime"> - {{entity.modifiedDateTime | date:'short'}}</dd>
+    <dt *ngIf="entity.modifiedBy">Last modified by:</dt>
+    <dd *ngIf="entity.modifiedBy"> - {{entity.modifiedBy.personFirstName}} {{entity.modifiedBy.personLastName}}</dd>
+  </dl>
+
+  <p *ngIf="!(entity)">No info!</p>
+
+</popover-content>
+
+<button [popover]="info_popover" class="btn btn-info btn-block"><span class="glyphicon glyphicon-info-sign"></span> <span> Info </span></button>
