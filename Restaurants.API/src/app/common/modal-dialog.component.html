@@ -1,0 +1,28 @@
+﻿<button type="button"
+        class="btn btn-primary btn-sm"
+        data-toggle="modal"
+        [attr.data-target]="'#modalDialog' + (id)"
+        (click)="buttonClickNotify()"
+        #performClickBtn>
+  <span class="glyphicon glyphicon-plus"> </span>
+  {{buttonTitle}}
+</button>
+
+<div [attr.id]="'modalDialog' + (id)" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
+        <h4 class="modal-title">{{title}}</h4>
+      </div>
+      <div class="modal-body">
+
+        <ng-content></ng-content>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

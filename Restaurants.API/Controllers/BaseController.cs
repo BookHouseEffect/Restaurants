@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
+using Restaurants.API.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,23 @@ namespace Restaurants.API.Controllers
 {
 	public abstract class BaseController : Controller
 	{
+		protected ApplicationServices Services;
+
+		public BaseController()
+		{
+			Services = new ApplicationServices(new Models.Context.AppDbContext(), this.GetCurrentUser());
+		}
+
 		protected People GetCurrentUser()
 		{
 			People p;
 			using (var context = new AppDbContext())
 			{
-				p = context.People.Include(x => x.ThePersonAsEmployer).Where(x => x.Id == 11).Single();
+				p = context
+				.People.
+				Include(x => x.ThePersonAsEmployer)
+				.Where(x => x.Id == 11)
+				.Single();
 			}
 
 			return p;

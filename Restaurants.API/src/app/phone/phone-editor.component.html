@@ -1,0 +1,49 @@
+﻿<div class="form">
+
+  <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+  <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+  <input type="hidden" [value]="currentPhone.id" *ngIf="!isNew" />
+
+  <div class="form-group">
+    <label class="control-label">Phone number:</label>
+    <div>
+      <input [(ngModel)]="currentPhone.phoneNumber"
+             class="form-control"
+             placeholder="phone number"
+             type="tel"/>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label">Phone number's description:</label>
+    <div>
+      <textarea rows="5"
+                [(ngModel)]="currentPhone.phoneDescription"
+                class="form-control"
+                placeholder="the owners of the phone of the type of the phone number (fax, manager's, reservation, reception, etc.)">
+      </textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-3" [class.col-xs-offset-3]="!isNew" *ngIf="!isNew">
+      <modify-info-popover [entity]="currentPhone"></modify-info-popover>
+    </div>
+    <div class=" col-xs-3" *ngIf="!isNew">
+      <button class=" btn btn-danger btn-block"
+              (click)="getOriginal()">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span> Discard </span>
+      </button>
+    </div>
+    <div class="col-xs-3" [class.col-xs-offset-9]="isNew">
+      <button class=" btn btn-success btn-block"
+              (click)="save()">
+        <span class="glyphicon glyphicon-save"></span>
+        <span> Save </span>
+      </button>
+    </div>
+  </div>
+
+</div>

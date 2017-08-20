@@ -26,10 +26,11 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
     navigation: string[];
     currentUrl: string;
     currentFragment: string;
-    success: string;
-    error: string;
+    success: string[] = [];
+    error: string[] = [];
 
     ngOnInit(): void {
+
         this.navigation = ['about', 'owners', 'phone', 'location', 'schedule',
             'language', 'currency', 'category', 'content', 'transfer', 'closerestaurant'];
 
@@ -54,12 +55,12 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
-    clearSuccesss() {
-        this.success = "";
+    clearSuccess() {
+        this.success = [];
     }
 
     clearError() {
-        this.error = "";
+        this.error = [];
     }
 
     fragmentNavigate(fragment: string) {
@@ -70,12 +71,12 @@ export class RestaurantDetailComponent implements OnInit, OnDestroy {
         this.restaurantService.delete(this.currentRestaurant.id, null)
             .then(value => {
                 this.clearError();
-                this.success = "Restaurant successfully removed!";
+                this.success = ["Restaurant successfully removed!"];
                 this.router.navigate(['/restaurants']);
             })
             .catch(err => {
-                this.clearSuccesss();
-                this.error = err;
+                this.clearSuccess();
+                this.error = err as string[];
             });
     }
 

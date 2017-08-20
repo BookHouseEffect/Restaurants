@@ -1,0 +1,72 @@
+﻿<table class="table table-bordered table-condensed table-hover">
+
+  <thead>
+    <tr>
+      <ng-container *ngFor="let name of columnNames">
+        <th>{{name}}</th>
+      </ng-container>
+
+      <th class="col-xs-1" *ngIf="hasInfo"></th>
+      <th class="col-xs-1" *ngIf="hasEdit"></th>
+      <th class="col-xs-1" *ngIf="hasRemove"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <ng-container *ngFor="let item of data">
+      <tr>
+        <ng-container *ngFor="let property of properties">
+          <td>{{getValueByProperty(item, property)}}</td>
+        </ng-container>
+
+        <td *ngIf="hasInfo">
+          <modify-info-popover [entity]="item"></modify-info-popover>
+        </td>
+        <td *ngIf="hasEdit"> 
+          <button type="button" class="btn btn-warning btn-sm btn-block" (click)="notifyEdit(item)">
+            <span class="glyphicon glyphicon-pencil"></span> <span> Edit </span>
+          </button>
+        </td>
+        <td *ngIf="hasRemove">
+          <button type="button" class="btn btn-danger btn-sm btn-block" (click)="notifyForRemove(item)">
+            <span class="glyphicon glyphicon-remove"></span> <span> Remove </span>
+          </button>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <td [attr.colspan]="(properties?(properties.length?properties.length:0):0) + (hasInfo?1:0) + (hasEdit?1:0) + (hasRemove?1:0)">
+        <ul class="pager">
+
+          <li class="previous">
+            <button type="button" class="btn btn-primary"
+                    [class.disabled]="(pageNumber <= 1)"
+                    (click)="(pageNumber <= 1) || notifyForPrevious()">
+              Previous
+            </button>
+          </li>
+
+          <li>
+            <span *ngIf="data && data.length !== 0">
+              Page #{{pageNumber}} ( Results from {{(pageNumber - 1) * pageSize + 1}} to {{(pageNumber - 1) * pageSize + data.length}} )
+            </span>
+            <span *ngIf="!data || data.length === 0">
+              Page #{{pageNumber}} ( No results available )
+            </span>
+          </li>
+
+          <li class="next">
+            <button type="button" class="btn btn-primary"
+                    [class.disabled]="(!data || data.length !== pageSize)"
+                    (click)="(!data || data.length !== pageSize) || notifyForNext()">
+              Next
+            </button>
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tfoot>
+</table>

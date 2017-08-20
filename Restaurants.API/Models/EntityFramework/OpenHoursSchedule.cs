@@ -6,7 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
-    [Serializable]
+	//TODO: Make name plural
+	[Serializable]
     public class OpenHoursSchedule : BaseEntity
     {
         [Required]

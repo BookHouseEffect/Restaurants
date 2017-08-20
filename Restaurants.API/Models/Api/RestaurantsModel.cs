@@ -28,4 +28,35 @@ namespace Restaurants.API.Models.Api
 
 	}
 
+	public class PhoneModel {
+
+		[Required]
+		public long RestaurantId { get; set; }
+
+		[Required(AllowEmptyStrings = false, ErrorMessage ="Phone number can't be empty string.")]
+		[DataType(DataType.PhoneNumber, ErrorMessage ="It must be phone number format.")]
+		[Phone]
+		public string PhoneNumber { get; set; }
+
+		[Required]
+		public string PhoneDescription { get; set; }
+	}
+
+	public class LocationModel {
+
+		[Required] public long RestaurantId { get; set; }
+		[Required] public int Floor { get; set; }
+		[Required] public string StreetNumber { get; set; }
+		[Required] public string Route { get; set; }
+		[Required] public string Locality { get; set; }
+		[Required] public string Country { get; set; }
+		[Required] public int ZipCode { get; set; }
+		[Required] public float Latitude { get; set; }
+		[Required] public float Longitude { get; set; }
+
+		public string AdministrativeAreaLevel2 { get; set; }
+		public string AdministrativeAreaLevel1 { get; set; }
+		public string GoogleLink { get; set; }
+	}
+
 }

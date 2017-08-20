@@ -5,9 +5,23 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Restaurants.API.Models.EntityFramework
 {
+	//TODO: Make name plural
     [Serializable]
     public class LocationContact : BaseEntity
     {
+
+		public void FillOrUpdateFields(int floor, string steetNumber, string route, string locality, string country, int zipCode, string administrativeAreaLevel1, string administrativeAreaLevel2, string googleLink) {
+
+			this.Floor = floor;
+			this.StreetNumber = steetNumber;
+			this.Route = route;
+			this.Locality = locality;
+			this.Country = country;
+			this.ZipCode = zipCode;
+			this.AdministrativeAreaLevel1 = administrativeAreaLevel1;
+			this.AdministrativeAreaLevel2 = administrativeAreaLevel2;
+			this.GoogleLink = googleLink;
+		}
 
         [Required]
         [Column(Order = 1)]
@@ -67,7 +81,6 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-		[JsonIgnore]
 		[ForeignKey("LocationPointId")]
         public LocationPoints TheLocationPoint { get; set; }
     }

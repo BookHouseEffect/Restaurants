@@ -2,43 +2,42 @@
 <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
 <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
 
+
 <div class="panel panel-info">
   <div class="panel-heading clearfix">
-    <h3 class="panel-title pull-left">Owners</h3>
+    <h3 class="panel-title pull-left">Phone Contacts</h3>
 
     <div class="btn-group pull-right">
-      <modal-dialog [buttonTitle]="'Add Coowners'" [title]="'Add Coowners'">
-        <owner-search [restaurant]="restaurant"
-                      (notify)="onResultReturn($event)">
-        </owner-search>
+      <modal-dialog [buttonTitle]="'Add New Phone Contact'" [title]="'Add New Phone Contact'"
+                      (notify)="newClicked($event)">
+        <phone-editor [isNew]="!hasEditing" [restaurant]="restaurant"
+                      (notify)="(!hasEditing && onResultReturn($event)) || (hasEditing && onEdit($event))">
+        </phone-editor>
       </modal-dialog>
     </div>
-
   </div>
 
   <div class="panel-body">
 
     <div class="well-sm">
-      <div *ngIf="!employers || employers.length === 0">
+      <div *ngIf="!phoneList || phoneList.length === 0">
         <h3 class="text text-info">No results available.</h3>
       </div>
 
-      <table-view [columnNames]="['First name', 'Middle name', 'Last name']"
-                  [properties]="[
-                    'theEmployer.theEmployerDetails.personFirstName',
-                    'theEmployer.theEmployerDetails.personMiddleName',
-                    'theEmployer.theEmployerDetails.personLastName']"
+      <table-view [columnNames]="['Phone number', 'Phone description']"
+                  [properties]="['phoneNumber', 'phoneDescription']"
                   [hasInfo]="true"
-                  [hasEdit]="false"
+                  [hasEdit]="true"
                   [hasRemove]="true"
-                  [data]="employers"
+                  [data]="phoneList"
                   [pageNumber]="pageNumber"
                   [pageSize]="pageSize"
+                  (editClick)="editClicked($event)"
                   (removeClick)="remove($event)"
                   (previousClick)="getPreviousPage()"
                   (nextClick)="getNextPage()">
+
       </table-view>
     </div>
   </div>
 </div>
-

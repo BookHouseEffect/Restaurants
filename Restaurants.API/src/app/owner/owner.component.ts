@@ -19,7 +19,7 @@ export class OwnerComponent extends BaseComponent implements OnInit {
     }
 
     @Input() restaurant: Restaurant;
-    employers: EmployersRestaurants[];
+    employers: EmployersRestaurants[] = [];
 
     ngOnInit(): void {
         this.getOwnersList(this.restaurant.id);
@@ -44,8 +44,8 @@ export class OwnerComponent extends BaseComponent implements OnInit {
         this.getOwnersList(this.restaurant.id, this.pageNumber + 1, this.pageSize);
     }
 
-    remove(empl: Employers) {
-        this.ownerService.delete(this.restaurant.id, empl.id)
+    remove(item: EmployersRestaurants) {
+        this.ownerService.delete(this.restaurant.id, item.theEmployer.id)
             .then(res => {
                 this.success = ["Successfully removed."];
                 this.clearError();

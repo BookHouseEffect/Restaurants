@@ -4,35 +4,17 @@
 
 <div class="panel panel-info">
 
-  <div class="panel-heading">
-    <div class="row">
-      <div class="col-md-10">
-        <h3>Restaurants</h3>
-      </div>
-      <div class="col-md-2 text-left">
-        <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#restaurantModal">Add Restaurant</button>
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">Restaurants</h3>
 
-        <div id="restaurantModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" #closeBtn>&times;</button>
-                <h4 class="modal-title">Add New Restaurant</h4>
-              </div>
-              <div class="modal-body">
-                <restaurant-form [isNew]="true" (notify)="onResultReturn($event)"></restaurant-form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <div class="btn-group pull-right">
+      <modal-dialog [buttonTitle]="'Add New Restaurant'" [title]="'Add New Restaurant'">
+        <restaurant-form [isNew]="true"
+                         (notify)="onResultReturn($event)">
+        </restaurant-form>
+      </modal-dialog>
+    </div> 
+    
   </div>
 
   <div class="panel-body">
@@ -42,58 +24,18 @@
         <h3 class="text text-info">No results available.</h3>
       </div>
 
-      <table class="table table-bordered table-condensed table-hover">
-        <thead>
-          <tr>
-            <th class="col-xs-4">Name</th>
-            <th class="col-xs-6">Description</th>
-            <th class="col-xs-1"></th>
-            <th class="col-xs-1"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let restaurant of restaurants">
-            <th>{{restaurant.name}}</th>
-            <td>{{restaurant.description}}</td>
-            <td><modify-info-popover [entity]="restaurant"></modify-info-popover></td>
-            <td>
-              <button type="button" class="btn btn-primary" (click)="onClick(restaurant)">
-                <span class="glyphicon glyphicon-edit"></span> <span> Edit </span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="4">
-              <ul class="pager">
-                <li class="previous">
-                  <button type="button" class="btn btn-primary"
-                          [class.disabled]="(pageNumber <= 1)"
-                          (click)="(pageNumber <= 1) || getPreviousPage()">
-                    Previous
-                  </button>
-                </li>
-                <li>
-                  <span *ngIf="restaurants.length !== 0">
-                    Page #{{pageNumber}} ( Results from {{(pageNumber - 1) * pageSize + 1}} to {{(pageNumber - 1) * pageSize + restaurants.length}} )
-                  </span>
-                  <span *ngIf="restaurants.length === 0">
-                    Page #{{pageNumber}} ( No results available )
-                  </span>
-                </li>
-                <li class="next">
-                  <button type="button" class="btn btn-primary"
-                          [class.disabled]="(restaurants.length !== pageSize)"
-                          (click)="(restaurants.length !== pageSize) || getNextPage()">
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      <table-view [columnNames]="['Name', 'Description']"
+                  [properties]="['name','description']"
+                  [hasInfo]="true"
+                  [hasEdit]="true"
+                  [hasRemove]="false"
+                  [data]="restaurants"
+                  [pageNumber]="pageNumber"
+                  [pageSize]="pageSize"
+                  (editClick)="onClick($event)"
+                  (previousClick)="getPreviousPage()"
+                  (nextClick)="getNextPage()">
+      </table-view>
     </div>
   </div>
 

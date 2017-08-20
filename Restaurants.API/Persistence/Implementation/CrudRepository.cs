@@ -31,7 +31,11 @@ namespace Restaurants.API.Persistence.Implementation
 
             DbSet.Add(item);
             _dbContext.SaveChanges();
-        }
+
+			_dbContext.Entry(item).Reload();
+			_dbContext.Entry(item).Reference(x => x.CreatedBy).Load();
+			_dbContext.Entry(item).Reference(x => x.ModifiedBy).Load();
+		}
 
         public TEntity FindById(long id)
         {
@@ -86,6 +90,10 @@ namespace Restaurants.API.Persistence.Implementation
 
 			_dbContext.Entry(item).State = EntityState.Modified;
             _dbContext.SaveChanges();
-        }
+
+			_dbContext.Entry(item).Reload();
+			_dbContext.Entry(item).Reference(x => x.CreatedBy).Load();
+			_dbContext.Entry(item).Reference(x => x.ModifiedBy).Load();
+		}
     }
 }

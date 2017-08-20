@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, ViewChild, ElementRef, Injector } from '@angular/core';
+﻿import { Component, OnInit, OnDestroy, ViewChild, Injector } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Restaurant } from './../common/model';
@@ -6,6 +6,7 @@ import { RestaurantService } from "./restaurant.service";
 import { Subscription } from "rxjs/Subscription";
 
 import { BaseComponent } from './../common/base.component';
+import { ModalDialogComponent } from "../common/modal-dialog.component";
 
 @Component({
     selector: 'restaurant',
@@ -57,10 +58,10 @@ export class RestaurantComponent extends BaseComponent implements OnInit, OnDest
             .catch(err => this.error = err);
     }
 
-    @ViewChild('closeBtn') closeBtn: ElementRef;
+    @ViewChild(ModalDialogComponent) modal: ModalDialogComponent;
 
-    onResultReturn(returnedRestaurnat : Restaurant): void {
-        this.closeBtn.nativeElement.click();
+    onResultReturn(returnedRestaurnat: Restaurant): void {
+        this.modal.closeBtn.nativeElement.click();
         this.onClick(returnedRestaurnat);
     }
 }

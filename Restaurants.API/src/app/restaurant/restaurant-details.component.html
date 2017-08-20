@@ -30,10 +30,10 @@
           <a data-toggle="pill" href="#" (click)="fragmentNavigate('content')">Menu Content</a>
         </li>
         <li [class.active]="currentFragment === 'transfer'">
-          <a data-toggle="pill" href="#" (click)="fragmentNavigate('transfer')" class="btn btn-warning">Transfer Ownership</a>
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('transfer')" class="bg bg-warning text text-warning">Transfer Ownership</a>
         </li>
         <li [class.active]="currentFragment === 'closerestaurant'">
-          <a data-toggle="pill" href="#" (click)="fragmentNavigate('closerestaurant')" class="btn btn-danger">Close Restaurant</a>
+          <a data-toggle="pill" href="#" (click)="fragmentNavigate('closerestaurant')" class="bg bg-danger text text-danger">Close Restaurant</a>
         </li>
       </ul>
     </div>
@@ -52,7 +52,7 @@
         </div>
 
         <div [class.active]="currentFragment === 'phone'" class="tab-pane fade in">
-          <h3>PHONE NUMBERS</h3>
+          <phone [restaurant]="currentRestaurant"></phone>
         </div>
 
         <div [class.active]="currentFragment === 'location'" class="tab-pane fade in">

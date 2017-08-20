@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Restaurants.API.Models.Api;
 using System.Net;
-using Restaurants.API.Services.Implementation;
 using Microsoft.AspNetCore.Authorization;
 using Restaurants.API.Models.EntityFramework;
 using System.Collections.Generic;
@@ -12,12 +11,6 @@ namespace Restaurants.API.Controllers
 	[Route("api/restaurant")]
 	public class RestaurantController : BaseController
 	{
-		private RestaurantService Service;
-
-		public RestaurantController() : base()
-		{
-			Service = new RestaurantService(new Models.Context.AppDbContext(), this.GetCurrentUser());
-		}
 
 		[HttpGet("")]
 		[AllowAnonymous]
@@ -26,7 +19,7 @@ namespace Restaurants.API.Controllers
 			List<RestaurantObjects> result;
 			try
 			{
-				result = Service.GetOwnerRestaurants(ownerId, pageNumber, pageSize);
+				result = Services.GetOwnerRestaurants(ownerId, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{
@@ -43,7 +36,7 @@ namespace Restaurants.API.Controllers
 			RestaurantObjects result;
 			try
 			{
-				result = Service.GetRestaurant(id);
+				result = Services.GetRestaurant(id);
 			}
 			catch (Exception ex)
 			{
@@ -63,7 +56,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Service.AddNewRestaurant(
+				result = Services.AddNewRestaurant(
 					currentUser.ThePersonAsEmployer.Id,
 					model.Name, model.Description);
 			}
@@ -85,7 +78,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Service.UpdateRestaurant(
+				result = Services.UpdateRestaurant(
 					currentUser.ThePersonAsEmployer.Id,
 					id, model.Name, model.Description);
 			}
@@ -104,7 +97,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Service.CloseRestaurant(currentUser.ThePersonAsEmployer.Id, id);
+				result = Services.CloseRestaurant(currentUser.ThePersonAsEmployer.Id, id);
 			}
 			catch (Exception ex)
 			{

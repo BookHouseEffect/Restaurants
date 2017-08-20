@@ -1,4 +1,4 @@
-﻿<div class="alert alert-dismissable" [class.alert-danger]="isError" [class.alert-success]="!isError" *ngIf="messages.length !== 0">
+﻿<div class="alert alert-dismissable" [class.alert-danger]="isError" [class.alert-success]="!isError" *ngIf="!messages || messages.length !== 0">
   <button class="close" data-dismiss="alert" aria-label="close"
           (click)="clearMessages()">
     &times;

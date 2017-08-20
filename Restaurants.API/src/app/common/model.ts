@@ -35,3 +35,9 @@ export class Tupple<IFirst, ISecond> {
     item1: IFirst;
     item2: ISecond;
 }
+
+export class Phone extends BaseModel {
+    restaurantId: number;
+    phoneNumber: string;
+    phoneDescription: string;
+}
