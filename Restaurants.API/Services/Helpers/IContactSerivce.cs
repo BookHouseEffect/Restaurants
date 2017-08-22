@@ -21,7 +21,7 @@ namespace Restaurants.API.Services.Helpers
 			long restaurantId,
 			int pageNumber,
 			int pageSize
-			);
+		);
 
 		PhoneContacts UpdateContactNumber(
 			long ownerId,
@@ -29,13 +29,13 @@ namespace Restaurants.API.Services.Helpers
 			long contactId,
 			string phoneNumber,
 			string phoneDescription
-			);
+		);
 
 		bool RemoveContactNumber(
 			long ownerId,
 			long restaurantId,
 			long contactId
-			);
+		);
 
 		LocationContact AddContactAddress(
 			long ownerId,
@@ -51,17 +51,15 @@ namespace Restaurants.API.Services.Helpers
 			[Optional] string administrativeAreaLevel1,
 			[Optional] string administrativeAreaLevel2,
 			[Optional] string googleLink
-			);
+		);
 
 		LocationContact GetLocationContact(
 			long contactId
 		);
 
-		List<LocationContact> GetAllContactAddresses(
-			long restaurantId,
-			int pageNumber,
-			int pageSize
-			);
+		LocationContact GetContactAddressByRestaurantId(
+			long restaurantId
+		);
 
 		LocationContact UpdateContactAddress(
 			long ownerId,
@@ -78,13 +76,13 @@ namespace Restaurants.API.Services.Helpers
 			[Optional] string administrativeAreaLevel1,
 			[Optional] string administrativeAreaLevel2,
 			[Optional] string googleLink
-			);
+		);
 
 		bool RemoveContactAddress(
 			long ownerId,
 			long restaurantId,
 			long contactId
-			);
+		);
 	}
 }
 

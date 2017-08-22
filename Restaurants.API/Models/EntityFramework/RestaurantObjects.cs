@@ -50,10 +50,10 @@ namespace Restaurants.API.Models.EntityFramework
         }
 
         [NonSerialized]
-        private ICollection<LocationContact> _LocationContact;
+        private LocationContact _LocationContact;
 
 		[JsonIgnore]
-		public virtual ICollection<LocationContact> TheRestaurantLocationAddresses
+		public virtual LocationContact TheRestaurantLocationAddress
         {
             get
             {

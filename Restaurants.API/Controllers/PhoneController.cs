@@ -57,7 +57,7 @@ namespace Restaurants.API.Controllers
 			{
 				People currentUser = GetCurrentUser();
 				newContact = Services.AddContactNumber(currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId, model.PhoneNumber, model.PhoneDescription);
+					model.RestaurantId ?? 0, model.PhoneNumber, model.PhoneDescription);
 
 			}
 			catch (Exception ex)
@@ -79,7 +79,7 @@ namespace Restaurants.API.Controllers
 			{
 				People currentUser = GetCurrentUser();
 				updatedContact = Services.UpdateContactNumber(currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId, id, model.PhoneNumber, model.PhoneDescription);
+					model.RestaurantId ?? 0, id, model.PhoneNumber, model.PhoneDescription);
 			}
 			catch (Exception ex)
 			{

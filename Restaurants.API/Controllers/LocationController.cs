@@ -1,7 +1,6 @@
 ﻿using Restaurants.API.Models.Api;
 using Restaurants.API.Models.EntityFramework;
 using System;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
@@ -31,12 +30,12 @@ namespace Restaurants.API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetAllContacts(long restaurantId, int pageNumber = 1, int pageSize = 10)
+		public IActionResult GetByRestaurantId(long restaurantId)
 		{
-			List<LocationContact> existingContact;
+			LocationContact existingContact;
 			try
 			{
-				existingContact = Services.GetAllContactAddresses(restaurantId, pageNumber, pageSize);
+				existingContact = Services.GetContactAddressByRestaurantId(restaurantId);
 			}
 			catch (Exception ex)
 			{
@@ -47,7 +46,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult AddContactNumber(LocationModel model)
+		public IActionResult AddContactAddress([FromBody]LocationModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -57,8 +56,8 @@ namespace Restaurants.API.Controllers
 			{
 				People currentUser = GetCurrentUser();
 				newContact = Services.AddContactAddress(currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId, model.Floor, model.StreetNumber, model.Route, model.Locality,
-					model.Country, model.ZipCode, model.Latitude, model.Longitude, 
+					model.RestaurantId ?? 0, model.Floor ?? 0, model.StreetNumber, model.Route, model.Locality,
+					model.Country, model.ZipCode ?? 0, model.TheLocationPoint.Latitude ?? 0, model.TheLocationPoint.Longitude ?? 0,
 					model.AdministrativeAreaLevel1, model.AdministrativeAreaLevel2, model.GoogleLink);
 
 			}
@@ -71,7 +70,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateContactNumber(long id, [FromBody] LocationModel model)
+		public IActionResult UpdateContactAddress(long id, [FromBody] LocationModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -81,8 +80,8 @@ namespace Restaurants.API.Controllers
 			{
 				People currentUser = GetCurrentUser();
 				updatedContact = Services.UpdateContactAddress(currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId, id, model.Floor, model.StreetNumber, model.Route, model.Locality,
-					model.Country, model.ZipCode, model.Latitude, model.Longitude,
+					model.RestaurantId ?? 0, id, model.Floor ?? 0, model.StreetNumber, model.Route, model.Locality,
+					model.Country, model.ZipCode ?? 0, model.TheLocationPoint.Latitude ?? 0, model.TheLocationPoint.Longitude ?? 0,
 					model.AdministrativeAreaLevel1, model.AdministrativeAreaLevel2, model.GoogleLink);
 			}
 			catch (Exception ex)
@@ -94,7 +93,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult DeleteContactNumber(long id, long restaurantId)
+		public IActionResult DeleteContactAddress(long id, long restaurantId)
 		{
 			try
 			{

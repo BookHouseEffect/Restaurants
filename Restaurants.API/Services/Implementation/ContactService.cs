@@ -34,9 +34,20 @@ namespace Restaurants.API.Services.Implementation
 			};
 			PointRepo.Add(point, ModifierId);
 
-			LocationContact contact = new LocationContact() { LocationPointId = point.Id };
+			LocationContact contact = new LocationContact() { LocationPointId = point.Id, RestaurantId = connection.TheRestaurant.Id };
 			contact.FillOrUpdateFields(floor, steetNumber, route, locality, country, zipCode, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
-			LocationRepo.Add(contact, ModifierId);
+			try
+			{
+				LocationRepo.Add(contact, ModifierId);
+			} catch (Exception ex){
+				if (contact.Id <= 0)
+				{
+					contact = null;
+					PointRepo.Remove(point);
+				}
+
+				throw ex;
+			}
 
 			return contact;
 		}
@@ -58,9 +69,9 @@ namespace Restaurants.API.Services.Implementation
 			return phone;
 		}
 
-		public List<LocationContact> GetAllContactAddresses(long restaurantId, int pageNumber, int pageSize)
+		public LocationContact GetContactAddressByRestaurantId(long restaurantId)
 		{
-			return LocationRepo.GetLocationsByRestaurantPaged(restaurantId, pageNumber, pageSize);
+			return LocationRepo.GetLocationsByRestaurantId(restaurantId);
 		}
 
 		public List<PhoneContacts> GetAllContactNumbers(long restaurantId, int pageNumber, int pageSize)
@@ -72,11 +83,11 @@ namespace Restaurants.API.Services.Implementation
 		{
 			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
 			LocationContact loc = CheckLocationExistence(contactId);
-			LocationPoints point = loc.TheLocationPoint;
+			LocationPoints point = PointRepo.FindById(loc.LocationPointId);
 
 			CheckTheLoggedInPerson();
-			LocationRepo.Remove(loc);
 			PointRepo.Remove(point);
+			LocationRepo.Remove(loc);
 
 			return true;
 		}
@@ -98,7 +109,7 @@ namespace Restaurants.API.Services.Implementation
 			LocationContact contact = CheckLocationExistence(contactId);
 
 			CheckTheLoggedInPerson();
-			LocationPoints point = contact.TheLocationPoint;
+			LocationPoints point = PointRepo.FindById(contact.LocationPointId);
 			point.Latitude = latitude;
 			point.Longitude = longitude;
 			PointRepo.Update(point, ModifierId);

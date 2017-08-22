@@ -1,5 +1,6 @@
 ﻿import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { AgmCoreModule } from '@agm/core';
 
 import { AppComponent } from './app.component';
 
@@ -21,9 +22,12 @@ import { PhoneComponent } from './phone/phone.component';
 import { PhoneEditorComponent } from './phone/phone-editor.component'
 import { PhoneService } from './phone/phone.service';
 
+import { AddressComponent } from './address/address.component';
+import { AddressService } from './address/address.service';
+
 import { SearchService } from './common/search.service';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpModule } from '@angular/http';
 import { PopoverModule } from "ngx-popover";
@@ -44,20 +48,28 @@ import { PopoverModule } from "ngx-popover";
         OwnerSearchComponent,
 
         PhoneComponent,
-        PhoneEditorComponent
+        PhoneEditorComponent,
+
+        AddressComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
         AppRoutingModule,
-        PopoverModule
+        PopoverModule,
+        AgmCoreModule.forRoot({
+            libraries: ['places'],
+            apiKey: 'AIzaSyAuIyUStWIS6KC7kHQiLCuTxARS1SKYlpY'
+        }),
+        ReactiveFormsModule
     ],
     providers: [
         SearchService, 
         RestaurantService,
         OwnerService,
-        PhoneService
+        PhoneService,
+        AddressService
     ],
     bootstrap: [AppComponent]
 })

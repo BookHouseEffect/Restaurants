@@ -56,7 +56,7 @@
         </div>
 
         <div [class.active]="currentFragment === 'location'" class="tab-pane fade in">
-          <h3>LOCATIONS</h3>
+          <address [restaurant]="currentRestaurant"></address>
         </div>
 
         <div [class.active]="currentFragment === 'schedule'" class="tab-pane fade in">

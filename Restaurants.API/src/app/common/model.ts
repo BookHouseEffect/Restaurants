@@ -41,3 +41,22 @@ export class Phone extends BaseModel {
     phoneNumber: string;
     phoneDescription: string;
 }
+
+export class Address extends BaseModel {
+    restaurantId: number;
+    floor: number;
+    streetNumber: string;
+    route: string;
+    locality: string;
+    administrativeAreaLevel2: string;
+    administrativeAreaLevel1: string;
+    country: string;
+    zipCode: number;
+    googleLink: string;
+    theLocationPoint: Coordinates;
+}
+
+export class Coordinates extends BaseModel {
+    latitude: number;
+    longitude: number;
+}

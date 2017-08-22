@@ -31,16 +31,14 @@ namespace Restaurants.API.Persistence.Implementation
 		{
 		}
 
-		internal List<LocationContact> GetLocationsByRestaurantPaged(long restaurantId, int pageNumber, int pageSize)
+		internal LocationContact GetLocationsByRestaurantId(long restaurantId)
 		{
 			return this.DbSet
 				.Where(x => x.RestaurantId == restaurantId)
 				.Include(x => x.CreatedBy)
 				.Include(x => x.ModifiedBy)
-				.Include(x=>x.TheLocationPoint)
-				.Skip((pageNumber - 1) * pageSize)
-				.Take(pageSize)
-				.ToList();
+				.Include(x => x.TheLocationPoint)
+				.SingleOrDefault();
 		}
 	}
 

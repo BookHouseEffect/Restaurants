@@ -47,14 +47,14 @@ namespace Restaurants.API.Services
 			return RestaurantService.CloseRestaurant(ownerId, restaurantId);
 		}
 
-		public List<LocationContact> GetAllContactAddresses(long restaurantId, int pageNumber, int pageSize)
-		{
-			return ContactService.GetAllContactAddresses(restaurantId, pageNumber, pageSize);
-		}
-
 		public List<PhoneContacts> GetAllContactNumbers(long restaurantId, int pageNumber, int pageSize)
 		{
 			return ContactService.GetAllContactNumbers(restaurantId, pageNumber, pageSize);
+		}
+
+		public LocationContact GetContactAddressByRestaurantId(long restaurantId)
+		{
+			return ContactService.GetContactAddressByRestaurantId(restaurantId);
 		}
 
 		public LocationContact GetLocationContact(long contactId)
