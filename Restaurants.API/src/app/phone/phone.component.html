@@ -10,7 +10,7 @@
     <div class="btn-group pull-right">
       <modal-dialog [buttonTitle]="'Add New Phone Contact'" [title]="'Add New Phone Contact'"
                       (notify)="newClicked($event)">
-        <phone-editor [isNew]="!hasEditing" [restaurant]="restaurant"
+        <phone-editor [isNew]="!hasEditing" [restaurant]="restaurant" [currentPhone]="editedPhone"
                       (notify)="(!hasEditing && onResultReturn($event)) || (hasEditing && onEdit($event))">
         </phone-editor>
       </modal-dialog>

@@ -56,8 +56,8 @@ namespace Restaurants.API.Controllers
 			{
 				People currentUser = GetCurrentUser();
 				newContact = Services.AddContactAddress(currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId ?? 0, model.Floor ?? 0, model.StreetNumber, model.Route, model.Locality,
-					model.Country, model.ZipCode ?? 0, model.TheLocationPoint.Latitude ?? 0, model.TheLocationPoint.Longitude ?? 0,
+					model.RestaurantId, model.Floor, model.StreetNumber, model.Route, model.Locality,
+					model.Country, model.ZipCode, model.TheLocationPoint.Latitude, model.TheLocationPoint.Longitude,
 					model.AdministrativeAreaLevel1, model.AdministrativeAreaLevel2, model.GoogleLink);
 
 			}
@@ -80,8 +80,8 @@ namespace Restaurants.API.Controllers
 			{
 				People currentUser = GetCurrentUser();
 				updatedContact = Services.UpdateContactAddress(currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId ?? 0, id, model.Floor ?? 0, model.StreetNumber, model.Route, model.Locality,
-					model.Country, model.ZipCode ?? 0, model.TheLocationPoint.Latitude ?? 0, model.TheLocationPoint.Longitude ?? 0,
+					model.RestaurantId, id, model.Floor, model.StreetNumber, model.Route, model.Locality,
+					model.Country, model.ZipCode, model.TheLocationPoint.Latitude, model.TheLocationPoint.Longitude,
 					model.AdministrativeAreaLevel1, model.AdministrativeAreaLevel2, model.GoogleLink);
 			}
 			catch (Exception ex)

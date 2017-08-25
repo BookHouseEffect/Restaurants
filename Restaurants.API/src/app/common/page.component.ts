@@ -1,7 +1,9 @@
 ﻿import { Router } from "@angular/router";
 import { Injector } from "@angular/core";
 
-export abstract class BaseComponent {
+import { ErrorComponent } from "./error.component";
+
+export abstract class PageComponent extends ErrorComponent {
 
     protected router: Router;
 
@@ -9,6 +11,7 @@ export abstract class BaseComponent {
         protected currentUrl: string,
         injector: Injector
     ) {
+        super();
         this.router = injector.get(Router);
     }
 
@@ -31,17 +34,5 @@ export abstract class BaseComponent {
                 size: this.pageSize
             }
         });
-    }
-
-    success: Array<string> = new Array<string>(0);
-    error: Array<string> = new Array<string>(0);
-
-    clearSuccess() {
-        while (this.success.length > 0)
-            this.success.pop();
-    }
-    clearError() {
-        while (this.error.length > 0)
-            this.error.pop();
     }
 }

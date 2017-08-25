@@ -11,15 +11,18 @@ namespace Restaurants.API.Services
 	public class ApplicationServices : 
 	BaseService,
 	IRestaurantService, 
-	IContactSerivce
+	IContactSerivce,
+	IScheduleService
     {
 		private IRestaurantService RestaurantService;
 		private IContactSerivce ContactService;
+		private IScheduleService ScheduleSerice;
 
 		public ApplicationServices(AppDbContext dbContext, People logedInPerson) 
 			: base(dbContext, logedInPerson) {
 			this.RestaurantService = new RestaurantService(dbContext, logedInPerson);
 			this.ContactService = new ContactService(dbContext, logedInPerson);
+			this.ScheduleSerice = new ScheduleService(dbContext, logedInPerson);
 		}
 
 		public LocationContact AddContactAddress(long ownerId, long restaurantId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
@@ -42,6 +45,16 @@ namespace Restaurants.API.Services
 			return RestaurantService.AddNewRestaurant(ownerId, restaurantName, restaurantDescription);
 		}
 
+		public OutOfSchedulePeriods AddOutOfScheduleInterval(long employerId, long restaurantId, long openScheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
+		{
+			return ScheduleSerice.AddOutOfScheduleInterval(employerId, restaurantId, openScheduleId, startOn, endsOn, description);
+		}
+
+		public OpenHoursSchedule AddWorkingInterval(long employerId, long restaurantId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
+		{
+			return ScheduleSerice.AddWorkingInterval(employerId, restaurantId, startDay, startTime, endDay, endTime);
+		}
+
 		public bool CloseRestaurant(long ownerId, long restaurantId)
 		{
 			return RestaurantService.CloseRestaurant(ownerId, restaurantId);
@@ -50,6 +63,16 @@ namespace Restaurants.API.Services
 		public List<PhoneContacts> GetAllContactNumbers(long restaurantId, int pageNumber, int pageSize)
 		{
 			return ContactService.GetAllContactNumbers(restaurantId, pageNumber, pageSize);
+		}
+
+		public List<OutOfSchedulePeriods> GetAllOutOfScheduleIntervals(long restaurantId, int pageNumber, int pageSize)
+		{
+			return ScheduleSerice.GetAllOutOfScheduleIntervals(restaurantId, pageNumber, pageSize);
+		}
+
+		public List<OpenHoursSchedule> GetAllWorkingIntervals(long restaurantId)
+		{
+			return ScheduleSerice.GetAllWorkingIntervals(restaurantId);
 		}
 
 		public LocationContact GetContactAddressByRestaurantId(long restaurantId)
@@ -82,6 +105,11 @@ namespace Restaurants.API.Services
 			return RestaurantService.GetRestaurantOwners(restaurantId, pageNumber, pageSize);
 		}
 
+		public OpenHoursSchedule GetWorkTimeById(long id)
+		{
+			return ScheduleSerice.GetWorkTimeById(id);
+		}
+
 		public bool RemoveContactAddress(long ownerId, long restaurantId, long contactId)
 		{
 			return ContactService.RemoveContactAddress(ownerId, restaurantId, contactId);
@@ -95,6 +123,16 @@ namespace Restaurants.API.Services
 		public bool RemoveCoowner(long ownerId, long restaurantId, long coownerId)
 		{
 			return RestaurantService.RemoveCoowner(ownerId, restaurantId, coownerId);
+		}
+
+		public bool RemoveOutOfScheduleInterval(long employerId, long restaurantId, long scheduleId)
+		{
+			return ScheduleSerice.RemoveOutOfScheduleInterval(employerId, restaurantId, scheduleId);
+		}
+
+		public bool RemoveWorkingInterval(long employerId, long restaurantId, long scheduleId)
+		{
+			return ScheduleSerice.RemoveWorkingInterval(employerId, restaurantId, scheduleId);
 		}
 
 		public bool TransferOwnership(long ownerId, long restaurantId, long newOwnerId)
@@ -112,9 +150,19 @@ namespace Restaurants.API.Services
 			return ContactService.UpdateContactNumber(ownerId, restaurantId, contactId, phoneNumber, phoneDescription);
 		}
 
+		public OutOfSchedulePeriods UpdateOutOfScheduleIntervals(long employerId, long restaurantId, long scheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
+		{
+			return ScheduleSerice.UpdateOutOfScheduleIntervals(employerId, restaurantId, scheduleId, startOn, endsOn, description);
+		}
+
 		public RestaurantObjects UpdateRestaurant(long ownerId, long restaurantId, string restaurantName, string restaurantDescription)
 		{
 			return RestaurantService.UpdateRestaurant(ownerId, restaurantId, restaurantName, restaurantDescription);
+		}
+
+		public OpenHoursSchedule UpdateWokingInterval(long employerId, long restaurantId, long scheduleId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
+		{
+			return ScheduleSerice.UpdateWokingInterval(employerId, restaurantId, scheduleId, startDay, startTime, endDay, endTime);
 		}
 	}
 }

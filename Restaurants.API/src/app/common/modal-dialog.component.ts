@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, Input, ElementRef, ViewChild, EventEmitter } from '@angular/core';
+﻿import { Component, OnInit, Input, Output, ElementRef, ViewChild, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'modal-dialog',
@@ -10,7 +10,7 @@ export class ModalDialogComponent implements OnInit
     @Input() buttonTitle: string = ""
     @Input() title: string = "";
     id: string;
-    notify: EventEmitter<any> = new EventEmitter<any>();
+    @Output() notify: EventEmitter<void> = new EventEmitter<void>();
 
     constructor() { }
    
@@ -22,6 +22,6 @@ export class ModalDialogComponent implements OnInit
     @ViewChild('closeBtn') closeBtn: ElementRef;
 
     buttonClickNotify(): void {
-        this.notify.emit(null);
+        this.notify.emit();
     }
 }

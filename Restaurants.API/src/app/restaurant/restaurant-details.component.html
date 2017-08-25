@@ -60,7 +60,7 @@
         </div>
 
         <div [class.active]="currentFragment === 'schedule'" class="tab-pane fade in">
-          <h3>WORKTIME</h3>
+          <schedule [restaurant]="currentRestaurant"></schedule>
         </div>
 
         <div [class.active]="currentFragment === 'language'" class="tab-pane fade in">

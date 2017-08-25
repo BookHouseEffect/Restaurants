@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, Injector, Input,  ViewChild } from '@angular/core';
 
-import { BaseComponent } from './../common/base.component'; 
+import { PageComponent } from './../common/page.component'; 
 import { Restaurant, Phone } from './../common/model';
 import { PhoneService } from './phone.service';
 import { ModalDialogComponent } from "../common/modal-dialog.component";
@@ -10,7 +10,7 @@ import { PhoneEditorComponent } from "./phone-editor.component";
     selector: 'phone',
     templateUrl: './phone.component.html'
 })
-export class PhoneComponent extends BaseComponent implements OnInit
+export class PhoneComponent extends PageComponent implements OnInit
 {
     constructor(
         private phoneService: PhoneService,
@@ -22,6 +22,7 @@ export class PhoneComponent extends BaseComponent implements OnInit
     @Input() restaurant: Restaurant;
     phoneList: Phone[];
     hasEditing: boolean = false;
+    editedPhone: Phone;
 
     ngOnInit(): void {
         this.getPhoneList(this.restaurant.id);
@@ -43,10 +44,7 @@ export class PhoneComponent extends BaseComponent implements OnInit
 
     newClicked(value: any) {
         this.hasEditing = false;
-
-        this.editor.isNew = true;
-        this.editor.restaurant = this.restaurant;
-        this.editor.currentPhone = null;
+        this.editedPhone = new Phone();
     }
 
     onResultReturn(returnedResult: Phone): void {
@@ -63,13 +61,10 @@ export class PhoneComponent extends BaseComponent implements OnInit
     }
 
     editClicked(item: Phone) {
-        this.hasEditing = true;
-
-        this.editor.isNew = false;
-        this.editor.restaurant = this.restaurant;
-        this.editor.currentPhone = item;
-
         this.modal.performClickBtn.nativeElement.click();
+
+        this.hasEditing = true;
+        this.editedPhone = item
     }
 
     remove(item: Phone) {

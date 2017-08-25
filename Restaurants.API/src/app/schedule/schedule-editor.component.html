@@ -1,0 +1,86 @@
+﻿<div class="form">
+
+  <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+  <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+  <input type="hidden" [value]="currentSchedule.id" *ngIf="!isNew" />
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Day</th>
+        <th>Hour</th>
+        <th>Minutes</th>
+        <th class="col-xs-2">Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>Start Period</th>
+        <td>
+          <select [(ngModel)]="currentSchedule.startDay" class="form-control">
+            <option *ngFor="let key of 7 | iteratorNumber" [attr.value]="key">{{ key | getDayString}}</option>
+          </select>
+        </td>
+        <td>
+          <select [(ngModel)]="currentSchedule.startHours" class="form-control">
+            <option *ngFor="let key of 24 | iteratorNumber" [attr.value]="key">{{("0" + key).slice(-2)}}</option>
+          </select>
+        </td>
+        <td>
+          <select [(ngModel)]="currentSchedule.startMinutes" class="form-control">
+            <option *ngFor="let key of 60 | iteratorNumber" [attr.value]="key">{{("0" + key).slice(-2)}}</option>
+          </select>
+        </td>
+        <td rowspan="2">
+          <ul class="list-group">
+            <li *ngFor="let data of currentSchedule.timeDifference()"
+                class="list-group-item list-group-item-danger">
+              {{data}}
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <th>End Period</th>
+        <td>
+          <select [(ngModel)]="currentSchedule.endDay" class="form-control">
+            <option *ngFor="let key of 7 | iteratorNumber" [attr.value]="key">{{ key | getDayString}}</option>
+          </select>
+        </td>
+        <td>
+          <select [(ngModel)]="currentSchedule.endHours" class="form-control">
+            <option *ngFor="let key of 24 | iteratorNumber" [attr.value]="key">{{("0" + key).slice(-2)}}</option>
+          </select>
+        </td>
+        <td>
+          <select [(ngModel)]="currentSchedule.endMinutes" class="form-control">
+            <option *ngFor="let key of 60 | iteratorNumber" [attr.value]="key">{{("0" + key).slice(-2)}}</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row">
+    <div class="col-xs-3" [class.col-xs-offset-3]="!isNew" *ngIf="!isNew">
+      <modify-info-popover [entity]="currentSchedule"></modify-info-popover>
+    </div>
+    <div class=" col-xs-3" *ngIf="!isNew">
+      <button class=" btn btn-danger btn-block"
+              (click)="getOriginal()">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span> Discard </span>
+      </button>
+    </div>
+    <div class="col-xs-3" [class.col-xs-offset-9]="isNew">
+      <button class=" btn btn-success btn-block"
+              (click)="save()">
+        <span class="glyphicon glyphicon-save"></span>
+        <span> Save </span>
+      </button>
+    </div>
+  </div>
+
+</div>

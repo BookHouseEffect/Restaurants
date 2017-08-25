@@ -36,7 +36,7 @@
     </ng-container>
   </tbody>
 
-  <tfoot>
+  <tfoot *ngIf="hasPaging">
     <tr>
       <td [attr.colspan]="(properties?(properties.length?properties.length:0):0) + (hasInfo?1:0) + (hasEdit?1:0) + (hasRemove?1:0)">
         <ul class="pager">

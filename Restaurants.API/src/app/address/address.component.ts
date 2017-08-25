@@ -5,18 +5,17 @@ import {  } from '@types/googlemaps';
 
 import { Restaurant, Address, Coordinates } from './../common/model';
 import { AddressService } from './address.service';
+import { ErrorComponent } from "../common/error.component";
 
 @Component({
     selector: 'address',
     templateUrl: './address.component.html',
     styleUrls: ['./address.component.css']
 })
-export class AddressComponent implements OnInit
+export class AddressComponent extends ErrorComponent implements OnInit
 {
     @Input() restaurant: Restaurant;
     restaurantAddress: Address;
-    error: string[];
-    success: string[];
 
     searchControl: FormControl;
     zoom: number;
@@ -28,7 +27,9 @@ export class AddressComponent implements OnInit
         private addressService: AddressService,
         private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone
-    ) { }
+    ) {
+      super();
+   }
 
     ngOnInit(): void {
         this.clearError();
@@ -121,14 +122,6 @@ export class AddressComponent implements OnInit
                 this.clearSuccess();
                 this.error = error;
             })
-    }
-
-    clearError() {
-        this.error = [];
-    }
-
-    clearSuccess() {
-        this.success = [];
     }
 
     placeMarker(value: any) {

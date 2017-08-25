@@ -59,8 +59,13 @@ export abstract class BaseService<TEntity, TCreateReturn, TReadReturn, TUpdateRe
     ): Promise<TCreateReturn> {
         let options = new RequestOptions({ headers: this.headers });
 
+        let json = JSON.stringify(item);
+        Object.keys(item).filter(key => key[0] === "_").forEach(key => {
+            json = json.replace(key, key.substring(1));
+        });
+
         return this.http
-            .post(this.baseUrl, JSON.stringify(item), options)
+            .post(this.baseUrl, json, options)
             .toPromise()
             .then(response => response.json() as TCreateReturn)
             .catch(this.handleError);
@@ -73,8 +78,13 @@ export abstract class BaseService<TEntity, TCreateReturn, TReadReturn, TUpdateRe
         const url = `${this.baseUrl}/${id}`;
         let options = new RequestOptions({ headers: this.headers });
 
+        let json = JSON.stringify(item);
+        Object.keys(item).filter(key => key[0] === "_").forEach(key => {
+            json = json.replace(key, key.substring(1));
+        });
+
         return this.http
-            .put(url, JSON.stringify(item), options)
+            .put(url, json, options)
             .toPromise()
             .then(response => response.json() as TUpdateReturn)
             .catch(this.handleError);

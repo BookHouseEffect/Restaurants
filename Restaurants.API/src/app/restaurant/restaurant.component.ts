@@ -5,7 +5,7 @@ import { Restaurant } from './../common/model';
 import { RestaurantService } from "./restaurant.service";
 import { Subscription } from "rxjs/Subscription";
 
-import { BaseComponent } from './../common/base.component';
+import { PageComponent } from './../common/page.component';
 import { ModalDialogComponent } from "../common/modal-dialog.component";
 
 @Component({
@@ -13,7 +13,7 @@ import { ModalDialogComponent } from "../common/modal-dialog.component";
     templateUrl: './restaurant.component.html'
 })
 
-export class RestaurantComponent extends BaseComponent implements OnInit, OnDestroy {
+export class RestaurantComponent extends PageComponent implements OnInit, OnDestroy {
         
     constructor(
         private restaurantService: RestaurantService,

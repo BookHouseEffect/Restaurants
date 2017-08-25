@@ -25,6 +25,10 @@ import { PhoneService } from './phone/phone.service';
 import { AddressComponent } from './address/address.component';
 import { AddressService } from './address/address.service';
 
+import { ScheduleComponent } from './schedule/schedule.component';
+import { ScheduleEditorComponent, IteratorNumberPipe, DayStringPipe } from './schedule/schedule-editor.component';
+import { ScheduleService } from './schedule/schedule.service';
+
 import { SearchService } from './common/search.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -50,7 +54,12 @@ import { PopoverModule } from "ngx-popover";
         PhoneComponent,
         PhoneEditorComponent,
 
-        AddressComponent
+        AddressComponent,
+
+        ScheduleComponent,
+        ScheduleEditorComponent,
+        IteratorNumberPipe,
+        DayStringPipe
     ],
     imports: [
         BrowserModule,
@@ -69,7 +78,8 @@ import { PopoverModule } from "ngx-popover";
         RestaurantService,
         OwnerService,
         PhoneService,
-        AddressService
+        AddressService,
+        ScheduleService
     ],
     bootstrap: [AppComponent]
 })

@@ -1,14 +1,14 @@
-﻿import { Component, OnInit, Input, Output, EventEmitter, Injector } from '@angular/core';
+﻿import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Restaurant, Phone } from './../common/model';
 import { PhoneService } from './phone.service';
-import { BaseComponent } from "../common/base.component";
+import { ErrorComponent } from "../common/error.component";
 
 @Component({
     selector: 'phone-editor',
     templateUrl: './phone-editor.component.html'
 })
-export class PhoneEditorComponent extends BaseComponent implements OnInit {
+export class PhoneEditorComponent extends ErrorComponent implements OnInit {
 
     @Input() isNew: boolean;
     @Input() restaurant: Restaurant;
@@ -17,9 +17,8 @@ export class PhoneEditorComponent extends BaseComponent implements OnInit {
 
     constructor(
         private service: PhoneService,
-        injector: Injector
     ) {
-        super("", injector);
+        super();
     }
 
     ngOnInit(): void {

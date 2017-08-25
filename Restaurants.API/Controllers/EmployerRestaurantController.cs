@@ -48,7 +48,7 @@ namespace Restaurants.API.Controllers
 				People currentUser = this.GetCurrentUser();
 				result = Service.AddCoowner(
 					currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId ?? 0, model.EmployerId ?? 0);
+					model.RestaurantId, model.EmployerId);
 			}
 			catch (Exception ex)
 			{
@@ -70,7 +70,7 @@ namespace Restaurants.API.Controllers
 				People currentUser = this.GetCurrentUser();
 				result = Service.TransferOwnership(
 					currentUser.ThePersonAsEmployer.Id,
-					id, model.EmployerId ?? 0);
+					id, model.EmployerId);
 			}
 			catch (Exception ex)
 			{

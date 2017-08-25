@@ -15,7 +15,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { SearchService } from './../common/search.service';
 import { OwnerService } from './owner.service';
 import { Restaurant, Employers, EmployersRestaurants } from "./../common/model";
-import { BaseComponent } from './../common/base.component';
+import { PageComponent } from './../common/page.component';
 
 @Component({
     selector: 'owner-search',
@@ -23,7 +23,7 @@ import { BaseComponent } from './../common/base.component';
     styleUrls: ['./owner-search.component.css']
 })
 
-export class OwnerSearchComponent extends BaseComponent implements OnInit {
+export class OwnerSearchComponent extends PageComponent implements OnInit {
 
     @Input() restaurant: Restaurant;
     @Input() isTransfer: Boolean = false;
@@ -47,7 +47,7 @@ export class OwnerSearchComponent extends BaseComponent implements OnInit {
 
     initSearch() {
         this.employers = this.searchTerms
-            .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+            .debounceTime(200)        // wait 300ms after each keystroke before considering the term
             .distinctUntilChanged()   // ignore if next search term is same as previous
             .switchMap(term => term   // switch to new observable each time the term changes
                 // return the http search observable

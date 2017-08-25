@@ -1,0 +1,39 @@
+﻿<alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+<alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+<div class="panel panel-info">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">Worktime schedule</h3>
+
+    <div class="btn-group pull-right">
+      <modal-dialog [buttonTitle]="'Add New Schedule'" [title]="'Add New Schedule'"
+                    (notify)="newClicked()">
+        <schedule-editor [isNew]="!hasEditing"
+                         [restaurant]="restaurant"
+                         [currentSchedule]="editingItem"
+                         (notify)="(!hasEditing && onResultReturn($event)) || (hasEditing && onEdit($event))">
+        </schedule-editor>
+      </modal-dialog>
+    </div>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="well-sm">
+      <div *ngIf="!scheduleList || scheduleList.length === 0">
+        <h3 class="text text-info">No results available.</h3>
+      </div>
+
+      <table-view [columnNames]="['Start Day', 'Start Time', 'End Day', 'End Time']"
+                  [properties]="['startDayName', '_startTime', 'endDayName', '_endTime']"
+                  [hasInfo]="true"
+                  [hasEdit]="true"
+                  [hasRemove]="true"
+                  [data]="scheduleList"
+                  [hasPaging]="false"
+                  (editClick)="editClicked($event)"
+                  (removeClick)="remove($event)">
+      </table-view>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, Injector, Input } from '@angular/core';
 
-import { BaseComponent } from './../common/base.component'; 
+import { PageComponent } from './../common/page.component'; 
 import { OwnerService } from './owner.service';
 import { Restaurant, Employers, EmployersRestaurants } from "../common/model";
 
@@ -9,7 +9,7 @@ import { Restaurant, Employers, EmployersRestaurants } from "../common/model";
     templateUrl: './owner.component.html'
 })
 
-export class OwnerComponent extends BaseComponent implements OnInit {
+export class OwnerComponent extends PageComponent implements OnInit {
 
     constructor(
         private ownerService: OwnerService,

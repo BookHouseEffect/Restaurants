@@ -13,6 +13,7 @@ export class TableViewComponent implements OnInit {
     @Input() hasInfo: Boolean = true;
     @Input() hasEdit: Boolean = false;
     @Input() hasRemove: Boolean = false;
+    @Input() hasPaging: Boolean = true;
     @Input() data: Array<any> = new Array<any>(0);;
 
     @Input() pageNumber: number = 1;

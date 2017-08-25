@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Restaurants.API.Models.Api
 {
@@ -18,20 +19,20 @@ namespace Restaurants.API.Models.Api
 	public class CoownerModel
 	{
 		[Required]
-		public long? EmployerId { get; set; }
+		public Int64 EmployerId { get; set; }
 	}
 
 	public class RestaurantCoownerModel : CoownerModel
 	{
 		[Required]
-		public long? RestaurantId { get; set; }
+		public Int64 RestaurantId { get; set; }
 
 	}
 
 	public class PhoneModel {
 
 		[Required]
-		public long? RestaurantId { get; set; }
+		public Int64 RestaurantId { get; set; }
 
 		[Required(AllowEmptyStrings = false, ErrorMessage ="Phone number can't be empty string.")]
 		[DataType(DataType.PhoneNumber, ErrorMessage ="It must be phone number format.")]
@@ -44,13 +45,13 @@ namespace Restaurants.API.Models.Api
 
 	public class LocationModel {
 
-		[Required] public long? RestaurantId { get; set; }
-		[Required] public int? Floor { get; set; }
+		[Required] public Int64 RestaurantId { get; set; }
+		[Required] public Int32 Floor { get; set; }
 		[Required] public string StreetNumber { get; set; }
 		[Required] public string Route { get; set; }
 		[Required] public string Locality { get; set; }
 		[Required] public string Country { get; set; }
-		[Required] public int? ZipCode { get; set; }
+		[Required] public Int32 ZipCode { get; set; }
 		[Required] public Coordinates TheLocationPoint { get; set; }
 
 		public string AdministrativeAreaLevel2 { get; set; }
@@ -62,11 +63,11 @@ namespace Restaurants.API.Models.Api
 
 		[Required]
 		[Range(minimum: -90.0, maximum: 90.0)]
-		public float? Latitude { get; set; }
+		public Single Latitude { get; set; }
 
 		[Required]
 		[Range(minimum: -180.0, maximum: 180.0)]
-		public float? Longitude { get; set; }
+		public Single Longitude { get; set; }
 	}
 
 }

@@ -82,8 +82,9 @@ namespace Restaurants.API.Services.Implementation
 		public bool RemoveContactAddress(long ownerId, long restaurantId, long contactId)
 		{
 			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+
 			LocationContact loc = CheckLocationExistence(contactId);
-			LocationPoints point = PointRepo.FindById(loc.LocationPointId);
+			LocationPoints point = CheckLocationPointExistence(loc.LocationPointId);
 
 			CheckTheLoggedInPerson();
 			PointRepo.Remove(point);
@@ -95,6 +96,7 @@ namespace Restaurants.API.Services.Implementation
 		public bool RemoveContactNumber(long ownerId, long restaurantId, long contactId)
 		{
 			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+
 			PhoneContacts phone = CheckPhoneExistence(contactId);
 
 			CheckTheLoggedInPerson();
@@ -106,12 +108,14 @@ namespace Restaurants.API.Services.Implementation
 		public LocationContact UpdateContactAddress(long ownerId, long restaurantId, long contactId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
 		{
 			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+
 			LocationContact contact = CheckLocationExistence(contactId);
 
-			CheckTheLoggedInPerson();
-			LocationPoints point = PointRepo.FindById(contact.LocationPointId);
+			LocationPoints point = CheckLocationPointExistence(contact.LocationPointId);
 			point.Latitude = latitude;
 			point.Longitude = longitude;
+
+			CheckTheLoggedInPerson();
 			PointRepo.Update(point, ModifierId);
 
 			contact.FillOrUpdateFields(floor, steetNumber, route, locality, country, zipCode, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
@@ -159,6 +163,13 @@ namespace Restaurants.API.Services.Implementation
 				throw new Exception(String.Format("There is no location record with id {0}", contactId));
 
 			return location;
+		}
+
+		private LocationPoints CheckLocationPointExistence(long locationPointid){
+			LocationPoints point = PointRepo.FindById(locationPointid);
+			if (point == null)
+				throw new Exception(String.Format("There is no location point record with id {0}", locationPointid));
+			return point;
 		}
 	}
 }

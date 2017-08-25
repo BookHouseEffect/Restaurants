@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { Restaurant } from './../common/model';
 import { RestaurantService } from "./restaurant.service";
-import { BaseComponent } from "../common/base.component";
+import { PageComponent } from "../common/page.component";
 
 
 @Component({
@@ -11,7 +11,7 @@ import { BaseComponent } from "../common/base.component";
     templateUrl: './restaurant-editor.component.html'
 })
 
-export class RestaurantEditorComponent extends BaseComponent implements OnInit {
+export class RestaurantEditorComponent extends PageComponent implements OnInit {
 
     @Input() isNew: boolean;
     @Input() restaurant: Restaurant;
