@@ -34,10 +34,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private Languages _Language;
 
-		[JsonIgnore]
 		[ForeignKey("LanguageId")]
         public virtual Languages TheLanguage
         {

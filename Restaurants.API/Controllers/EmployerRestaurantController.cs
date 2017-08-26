@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Restaurants.API.Models.EntityFramework;
 using System.Net;
 using Restaurants.API.Models.Api;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Controllers
 {
@@ -21,12 +22,12 @@ namespace Restaurants.API.Controllers
 
 		[HttpGet("")]
 		[AllowAnonymous]
-		public IActionResult GetOwnersByRestaurant(long restaurantId, int pageNumber = 1, int pageSize = 10)
+		public async Task<IActionResult> GetOwnersByRestaurantAsync(long restaurantId, int pageNumber = 1, int pageSize = 10)
 		{
 			List<EmployersRestaurants> result;
 			try
 			{
-				result = Service.GetRestaurantOwners(restaurantId, pageNumber, pageSize);
+				result = await Service.GetRestaurantOwnersAsync(restaurantId, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{
@@ -37,7 +38,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPost("")]
-		public IActionResult AddCoowner([FromBody] RestaurantCoownerModel model)
+		public async Task<IActionResult> AddCoownerAsync([FromBody] RestaurantCoownerModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -46,7 +47,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Service.AddCoowner(
+				result = await Service.AddCoownerAsync(
 					currentUser.ThePersonAsEmployer.Id,
 					model.RestaurantId, model.EmployerId);
 			}
@@ -59,7 +60,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult TranserOwnership(int id, [FromBody] CoownerModel model)
+		public async Task<IActionResult> TranserOwnershipAsync(int id, [FromBody] CoownerModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -68,7 +69,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Service.TransferOwnership(
+				result = await Service.TransferOwnershipAsync(
 					currentUser.ThePersonAsEmployer.Id,
 					id, model.EmployerId);
 			}
@@ -81,13 +82,13 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult RemoveCoowner(int id /*restaurantId*/, int coownerId)
+		public async Task<IActionResult> RemoveCoownerAsync(int id /*restaurantId*/, int coownerId)
 		{
 			bool result;
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Service.RemoveCoowner(
+				result = await Service.RemoveCoownerAsync(
 					currentUser.ThePersonAsEmployer.Id, id, coownerId);
 			}
 			catch (Exception ex)

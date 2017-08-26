@@ -69,6 +69,11 @@ namespace Restaurants.API.Models.Context
 				.WithOne(x => x.TheRestaurantOwningTheSchedule)
 				.HasForeignKey<LocationContact>(x => x.RestaurantId);
 
+			modelBuilder.Entity<RestaurantObjects>()
+				.HasOne(x => x.TheRestaurantMenu)
+				.WithOne(x => x.TheRestaurantOwningTheMenu)
+				.HasForeignKey<Menus>(x => x.RestaurantId);
+
             modelBuilder.Entity<MenuCurrencies>()
                 .HasIndex(x => new { x.MenuId, x.CurrencyId })
                 .IsUnique();

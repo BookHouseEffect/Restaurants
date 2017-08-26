@@ -3,6 +3,7 @@ using System.Linq;
 using Restaurants.API.Models.EntityFramework;
 using Restaurants.API.Models.Context;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence.Implementation
 {
@@ -10,7 +11,7 @@ namespace Restaurants.API.Persistence.Implementation
 	{
 		public PhoneRepository(AppDbContext dbContext) : base(dbContext) { }
 
-		internal List<PhoneContacts> GetPhoneNumbersByRestaurantPaged(long restaurantId, int pageNumber, int pageSize)
+		internal Task<List<PhoneContacts>> GetPhoneNumbersByRestaurantPaged(long restaurantId, int pageNumber, int pageSize)
 		{
 			return this.DbSet
 				.Where(x => x.RestaurantId == restaurantId)
@@ -18,7 +19,7 @@ namespace Restaurants.API.Persistence.Implementation
 				.Include(x => x.ModifiedBy)
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
-				.ToList();
+				.ToListAsync();
 		}
 	}
 }

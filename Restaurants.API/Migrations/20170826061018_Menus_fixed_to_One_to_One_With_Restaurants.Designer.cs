@@ -8,9 +8,10 @@ using Restaurants.API.Models.Context;
 namespace Restaurants.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170826061018_Menus_fixed_to_One_to_One_With_Restaurants")]
+    partial class Menus_fixed_to_One_to_One_With_Restaurants
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

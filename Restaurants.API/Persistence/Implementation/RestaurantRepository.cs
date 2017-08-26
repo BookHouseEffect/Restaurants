@@ -3,6 +3,7 @@ using Restaurants.API.Models.Context;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence.Implementation
 {
@@ -10,7 +11,7 @@ namespace Restaurants.API.Persistence.Implementation
 	{
 		public RestaurantRepository(AppDbContext dbContext) : base(dbContext) { }
 
-		public List<RestaurantObjects> GetRestaurantsByOwnerIdPaged(long ownerId, int pageNumber, int pageSize)
+		public Task<List<RestaurantObjects>> GetRestaurantsByOwnerIdPaged(long ownerId, int pageNumber, int pageSize)
 		{
 			return this.DbSet
 			.Where(x => x.TheRestaurantEmployers.Any(y => y.EmployerId == ownerId))
@@ -18,7 +19,7 @@ namespace Restaurants.API.Persistence.Implementation
 			.Include(x => x.ModifiedBy)
 			.Skip((pageNumber - 1) * pageSize)
 			.Take(pageSize)
-			.ToList();
+			.ToListAsync();
 		}
 
 	}

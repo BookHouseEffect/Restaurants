@@ -3,6 +3,7 @@ using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence.Implementation
 {
@@ -10,23 +11,23 @@ namespace Restaurants.API.Persistence.Implementation
 	{
 		public EmployersRestaurantsRepository(AppDbContext dbContext) : base(dbContext) { }
 
-		public EmployersRestaurants GetByRestaurantIdAndEmployerId(long restaurantId, long employerId)
+		public Task<EmployersRestaurants> GetByRestaurantIdAndEmployerId(long restaurantId, long employerId)
 		{
 			return this.DbSet
 				.Where(x => x.RestaurantId == restaurantId && x.EmployerId == employerId)
 				.Include(x => x.TheRestaurant)
 				.Include(x => x.TheEmployer)
-				.SingleOrDefault();
+				.SingleOrDefaultAsync();
 		}
 
-		public List<EmployersRestaurants> GetByRestaurantId(long restaurantId)
+		public Task<List<EmployersRestaurants>> GetByRestaurantId(long restaurantId)
 		{
 			return this.DbSet
 				.Where(x => x.RestaurantId == restaurantId)
-				.ToList();
+				.ToListAsync();
 		}
 
-		public List<EmployersRestaurants> GetOwnersByRestaurantIdPaged(long restaurantId, int pageNumber, int pageSize)
+		public Task<List<EmployersRestaurants>> GetOwnersByRestaurantIdPaged(long restaurantId, int pageNumber, int pageSize)
 		{
 			return this.DbSet
 				.Where(x => x.RestaurantId == restaurantId)
@@ -36,14 +37,14 @@ namespace Restaurants.API.Persistence.Implementation
 				.ThenInclude(x => x.TheEmployerDetails)
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
-				.ToList();
+				.ToListAsync();
 		}
 
-		public long GetNumbetOfEmployers(long restaurantId)
+		public Task<long> GetNumbetOfEmployers(long restaurantId)
 		{
 			return this.DbSet
 				.Where(x => x.RestaurantId == restaurantId)
-				.LongCount();
+				.LongCountAsync();
 		}
 	}
 

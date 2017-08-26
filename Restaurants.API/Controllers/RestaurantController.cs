@@ -5,6 +5,7 @@ using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Restaurants.API.Models.EntityFramework;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Controllers
 {
@@ -14,12 +15,12 @@ namespace Restaurants.API.Controllers
 
 		[HttpGet("")]
 		[AllowAnonymous]
-		public IActionResult GetRestaurantsByOwner(long ownerId, int pageNumber = 1, int pageSize = 10)
+		public async Task<IActionResult> GetRestaurantsByOwnerAsync(long ownerId, int pageNumber = 1, int pageSize = 10)
 		{
 			List<RestaurantObjects> result;
 			try
 			{
-				result = Services.GetOwnerRestaurants(ownerId, pageNumber, pageSize);
+				result = await Services.GetOwnerRestaurantsAsync(ownerId, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{
@@ -27,16 +28,16 @@ namespace Restaurants.API.Controllers
 			}
 
 			return Ok(result);
-		}		
+		}
 
 		[HttpGet("{id}")]
 		[AllowAnonymous]
-		public IActionResult Get(long id)
+		public async Task<IActionResult> GetAsync(long id)
 		{
 			RestaurantObjects result;
 			try
 			{
-				result = Services.GetRestaurant(id);
+				result = await Services.GetRestaurantAsync(id);
 			}
 			catch (Exception ex)
 			{
@@ -47,7 +48,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPost("")]
-		public IActionResult AddRestaurant([FromBody] RestaurantsModel model)
+		public async Task<IActionResult> AddRestaurantAsync([FromBody] RestaurantsModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -56,7 +57,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Services.AddNewRestaurant(
+				result = await Services.AddNewRestaurantAsync(
 					currentUser.ThePersonAsEmployer.Id,
 					model.Name, model.Description);
 			}
@@ -69,7 +70,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateRestaurant(int id, [FromBody] RestaurantsModel model)
+		public async Task<IActionResult> UpdateRestaurantAsync(int id, [FromBody] RestaurantsModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -78,7 +79,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Services.UpdateRestaurant(
+				result = await Services.UpdateRestaurantAsync(
 					currentUser.ThePersonAsEmployer.Id,
 					id, model.Name, model.Description);
 			}
@@ -91,13 +92,13 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult CloseRestaurant(int id)
+		public async Task<IActionResult> CloseRestaurantAsync(int id)
 		{
 			bool result;
 			try
 			{
 				People currentUser = this.GetCurrentUser();
-				result = Services.CloseRestaurant(currentUser.ThePersonAsEmployer.Id, id);
+				result = await Services.CloseRestaurantAsync(currentUser.ThePersonAsEmployer.Id, id);
 			}
 			catch (Exception ex)
 			{

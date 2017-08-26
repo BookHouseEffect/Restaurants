@@ -29,13 +29,14 @@ namespace Restaurants.API.Models.Api
 
 	}
 
-	public class PhoneModel {
+	public class PhoneModel
+	{
 
 		[Required]
 		public Int64 RestaurantId { get; set; }
 
-		[Required(AllowEmptyStrings = false, ErrorMessage ="Phone number can't be empty string.")]
-		[DataType(DataType.PhoneNumber, ErrorMessage ="It must be phone number format.")]
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Phone number can't be empty string.")]
+		[DataType(DataType.PhoneNumber, ErrorMessage = "It must be phone number format.")]
 		[Phone]
 		public string PhoneNumber { get; set; }
 
@@ -43,7 +44,8 @@ namespace Restaurants.API.Models.Api
 		public string PhoneDescription { get; set; }
 	}
 
-	public class LocationModel {
+	public class LocationModel
+	{
 
 		[Required] public Int64 RestaurantId { get; set; }
 		[Required] public Int32 Floor { get; set; }
@@ -59,7 +61,8 @@ namespace Restaurants.API.Models.Api
 		public string GoogleLink { get; set; }
 	}
 
-	public class Coordinates {
+	public class Coordinates
+	{
 
 		[Required]
 		[Range(minimum: -90.0, maximum: 90.0)]
@@ -68,6 +71,16 @@ namespace Restaurants.API.Models.Api
 		[Required]
 		[Range(minimum: -180.0, maximum: 180.0)]
 		public Single Longitude { get; set; }
+	}
+
+	public class LanguageModel
+	{
+
+		[Required]
+		public Int64 RestaurantId { get; set; }
+
+		[Required]
+		public Int64 LanguageId { get; set; }
 	}
 
 }

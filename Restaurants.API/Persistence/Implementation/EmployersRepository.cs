@@ -3,6 +3,7 @@ using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence.Implementation
 {
@@ -10,7 +11,7 @@ namespace Restaurants.API.Persistence.Implementation
 	{
 		public EmployersRepository(AppDbContext dbContext) : base(dbContext) { }
 
-		public List<Employers> GetEmployersNotOwnersToCurrentRestaurant(string filter, long restaurantId, int pageNumber, int pageSize)
+		public Task<List<Employers>> GetEmployersNotOwnersToCurrentRestaurant(string filter, long restaurantId, int pageNumber, int pageSize)
 		{
 			string[] filterWords = filter.Split(' ');
 			return _dbContext
@@ -26,7 +27,7 @@ namespace Restaurants.API.Persistence.Implementation
 				).Include(x => x.TheEmployerDetails)
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
-				.ToList();
+				.ToListAsync();
 		}
 	}
 }

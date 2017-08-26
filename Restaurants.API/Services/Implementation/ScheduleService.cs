@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services.Implementation
 {
@@ -23,10 +24,10 @@ namespace Restaurants.API.Services.Implementation
 			this.OutOfScheduleRepo = new OutOfScheduleRepository(dbContext);
 		}
 
-		public OutOfSchedulePeriods AddOutOfScheduleInterval(long employerId, long restaurantId, long openScheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
+		public async Task<OutOfSchedulePeriods> AddOutOfScheduleIntervalAsync(long employerId, long restaurantId, long openScheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(employerId, restaurantId);
-			OpenHoursSchedule work = CheckScheduleExistance(openScheduleId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(employerId, restaurantId);
+			OpenHoursSchedule work = await CheckScheduleExistanceAsync(openScheduleId);
 			if (restaurantId != work.RestaurantId)
 				throw new Exception("Operation not permitted. Cannot add schedule for other restaurants.");
 
@@ -49,9 +50,10 @@ namespace Restaurants.API.Services.Implementation
 				OpenHoursScheduleId = openScheduleId
 			};
 
-			List<OutOfSchedulePeriods> existingSchedules = OutOfScheduleRepo.GetAllInPeriod(openScheduleId, real, endsOn);
+			List<OutOfSchedulePeriods> existingSchedules = await OutOfScheduleRepo.GetAllInPeriod(openScheduleId, real, endsOn);
 
-			if (existingSchedules.Count == 0){
+			if (existingSchedules.Count == 0)
+			{
 				OutOfScheduleRepo.Add(outSchedule, this.ModifierId);
 				return outSchedule;
 			}
@@ -59,9 +61,9 @@ namespace Restaurants.API.Services.Implementation
 			throw new Exception("There are overlapping periods");
 		}
 
-		public OpenHoursSchedule AddWorkingInterval(long employerId, long restaurantId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
+		public async Task<OpenHoursSchedule> AddWorkingIntervalAsync(long employerId, long restaurantId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(employerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(employerId, restaurantId);
 			CheckTheLoggedInPerson();
 
 			OpenHoursSchedule schedule = new OpenHoursSchedule
@@ -73,7 +75,7 @@ namespace Restaurants.API.Services.Implementation
 				RestaurantId = restaurantId,
 			};
 
-			List<OpenHoursSchedule> currentSchedules = ScheduleRepo.FindByRestaurantId(restaurantId);
+			List<OpenHoursSchedule> currentSchedules = await ScheduleRepo.FindByRestaurantId(restaurantId);
 
 			List<OpenHoursSchedule> overlappingShedules = GetOverlappedSchedule(schedule, currentSchedules);
 
@@ -94,55 +96,55 @@ namespace Restaurants.API.Services.Implementation
 			return newSchedule;
 		}
 
-		public OpenHoursSchedule GetWorkTimeById(long id)
+		public async Task<OpenHoursSchedule> GetWorkTimeByIdAsync(long id)
 		{
-			return CheckScheduleExistance(id);
+			return await CheckScheduleExistanceAsync(id);
 		}
 
-		public List<OutOfSchedulePeriods> GetAllOutOfScheduleIntervals(long restaurantId, int pageNumber, int pageSize)
+		public async Task<List<OutOfSchedulePeriods>> GetAllOutOfScheduleIntervalsAsync(long restaurantId, int pageNumber, int pageSize)
 		{
-			return OutOfScheduleRepo.GetAllInPeriod(restaurantId, pageNumber, pageSize);
+			return await OutOfScheduleRepo.GetAllInPeriod(restaurantId, pageNumber, pageSize);
 		}
 
-		public List<OpenHoursSchedule> GetAllWorkingIntervals(long restaurantId)
+		public async Task<List<OpenHoursSchedule>> GetAllWorkingIntervalsAsync(long restaurantId)
 		{
-			return ScheduleRepo.FindByRestaurantId(restaurantId);
+			return await ScheduleRepo.FindByRestaurantId(restaurantId);
 		}
 
-		public bool RemoveOutOfScheduleInterval(long employerId, long restaurantId, long scheduleId)
+		public async Task<bool> RemoveOutOfScheduleIntervalAsync(long employerId, long restaurantId, long scheduleId)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(employerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(employerId, restaurantId);
 			CheckTheLoggedInPerson();
 
-			OutOfSchedulePeriods current = CheckOutPeriodExistance(scheduleId);
+			OutOfSchedulePeriods current = await CheckOutPeriodExistanceAsync(scheduleId);
 
 			OutOfScheduleRepo.Remove(current);
 			return true;
 		}
 
-		public bool RemoveWorkingInterval(long employerId, long restaurantId, long scheduleId)
+		public async Task<bool> RemoveWorkingIntervalAsync(long employerId, long restaurantId, long scheduleId)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(employerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(employerId, restaurantId);
 			CheckTheLoggedInPerson();
 
-			OpenHoursSchedule current = CheckScheduleExistance(scheduleId);
+			OpenHoursSchedule current = await CheckScheduleExistanceAsync(scheduleId);
 
 			ScheduleRepo.Remove(current);
 			return true;
 		}
 
-		public OutOfSchedulePeriods UpdateOutOfScheduleIntervals(long employerId, long restaurantId, long scheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
+		public Task<OutOfSchedulePeriods> UpdateOutOfScheduleIntervalsAsync(long employerId, long restaurantId, long scheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
 		{
 			//TODO: UpdateOutOfScheduleIntervals
 			throw new NotImplementedException();
 		}
 
-		public OpenHoursSchedule UpdateWokingInterval(long employerId, long restaurantId, long scheduleId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
+		public async Task<OpenHoursSchedule> UpdateWokingIntervalAsync(long employerId, long restaurantId, long scheduleId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(employerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(employerId, restaurantId);
 			CheckTheLoggedInPerson();
 
-			List<OpenHoursSchedule> currentSchedules = ScheduleRepo.FindByRestaurantId(restaurantId);
+			List<OpenHoursSchedule> currentSchedules = await ScheduleRepo.FindByRestaurantId(restaurantId);
 			OpenHoursSchedule existing = currentSchedules.Where(x => x.Id == scheduleId).Single();
 
 			existing.StartDay = startDay;
@@ -252,21 +254,22 @@ namespace Restaurants.API.Services.Implementation
 			return solvedSchedule;
 		}
 
-		private OpenHoursSchedule CheckScheduleExistance(long scheduleId){
-			OpenHoursSchedule schedule = ScheduleRepo.FindById(scheduleId);
-			if (schedule == null)
-				throw new Exception(String.Format("There is no schedule record with id {0}", scheduleId));
-			return schedule;
-		}
-
-		private OutOfSchedulePeriods CheckOutPeriodExistance(long scheduleId)
+		private async Task<OpenHoursSchedule> CheckScheduleExistanceAsync(long scheduleId)
 		{
-			OutOfSchedulePeriods schedule = OutOfScheduleRepo.FindById(scheduleId);
+			OpenHoursSchedule schedule = await ScheduleRepo.FindById(scheduleId);
 			if (schedule == null)
 				throw new Exception(String.Format("There is no schedule record with id {0}", scheduleId));
 			return schedule;
 		}
 
-		
+		private async Task<OutOfSchedulePeriods> CheckOutPeriodExistanceAsync(long scheduleId)
+		{
+			OutOfSchedulePeriods schedule = await OutOfScheduleRepo.FindById(scheduleId);
+			if (schedule == null)
+				throw new Exception(String.Format("There is no schedule record with id {0}", scheduleId));
+			return schedule;
+		}
+
+
 	}
 }

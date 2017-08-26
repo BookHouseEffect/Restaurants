@@ -1,12 +1,13 @@
 ﻿using Restaurants.API.Models.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services.Helpers
 {
 	interface IScheduleService
     {
-		OpenHoursSchedule AddWorkingInterval(
+		Task<OpenHoursSchedule> AddWorkingIntervalAsync(
 			long employerId,
 			long restaurantId,
 			DayOfWeek startDay,
@@ -15,7 +16,7 @@ namespace Restaurants.API.Services.Helpers
 			TimeSpan endTime
 		);
 
-		OpenHoursSchedule UpdateWokingInterval(
+		Task<OpenHoursSchedule> UpdateWokingIntervalAsync(
 			long employerId,
 			long restaurantId,
 			long scheduleId,
@@ -25,21 +26,21 @@ namespace Restaurants.API.Services.Helpers
 			TimeSpan endTime
 		);
 
-		OpenHoursSchedule GetWorkTimeById(
+		Task<OpenHoursSchedule> GetWorkTimeByIdAsync(
 			long id
 		);
 
-		List<OpenHoursSchedule> GetAllWorkingIntervals(
+		Task<List<OpenHoursSchedule>> GetAllWorkingIntervalsAsync(
 			long restaurantId
 		);
 
-		bool RemoveWorkingInterval(
+		Task<bool> RemoveWorkingIntervalAsync(
 			long employerId,
 			long restaurantId,
 			long scheduleId
 		);
 
-		OutOfSchedulePeriods AddOutOfScheduleInterval(
+		Task<OutOfSchedulePeriods> AddOutOfScheduleIntervalAsync(
 			long employerId,
 			long restaurantId,
 			long openScheduleId,
@@ -48,13 +49,13 @@ namespace Restaurants.API.Services.Helpers
 			string description
 		);
 
-		List<OutOfSchedulePeriods> GetAllOutOfScheduleIntervals(
+		Task<List<OutOfSchedulePeriods>> GetAllOutOfScheduleIntervalsAsync(
 			long restaurantId,
 			int pageNumber,
 			int pageSize
 		);
 
-		OutOfSchedulePeriods UpdateOutOfScheduleIntervals(
+		Task<OutOfSchedulePeriods> UpdateOutOfScheduleIntervalsAsync(
 			long employerId,
 			long restaurantId,
 			long scheduleId,
@@ -63,7 +64,7 @@ namespace Restaurants.API.Services.Helpers
 			string description
 		);
 
-		bool RemoveOutOfScheduleInterval(
+		Task<bool> RemoveOutOfScheduleIntervalAsync(
 		   long employerId,
 			long restaurantId,
 			long scheduleId

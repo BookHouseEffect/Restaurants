@@ -1,29 +1,30 @@
 ﻿using System.Runtime.InteropServices;
 using Restaurants.API.Models.EntityFramework;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services.Helpers
 {
 	interface IContactSerivce
 	{
-		PhoneContacts AddContactNumber(
+		Task<PhoneContacts> AddContactNumberAsync(
 			long ownerId,
 			long restaurantId,
 			string phoneNumber,
 			string phoneDescription
 		);
 
-		PhoneContacts GetPhoneContact(
+		Task<PhoneContacts> GetPhoneContactAsync(
 			long contactId
 		);
 
-		List<PhoneContacts> GetAllContactNumbers(
+		Task<List<PhoneContacts>> GetAllContactNumbersAsync(
 			long restaurantId,
 			int pageNumber,
 			int pageSize
 		);
 
-		PhoneContacts UpdateContactNumber(
+		Task<PhoneContacts> UpdateContactNumberAsync(
 			long ownerId,
 			long restaurantId,
 			long contactId,
@@ -31,13 +32,13 @@ namespace Restaurants.API.Services.Helpers
 			string phoneDescription
 		);
 
-		bool RemoveContactNumber(
+		Task<bool> RemoveContactNumberAsync(
 			long ownerId,
 			long restaurantId,
 			long contactId
 		);
 
-		LocationContact AddContactAddress(
+		Task<LocationContact> AddContactAddressAsync(
 			long ownerId,
 			long restaurantId,
 			int floor,
@@ -53,15 +54,15 @@ namespace Restaurants.API.Services.Helpers
 			[Optional] string googleLink
 		);
 
-		LocationContact GetLocationContact(
+		Task<LocationContact> GetLocationContactAsync(
 			long contactId
 		);
 
-		LocationContact GetContactAddressByRestaurantId(
+		Task<LocationContact> GetContactAddressByRestaurantIdAsync(
 			long restaurantId
 		);
 
-		LocationContact UpdateContactAddress(
+		Task<LocationContact> UpdateContactAddressAsync(
 			long ownerId,
 			long restaurantId,
 			long contactId,
@@ -78,7 +79,7 @@ namespace Restaurants.API.Services.Helpers
 			[Optional] string googleLink
 		);
 
-		bool RemoveContactAddress(
+		Task<bool> RemoveContactAddressAsync(
 			long ownerId,
 			long restaurantId,
 			long contactId

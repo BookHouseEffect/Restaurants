@@ -3,6 +3,7 @@ using System.Linq;
 using Restaurants.API.Models.EntityFramework;
 using Restaurants.API.Models.Context;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence.Implementation
 {
@@ -10,13 +11,13 @@ namespace Restaurants.API.Persistence.Implementation
 	{
 		public ScheduleRepository(AppDbContext dbContext) : base(dbContext) { }
 
-		internal List<OpenHoursSchedule> FindByRestaurantId(long restaurantId)
+		internal Task<List<OpenHoursSchedule>> FindByRestaurantId(long restaurantId)
 		{
 			return this.DbSet
 				.Where(x => x.RestaurantId == restaurantId)
 				.Include(x=>x.CreatedBy)
 				.Include(x=>x.ModifiedBy)
-				.ToList();
+				.ToListAsync();
 		}
 	}
 }

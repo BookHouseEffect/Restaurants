@@ -1,6 +1,7 @@
 ﻿using Restaurants.API.Models.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence
 {
@@ -11,13 +12,13 @@ namespace Restaurants.API.Persistence
 			long modifierId
         );
 
-        T FindById(
+        Task<T> FindById(
             long id
         );
 
-        IEnumerable<T> GetAll();
+        Task<List<T>> GetAll();
 
-        IEnumerable<T> GetPaged(
+        Task<List<T>> GetPaged(
             int pageNumber,
             int pageSize
         );

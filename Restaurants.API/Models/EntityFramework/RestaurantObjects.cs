@@ -66,10 +66,10 @@ namespace Restaurants.API.Models.EntityFramework
         }
 
         [NonSerialized]
-        private ICollection<Menus> _Menu;
+        private Menus _Menu;
 
 		[JsonIgnore]
-		public virtual ICollection<Menus> TheRestaurantMenu
+		public virtual Menus TheRestaurantMenu
         {
             get
             {

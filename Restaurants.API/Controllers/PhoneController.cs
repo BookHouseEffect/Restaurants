@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using Restaurants.API.Models.Api;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Controllers
 {
@@ -14,12 +15,12 @@ namespace Restaurants.API.Controllers
 	{
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetSingle(long id)
+		public async Task<IActionResult> GetSingleAsync(long id)
 		{
 			PhoneContacts existingContact;
 			try
 			{
-				existingContact = Services.GetPhoneContact(id);
+				existingContact = await Services.GetPhoneContactAsync(id);
 			}
 			catch (Exception ex)
 			{
@@ -31,12 +32,12 @@ namespace Restaurants.API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetAllContacts(long restaurantId, int pageNumber = 1, int pageSize = 10)
+		public async Task<IActionResult> GetAllContactsAsync(long restaurantId, int pageNumber = 1, int pageSize = 10)
 		{
 			List<PhoneContacts> existingContact;
 			try
 			{
-				existingContact = Services.GetAllContactNumbers(restaurantId, pageNumber, pageSize);
+				existingContact = await Services.GetAllContactNumbersAsync(restaurantId, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{
@@ -47,7 +48,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult AddContactNumber([FromBody] PhoneModel model)
+		public async Task<IActionResult> AddContactNumberAsync([FromBody] PhoneModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -56,7 +57,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				newContact = Services.AddContactNumber(currentUser.ThePersonAsEmployer.Id,
+				newContact = await Services.AddContactNumberAsync(currentUser.ThePersonAsEmployer.Id,
 					model.RestaurantId, model.PhoneNumber, model.PhoneDescription);
 
 			}
@@ -69,7 +70,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateContactNumber(long id, [FromBody] PhoneModel model)
+		public async Task<IActionResult> UpdateContactNumberAsync(long id, [FromBody] PhoneModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -78,7 +79,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				updatedContact = Services.UpdateContactNumber(currentUser.ThePersonAsEmployer.Id,
+				updatedContact = await Services.UpdateContactNumberAsync(currentUser.ThePersonAsEmployer.Id,
 					model.RestaurantId, id, model.PhoneNumber, model.PhoneDescription);
 			}
 			catch (Exception ex)
@@ -95,7 +96,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				Services.RemoveContactNumber(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
+				Services.RemoveContactNumberAsync(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
 			}
 			catch (Exception ex)
 			{

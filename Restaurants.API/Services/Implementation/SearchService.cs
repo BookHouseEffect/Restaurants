@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Restaurants.API.Models.EntityFramework;
 using Restaurants.API.Models.Context;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services.Implementation
 {
@@ -10,9 +11,9 @@ namespace Restaurants.API.Services.Implementation
 
 		public SearchService(AppDbContext dbContext) : base(dbContext, null) { }
 
-		public List<Employers> SearchEmployers(string searchPhrase, long restaurantId, int pageNumber, int pageSize)
+		public async Task<List<Employers>> SearchEmployersAsync(string searchPhrase, long restaurantId, int pageNumber, int pageSize)
 		{
-			return EmployersRepo.GetEmployersNotOwnersToCurrentRestaurant(searchPhrase, restaurantId, pageNumber, pageSize);
+			return await EmployersRepo.GetEmployersNotOwnersToCurrentRestaurant(searchPhrase, restaurantId, pageNumber, pageSize);
 		}
 	}
 }

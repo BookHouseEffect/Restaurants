@@ -1,59 +1,60 @@
 ﻿using System.Collections.Generic;
 using Restaurants.API.Models.EntityFramework;
 using System;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services.Helpers
 {
 	interface IRestaurantService
 	{
-		List<RestaurantObjects> GetOwnerRestaurants(
+		Task<List<RestaurantObjects>> GetOwnerRestaurantsAsync(
 			long ownerId,
 			int pageNumber,
 			int pageSize
 		);
 
-		List<EmployersRestaurants> GetRestaurantOwners(
+		Task<List<EmployersRestaurants>> GetRestaurantOwnersAsync(
 			long restaurantId,
 			int pageNumber,
 			int pageSize
 		);
 
-		RestaurantObjects GetRestaurant(
+		Task<RestaurantObjects> GetRestaurantAsync(
 			long id
 		);
 
-		Tuple<RestaurantObjects, EmployersRestaurants> AddNewRestaurant(
+		Task<Tuple<RestaurantObjects, EmployersRestaurants>> AddNewRestaurantAsync(
 			long ownerId,
 			string restaurantName,
 			string restaurantDescription
 		);
 
-		EmployersRestaurants AddCoowner(
+		Task<EmployersRestaurants> AddCoownerAsync(
 			long ownerId,
 			long restaurantId,
 			long coownerId
 		);
 
-		RestaurantObjects UpdateRestaurant(
+		Task<RestaurantObjects> UpdateRestaurantAsync(
 			long ownerId,
 			long restaurantId,
 			string restaurantName,
 			string restaurantDescription
 		);
 
-		bool TransferOwnership(
+		Task<bool> TransferOwnershipAsync(
 			long ownerId,
 			long restaurantId,
 			long newOwnerId
 		);
 
-		bool RemoveCoowner(
+		Task<bool> RemoveCoownerAsync(
 			long ownerId,
 			long restaurantId,
 			long coownerId
 		);
 
-		bool CloseRestaurant(
+		Task<bool> CloseRestaurantAsync(
 			long ownerId,
 			long restaurantId
 		);

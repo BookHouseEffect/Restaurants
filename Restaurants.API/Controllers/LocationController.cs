@@ -4,6 +4,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Controllers
 {
@@ -13,12 +14,12 @@ namespace Restaurants.API.Controllers
     {
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetSingle(long id)
+		public async Task<IActionResult> GetSingleAsync(long id)
 		{
 			LocationContact existingContact;
 			try
 			{
-				existingContact = Services.GetLocationContact(id);
+				existingContact = await Services.GetLocationContactAsync(id);
 			}
 			catch (Exception ex)
 			{
@@ -30,12 +31,12 @@ namespace Restaurants.API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetByRestaurantId(long restaurantId)
+		public async Task<IActionResult> GetByRestaurantIdAsync(long restaurantId)
 		{
 			LocationContact existingContact;
 			try
 			{
-				existingContact = Services.GetContactAddressByRestaurantId(restaurantId);
+				existingContact = await Services.GetContactAddressByRestaurantIdAsync(restaurantId);
 			}
 			catch (Exception ex)
 			{
@@ -46,7 +47,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult AddContactAddress([FromBody]LocationModel model)
+		public async Task<IActionResult> AddContactAddressAsync([FromBody]LocationModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -55,7 +56,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				newContact = Services.AddContactAddress(currentUser.ThePersonAsEmployer.Id,
+				newContact = await Services.AddContactAddressAsync(currentUser.ThePersonAsEmployer.Id,
 					model.RestaurantId, model.Floor, model.StreetNumber, model.Route, model.Locality,
 					model.Country, model.ZipCode, model.TheLocationPoint.Latitude, model.TheLocationPoint.Longitude,
 					model.AdministrativeAreaLevel1, model.AdministrativeAreaLevel2, model.GoogleLink);
@@ -70,7 +71,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateContactAddress(long id, [FromBody] LocationModel model)
+		public async Task<IActionResult> UpdateContactAddressAsync(long id, [FromBody] LocationModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -79,7 +80,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				updatedContact = Services.UpdateContactAddress(currentUser.ThePersonAsEmployer.Id,
+				updatedContact = await Services.UpdateContactAddressAsync(currentUser.ThePersonAsEmployer.Id,
 					model.RestaurantId, id, model.Floor, model.StreetNumber, model.Route, model.Locality,
 					model.Country, model.ZipCode, model.TheLocationPoint.Latitude, model.TheLocationPoint.Longitude,
 					model.AdministrativeAreaLevel1, model.AdministrativeAreaLevel2, model.GoogleLink);
@@ -98,7 +99,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				Services.RemoveContactAddress(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
+				Services.RemoveContactAddressAsync(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
 			}
 			catch (Exception ex)
 			{

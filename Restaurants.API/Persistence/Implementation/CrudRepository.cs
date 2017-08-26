@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Restaurants.API.Models.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence.Implementation
 {
@@ -29,32 +30,32 @@ namespace Restaurants.API.Persistence.Implementation
 			item.ModifiedByUserId = modifierId;
 			item.ModifiedDateTime = now;
 
-            DbSet.Add(item);
-            _dbContext.SaveChanges();
+            DbSet.AddAsync(item);
+            _dbContext.SaveChangesAsync();
 
-			_dbContext.Entry(item).Reload();
-			_dbContext.Entry(item).Reference(x => x.CreatedBy).Load();
-			_dbContext.Entry(item).Reference(x => x.ModifiedBy).Load();
+			_dbContext.Entry(item).ReloadAsync();
+			_dbContext.Entry(item).Reference(x => x.CreatedBy).LoadAsync();
+			_dbContext.Entry(item).Reference(x => x.ModifiedBy).LoadAsync();
 		}
 
-        public TEntity FindById(long id)
+        public Task<TEntity> FindById(long id)
         {
 			return DbSet.Where(x => x.Id == id)
 				.Include(x => x.CreatedBy)
 				.Include(x => x.ModifiedBy)
-				.SingleOrDefault();
+				.SingleOrDefaultAsync();
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public Task<List<TEntity>> GetAll()
         {
             return DbSet
                 .AsNoTracking()
 				.Include(x=>x.CreatedBy)
 				.Include(x=>x.ModifiedBy)
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<TEntity> GetPaged(int pageNumber, int pageSize)
+        public Task<List<TEntity>> GetPaged(int pageNumber, int pageSize)
         {
             return DbSet
                 .AsNoTracking()
@@ -62,7 +63,7 @@ namespace Restaurants.API.Persistence.Implementation
 				.Include(x => x.ModifiedBy)
 				.Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
-                .ToList();
+                .ToListAsync();
         }
 
         public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
@@ -79,7 +80,7 @@ namespace Restaurants.API.Persistence.Implementation
         {
             DbSet.Attach(item);
             DbSet.Remove(item);
-            _dbContext.SaveChanges();
+            _dbContext.SaveChangesAsync();
         }
 
         public void Update(TEntity item, long modifierId)
@@ -89,11 +90,11 @@ namespace Restaurants.API.Persistence.Implementation
 			item.ModifiedDateTime = now;
 
 			_dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChanges();
+            _dbContext.SaveChangesAsync();
 
-			_dbContext.Entry(item).Reload();
-			_dbContext.Entry(item).Reference(x => x.CreatedBy).Load();
-			_dbContext.Entry(item).Reference(x => x.ModifiedBy).Load();
+			_dbContext.Entry(item).ReloadAsync();
+			_dbContext.Entry(item).Reference(x => x.CreatedBy).LoadAsync();
+			_dbContext.Entry(item).Reference(x => x.ModifiedBy).LoadAsync();
 		}
     }
 }

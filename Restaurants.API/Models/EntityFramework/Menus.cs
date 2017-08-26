@@ -18,7 +18,7 @@ namespace Restaurants.API.Models.EntityFramework
 
 		[JsonIgnore]
 		[ForeignKey("RestaurantId")]
-        public virtual RestaurantObjects TheRestaurantOwningTheNumber
+        public virtual RestaurantObjects TheRestaurantOwningTheMenu
         {
             get
             {

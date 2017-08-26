@@ -5,6 +5,7 @@ using Restaurants.API.Models.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Controllers
 {
@@ -15,12 +16,12 @@ namespace Restaurants.API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public IActionResult GetSchedules(long id)
+		public async Task<IActionResult> GetSchedulesAsync(long id)
 		{
 			OpenHoursSchedule existingSchedule;
 			try
 			{
-				existingSchedule = Services.GetWorkTimeById(id);
+				existingSchedule = await Services.GetWorkTimeByIdAsync(id);
 			}
 			catch (Exception ex)
 			{
@@ -32,12 +33,12 @@ namespace Restaurants.API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet]
-		public IActionResult GetAllSchedules(long restaurantId)
+		public async Task<IActionResult> GetAllSchedulesAsync(long restaurantId)
 		{
 			List<OpenHoursSchedule> existingSchedule;
 			try
 			{
-				existingSchedule = Services.GetAllWorkingIntervals(restaurantId);
+				existingSchedule = await Services.GetAllWorkingIntervalsAsync(restaurantId);
 			}
 			catch (Exception ex)
 			{
@@ -48,7 +49,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult AddSchedule([FromBody] ExtendedDayTimeModel model)
+		public async Task<IActionResult> AddScheduleAsync([FromBody] ExtendedDayTimeModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -57,8 +58,8 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				newSchedule = Services.AddWorkingInterval(currentUser.ThePersonAsEmployer.Id,
-					model.RestaurantId, model.GetUtcStartDay(), model.GetUtcStartTimeSpan(), 
+				newSchedule = await Services.AddWorkingIntervalAsync(currentUser.ThePersonAsEmployer.Id,
+					model.RestaurantId, model.GetUtcStartDay(), model.GetUtcStartTimeSpan(),
 					model.GetUtcEndtDay(), model.GetUtcEndTimeSpan());
 			}
 			catch (Exception ex)
@@ -70,7 +71,7 @@ namespace Restaurants.API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public IActionResult UpdateSchedule(long id, [FromBody] ExtendedDayTimeModel model)
+		public async Task<IActionResult> UpdateScheduleAsync(long id, [FromBody] ExtendedDayTimeModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
@@ -79,7 +80,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				existingSchedule = Services.UpdateWokingInterval(currentUser.ThePersonAsEmployer.Id,
+				existingSchedule = await Services.UpdateWokingIntervalAsync(currentUser.ThePersonAsEmployer.Id,
 					model.RestaurantId, id, model.GetUtcStartDay(), model.GetUtcStartTimeSpan(),
 					model.GetUtcEndtDay(), model.GetUtcEndTimeSpan());
 			}
@@ -97,7 +98,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				Services.RemoveWorkingInterval(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
+				Services.RemoveWorkingIntervalAsync(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
 			}
 			catch (Exception ex)
 			{

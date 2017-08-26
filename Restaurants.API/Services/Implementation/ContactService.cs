@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Restaurants.API.Models.EntityFramework;
 using System.Runtime.InteropServices;
 using Restaurants.API.Models.Context;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services.Implementation
 {
@@ -22,9 +23,9 @@ namespace Restaurants.API.Services.Implementation
 			this.PointRepo = new LocationPointRepository(dbContext);
 		}
 
-		public LocationContact AddContactAddress(long ownerId, long restaurantId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
+		public async Task<LocationContact> AddContactAddressAsync(long ownerId, long restaurantId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
 
 			CheckTheLoggedInPerson();
 			LocationPoints point = new LocationPoints
@@ -39,7 +40,9 @@ namespace Restaurants.API.Services.Implementation
 			try
 			{
 				LocationRepo.Add(contact, ModifierId);
-			} catch (Exception ex){
+			}
+			catch (Exception ex)
+			{
 				if (contact.Id <= 0)
 				{
 					contact = null;
@@ -52,9 +55,9 @@ namespace Restaurants.API.Services.Implementation
 			return contact;
 		}
 
-		public PhoneContacts AddContactNumber(long ownerId, long restaurantId, string phoneNumber, string phoneDescription)
+		public async Task<PhoneContacts> AddContactNumberAsync(long ownerId, long restaurantId, string phoneNumber, string phoneDescription)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
 
 			PhoneContacts phone = new PhoneContacts
 			{
@@ -69,22 +72,22 @@ namespace Restaurants.API.Services.Implementation
 			return phone;
 		}
 
-		public LocationContact GetContactAddressByRestaurantId(long restaurantId)
+		public async Task<LocationContact> GetContactAddressByRestaurantIdAsync(long restaurantId)
 		{
-			return LocationRepo.GetLocationsByRestaurantId(restaurantId);
+			return await LocationRepo.GetLocationsByRestaurantId(restaurantId);
 		}
 
-		public List<PhoneContacts> GetAllContactNumbers(long restaurantId, int pageNumber, int pageSize)
+		public async Task<List<PhoneContacts>> GetAllContactNumbersAsync(long restaurantId, int pageNumber, int pageSize)
 		{
-			return PhoneRepo.GetPhoneNumbersByRestaurantPaged(restaurantId, pageNumber, pageSize);
+			return await PhoneRepo.GetPhoneNumbersByRestaurantPaged(restaurantId, pageNumber, pageSize);
 		}
 
-		public bool RemoveContactAddress(long ownerId, long restaurantId, long contactId)
+		public async Task<bool> RemoveContactAddressAsync(long ownerId, long restaurantId, long contactId)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
 
-			LocationContact loc = CheckLocationExistence(contactId);
-			LocationPoints point = CheckLocationPointExistence(loc.LocationPointId);
+			LocationContact loc = await CheckLocationExistenceAsync(contactId);
+			LocationPoints point = await CheckLocationPointExistenceAsync(loc.LocationPointId);
 
 			CheckTheLoggedInPerson();
 			PointRepo.Remove(point);
@@ -93,11 +96,11 @@ namespace Restaurants.API.Services.Implementation
 			return true;
 		}
 
-		public bool RemoveContactNumber(long ownerId, long restaurantId, long contactId)
+		public async Task<bool> RemoveContactNumberAsync(long ownerId, long restaurantId, long contactId)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
 
-			PhoneContacts phone = CheckPhoneExistence(contactId);
+			PhoneContacts phone = await CheckPhoneExistenceAsync(contactId);
 
 			CheckTheLoggedInPerson();
 			PhoneRepo.Remove(phone);
@@ -105,13 +108,13 @@ namespace Restaurants.API.Services.Implementation
 			return true;
 		}
 
-		public LocationContact UpdateContactAddress(long ownerId, long restaurantId, long contactId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
+		public async Task<LocationContact> UpdateContactAddressAsync(long ownerId, long restaurantId, long contactId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
 
-			LocationContact contact = CheckLocationExistence(contactId);
+			LocationContact contact = await CheckLocationExistenceAsync(contactId);
 
-			LocationPoints point = CheckLocationPointExistence(contact.LocationPointId);
+			LocationPoints point = await CheckLocationPointExistenceAsync(contact.LocationPointId);
 			point.Latitude = latitude;
 			point.Longitude = longitude;
 
@@ -124,10 +127,10 @@ namespace Restaurants.API.Services.Implementation
 			return contact;
 		}
 
-		public PhoneContacts UpdateContactNumber(long ownerId, long restaurantId, long contactId, string phoneNumber, string phoneDescription)
+		public async Task<PhoneContacts> UpdateContactNumberAsync(long ownerId, long restaurantId, long contactId, string phoneNumber, string phoneDescription)
 		{
-			EmployersRestaurants connection = CheckEmployerRestaurant(ownerId, restaurantId);
-			PhoneContacts phone = CheckPhoneExistence(contactId);
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			PhoneContacts phone = await CheckPhoneExistenceAsync(contactId);
 
 			CheckTheLoggedInPerson();
 			phone.PhoneNumber = phoneNumber;
@@ -137,36 +140,37 @@ namespace Restaurants.API.Services.Implementation
 			return phone;
 		}
 
-		public PhoneContacts GetPhoneContact(long contactId)
+		public async Task<PhoneContacts> GetPhoneContactAsync(long contactId)
 		{
-			return CheckPhoneExistence(contactId);
+			return await CheckPhoneExistenceAsync(contactId);
 		}
 
-		public LocationContact GetLocationContact(long contactId)
+		public async Task<LocationContact> GetLocationContactAsync(long contactId)
 		{
-			return CheckLocationExistence(contactId);
+			return await CheckLocationExistenceAsync(contactId);
 		}
 
-		private PhoneContacts CheckPhoneExistence(long contactId)
+		private async Task<PhoneContacts> CheckPhoneExistenceAsync(long contactId)
 		{
-			PhoneContacts phone = PhoneRepo.FindById(contactId);
+			PhoneContacts phone = await PhoneRepo.FindById(contactId);
 			if (phone == null)
 				throw new Exception(String.Format("There is no phone record with id {0}", contactId));
 
 			return phone;
 		}
 
-		private LocationContact CheckLocationExistence(long contactId)
+		private async Task<LocationContact> CheckLocationExistenceAsync(long contactId)
 		{
-			LocationContact location = LocationRepo.FindById(contactId);
+			LocationContact location = await LocationRepo.FindById(contactId);
 			if (location == null)
 				throw new Exception(String.Format("There is no location record with id {0}", contactId));
 
 			return location;
 		}
 
-		private LocationPoints CheckLocationPointExistence(long locationPointid){
-			LocationPoints point = PointRepo.FindById(locationPointid);
+		private async Task<LocationPoints> CheckLocationPointExistenceAsync(long locationPointid)
+		{
+			LocationPoints point = await PointRepo.FindById(locationPointid);
 			if (point == null)
 				throw new Exception(String.Format("There is no location point record with id {0}", locationPointid));
 			return point;

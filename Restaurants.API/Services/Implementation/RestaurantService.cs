@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Restaurants.API.Models.EntityFramework;
 using Restaurants.API.Models.Context;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services.Implementation
 {
@@ -12,12 +13,12 @@ namespace Restaurants.API.Services.Implementation
 		public RestaurantService(AppDbContext dbContext, People logedInPerson)
 			: base(dbContext, logedInPerson) { }
 
-		public EmployersRestaurants AddCoowner(long ownerId, long restaurantId, long coownerId)
+		public async Task<EmployersRestaurants> AddCoownerAsync(long ownerId, long restaurantId, long coownerId)
 		{
 			CheckTheLoggedInPerson();
 
-			EmployersRestaurants currentConnection = CheckEmployerRestaurant(ownerId, restaurantId);
-			Employers newEmployer = CheckEmployerExistence(coownerId);
+			EmployersRestaurants currentConnection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			Employers newEmployer = await CheckEmployerExistenceAsync(coownerId);
 
 			EmployersRestaurants item = new EmployersRestaurants
 			{
@@ -30,11 +31,11 @@ namespace Restaurants.API.Services.Implementation
 			return item;
 		}
 
-		public Tuple<RestaurantObjects, EmployersRestaurants> AddNewRestaurant(long ownerId, string restaurantName, string restaurantDescription)
+		public async Task<Tuple<RestaurantObjects, EmployersRestaurants>> AddNewRestaurantAsync(long ownerId, string restaurantName, string restaurantDescription)
 		{
 			CheckTheLoggedInPerson();
 
-			Employers currentEmployer = CheckEmployerExistence(ownerId);
+			Employers currentEmployer = await CheckEmployerExistenceAsync(ownerId);
 
 			RestaurantObjects restaurantItem = new RestaurantObjects
 			{
@@ -55,45 +56,45 @@ namespace Restaurants.API.Services.Implementation
 			return new Tuple<RestaurantObjects, EmployersRestaurants>(restaurantItem, item);
 		}
 
-		public bool CloseRestaurant(long ownerId, long restaurantId)
+		public async Task<bool> CloseRestaurantAsync(long ownerId, long restaurantId)
 		{
-			EmployersRestaurants currentConnection = CheckEmployerRestaurant(ownerId, restaurantId);
+			EmployersRestaurants currentConnection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
 
-			List<EmployersRestaurants> dataToRemove = EmployerRestaurantRepo.GetByRestaurantId(restaurantId);
+			List<EmployersRestaurants> dataToRemove = await EmployerRestaurantRepo.GetByRestaurantId(restaurantId);
 			foreach (var data in dataToRemove)
 				EmployerRestaurantRepo.Remove(data);
 
 			return true;
 		}
 
-		public List<RestaurantObjects> GetOwnerRestaurants(long ownerId, int pageNumber, int pageSize)
+		public async Task<List<RestaurantObjects>> GetOwnerRestaurantsAsync(long ownerId, int pageNumber, int pageSize)
 		{
-			return RestaurantRepo.GetRestaurantsByOwnerIdPaged(ownerId, pageNumber, pageSize);
+			return await RestaurantRepo.GetRestaurantsByOwnerIdPaged(ownerId, pageNumber, pageSize);
 		}
 
-		public RestaurantObjects GetRestaurant(long id)
+		public async Task<RestaurantObjects> GetRestaurantAsync(long id)
 		{
-			return RestaurantRepo.FindById(id);
+			return await RestaurantRepo.FindById(id);
 		}
 
-		public List<EmployersRestaurants> GetRestaurantOwners(long restaurantId, int pageNumber, int pageSize)
+		public async Task<List<EmployersRestaurants>> GetRestaurantOwnersAsync(long restaurantId, int pageNumber, int pageSize)
 		{
-			return EmployerRestaurantRepo.GetOwnersByRestaurantIdPaged(restaurantId, pageNumber, pageSize);
+			return await EmployerRestaurantRepo.GetOwnersByRestaurantIdPaged(restaurantId, pageNumber, pageSize);
 		}
 
-		public bool RemoveCoowner(long ownerId, long restaurantId, long coownerId)
+		public async Task<bool> RemoveCoownerAsync(long ownerId, long restaurantId, long coownerId)
 		{
-			EmployersRestaurants currentConnection = CheckEmployerRestaurant(ownerId, restaurantId);
-			Employers employerToRemove = CheckEmployerExistence(coownerId);
+			EmployersRestaurants currentConnection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			Employers employerToRemove = await CheckEmployerExistenceAsync(coownerId);
 
-			long count = EmployerRestaurantRepo.GetNumbetOfEmployers(restaurantId);
+			long count = await EmployerRestaurantRepo.GetNumbetOfEmployers(restaurantId);
 			if (count == 1)
 				throw new Exception("There's ony one owner to the restaurant. Use Close restaurant instead");
 
 			if (currentConnection.TheEmployer.Id == employerToRemove.Id)
 				throw new Exception("The owner cannot remove itself. Use Transfer ownership instead");
 
-			EmployersRestaurants data = EmployerRestaurantRepo.GetByRestaurantIdAndEmployerId(restaurantId, coownerId);
+			EmployersRestaurants data = await EmployerRestaurantRepo.GetByRestaurantIdAndEmployerId(restaurantId, coownerId);
 			if (data == null)
 				throw new Exception(String.Format("The given owner with id:{0} can't be removed beacause is not an owner", coownerId));
 
@@ -102,16 +103,16 @@ namespace Restaurants.API.Services.Implementation
 			return true;
 		}
 
-		public bool TransferOwnership(long ownerId, long restaurantId, long newOwnerId)
+		public async Task<bool> TransferOwnershipAsync(long ownerId, long restaurantId, long newOwnerId)
 		{
-			EmployersRestaurants currentConnection = CheckEmployerRestaurant(ownerId, restaurantId);
-			Employers newEmployer = CheckEmployerExistence(newOwnerId);
+			EmployersRestaurants currentConnection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			Employers newEmployer = await CheckEmployerExistenceAsync(newOwnerId);
 
-			EmployersRestaurants oldData = EmployerRestaurantRepo.GetByRestaurantIdAndEmployerId(restaurantId, ownerId);
+			EmployersRestaurants oldData = await EmployerRestaurantRepo.GetByRestaurantIdAndEmployerId(restaurantId, ownerId);
 			if (oldData == null)
 				throw new Exception(String.Format("The given owner with id:{0} is not an owner.", ownerId));
 
-			EmployersRestaurants newData = EmployerRestaurantRepo.GetByRestaurantIdAndEmployerId(restaurantId, newOwnerId);
+			EmployersRestaurants newData = await EmployerRestaurantRepo.GetByRestaurantIdAndEmployerId(restaurantId, newOwnerId);
 			if (newData != null)
 				throw new Exception(String.Format("The given new owner with id:{0} is already an owner.", newOwnerId));
 
@@ -130,9 +131,9 @@ namespace Restaurants.API.Services.Implementation
 			return true;
 		}
 
-		public RestaurantObjects UpdateRestaurant(long ownerId, long restaurantId, string restaurantName, string restaurantDescription)
+		public async Task<RestaurantObjects> UpdateRestaurantAsync(long ownerId, long restaurantId, string restaurantName, string restaurantDescription)
 		{
-			EmployersRestaurants currentConnection = CheckEmployerRestaurant(ownerId, restaurantId);
+			EmployersRestaurants currentConnection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
 			RestaurantObjects currentRestaurant = currentConnection.TheRestaurant;
 
 			currentRestaurant.Name = restaurantName;

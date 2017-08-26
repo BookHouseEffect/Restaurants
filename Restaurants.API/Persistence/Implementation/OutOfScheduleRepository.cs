@@ -4,6 +4,7 @@ using Restaurants.API.Models.EntityFramework;
 using Restaurants.API.Models.Context;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Persistence.Implementation
 {
@@ -11,7 +12,7 @@ namespace Restaurants.API.Persistence.Implementation
 	{
 		public OutOfScheduleRepository(AppDbContext dbContext) : base(dbContext) { }
 
-		internal List<OutOfSchedulePeriods> GetAllInPeriod(long openScheduleId, DateTimeOffset periodStartOn, DateTimeOffset periodEndOn)
+		internal Task<List<OutOfSchedulePeriods>> GetAllInPeriod(long openScheduleId, DateTimeOffset periodStartOn, DateTimeOffset periodEndOn)
 		{
 			return DbSet
 				.Where(
@@ -27,10 +28,10 @@ namespace Restaurants.API.Persistence.Implementation
 							&& x.OutOfSchedulePeriodEnds < periodEndOn
 						)
 					)
-				).ToList();
+				).ToListAsync();
 		}
 
-		internal List<OutOfSchedulePeriods> GetAllInPeriod(long restaurantId, int pageNumber, int pageSize)
+		internal Task<List<OutOfSchedulePeriods>> GetAllInPeriod(long restaurantId, int pageNumber, int pageSize)
 		{
 			return DbSet
 				.Where(x => x.TheRealSchedule.RestaurantId == restaurantId)
@@ -38,7 +39,7 @@ namespace Restaurants.API.Persistence.Implementation
 				.Include(x=>x.ModifiedBy)
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
-				.ToList();
+				.ToListAsync();
 		}
 	}
 }

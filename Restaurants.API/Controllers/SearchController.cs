@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Restaurants.API.Services.Implementation;
 using Restaurants.API.Models.EntityFramework;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Controllers
 {
@@ -21,12 +22,12 @@ namespace Restaurants.API.Controllers
 
 		[HttpGet("owner")]
 		[AllowAnonymous]
-		public IActionResult SearchEmployers(long searchForRestaurantId, string searchTerm = "",  int pageNumber = 1, int pageSize = 10)
+		public async Task<IActionResult> SearchEmployersAsync(long searchForRestaurantId, string searchTerm = "", int pageNumber = 1, int pageSize = 10)
 		{
 			List<Employers> result;
 			try
 			{
-				result = Service.SearchEmployers(searchTerm, searchForRestaurantId, pageNumber, pageSize);
+				result = await Service.SearchEmployersAsync(searchTerm, searchForRestaurantId, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace Restaurants.API.Services
 {
@@ -12,157 +13,195 @@ namespace Restaurants.API.Services
 	BaseService,
 	IRestaurantService, 
 	IContactSerivce,
-	IScheduleService
+	IScheduleService,
+	IMenuService
     {
 		private IRestaurantService RestaurantService;
 		private IContactSerivce ContactService;
 		private IScheduleService ScheduleSerice;
+		private IMenuService MenuService;
 
 		public ApplicationServices(AppDbContext dbContext, People logedInPerson) 
 			: base(dbContext, logedInPerson) {
 			this.RestaurantService = new RestaurantService(dbContext, logedInPerson);
 			this.ContactService = new ContactService(dbContext, logedInPerson);
 			this.ScheduleSerice = new ScheduleService(dbContext, logedInPerson);
+			this.MenuService = new MenuService(dbContext, logedInPerson);
 		}
 
-		public LocationContact AddContactAddress(long ownerId, long restaurantId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
+		public Task<LocationContact> AddContactAddressAsync(long ownerId, long restaurantId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
 		{
-			return ContactService.AddContactAddress(ownerId, restaurantId, floor, steetNumber, route, locality, country, zipCode, latitude, longitude, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
+			return ContactService.AddContactAddressAsync(ownerId, restaurantId, floor, steetNumber, route, locality, country, zipCode, latitude, longitude, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
 		}
 
-		public PhoneContacts AddContactNumber(long ownerId, long restaurantId, string phoneNumber, string phoneDescription)
+		public Task<PhoneContacts> AddContactNumberAsync(long ownerId, long restaurantId, string phoneNumber, string phoneDescription)
 		{
-			return ContactService.AddContactNumber(ownerId, restaurantId, phoneNumber, phoneDescription);
+			return ContactService.AddContactNumberAsync(ownerId, restaurantId, phoneNumber, phoneDescription);
 		}
 
-		public EmployersRestaurants AddCoowner(long ownerId, long restaurantId, long coownerId)
+		public Task<EmployersRestaurants> AddCoownerAsync(long ownerId, long restaurantId, long coownerId)
 		{
-			return RestaurantService.AddCoowner(ownerId, restaurantId, coownerId);
+			return RestaurantService.AddCoownerAsync(ownerId, restaurantId, coownerId);
 		}
 
-		public Tuple<RestaurantObjects, EmployersRestaurants> AddNewRestaurant(long ownerId, string restaurantName, string restaurantDescription)
+		public Task<MenuLanguages> AddMenuLanguageAsync(long ownerId, long restaurantId, long languageId)
 		{
-			return RestaurantService.AddNewRestaurant(ownerId, restaurantName, restaurantDescription);
+			return MenuService.AddMenuLanguageAsync(ownerId, restaurantId, languageId);
 		}
 
-		public OutOfSchedulePeriods AddOutOfScheduleInterval(long employerId, long restaurantId, long openScheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
+		public Task<Tuple<RestaurantObjects, EmployersRestaurants>> AddNewRestaurantAsync(long ownerId, string restaurantName, string restaurantDescription)
 		{
-			return ScheduleSerice.AddOutOfScheduleInterval(employerId, restaurantId, openScheduleId, startOn, endsOn, description);
+			return RestaurantService.AddNewRestaurantAsync(ownerId, restaurantName, restaurantDescription);
 		}
 
-		public OpenHoursSchedule AddWorkingInterval(long employerId, long restaurantId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
+		public Task<OutOfSchedulePeriods> AddOutOfScheduleIntervalAsync(long employerId, long restaurantId, long openScheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
 		{
-			return ScheduleSerice.AddWorkingInterval(employerId, restaurantId, startDay, startTime, endDay, endTime);
+			return ScheduleSerice.AddOutOfScheduleIntervalAsync(employerId, restaurantId, openScheduleId, startOn, endsOn, description);
 		}
 
-		public bool CloseRestaurant(long ownerId, long restaurantId)
+		public Task<OpenHoursSchedule> AddWorkingIntervalAsync(long employerId, long restaurantId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
 		{
-			return RestaurantService.CloseRestaurant(ownerId, restaurantId);
+			return ScheduleSerice.AddWorkingIntervalAsync(employerId, restaurantId, startDay, startTime, endDay, endTime);
 		}
 
-		public List<PhoneContacts> GetAllContactNumbers(long restaurantId, int pageNumber, int pageSize)
+		public Task<bool> CloseRestaurantAsync(long ownerId, long restaurantId)
 		{
-			return ContactService.GetAllContactNumbers(restaurantId, pageNumber, pageSize);
+			return RestaurantService.CloseRestaurantAsync(ownerId, restaurantId);
 		}
 
-		public List<OutOfSchedulePeriods> GetAllOutOfScheduleIntervals(long restaurantId, int pageNumber, int pageSize)
+		public Task<List<Languages>> GetAllAvailableLanguagesAsync()
 		{
-			return ScheduleSerice.GetAllOutOfScheduleIntervals(restaurantId, pageNumber, pageSize);
+			return MenuService.GetAllAvailableLanguagesAsync();
 		}
 
-		public List<OpenHoursSchedule> GetAllWorkingIntervals(long restaurantId)
+		public Task<List<PhoneContacts>> GetAllContactNumbersAsync(long restaurantId, int pageNumber, int pageSize)
 		{
-			return ScheduleSerice.GetAllWorkingIntervals(restaurantId);
+			return ContactService.GetAllContactNumbersAsync(restaurantId, pageNumber, pageSize);
 		}
 
-		public LocationContact GetContactAddressByRestaurantId(long restaurantId)
+		public Task<List<OutOfSchedulePeriods>> GetAllOutOfScheduleIntervalsAsync(long restaurantId, int pageNumber, int pageSize)
 		{
-			return ContactService.GetContactAddressByRestaurantId(restaurantId);
+			return ScheduleSerice.GetAllOutOfScheduleIntervalsAsync(restaurantId, pageNumber, pageSize);
 		}
 
-		public LocationContact GetLocationContact(long contactId)
+		public Task<List<OpenHoursSchedule>> GetAllWorkingIntervalsAsync(long restaurantId)
 		{
-			return ContactService.GetLocationContact(contactId);
+			return ScheduleSerice.GetAllWorkingIntervalsAsync(restaurantId);
 		}
 
-		public List<RestaurantObjects> GetOwnerRestaurants(long ownerId, int pageNumber, int pageSize)
+		public Task<LocationContact> GetContactAddressByRestaurantIdAsync(long restaurantId)
 		{
-			return RestaurantService.GetOwnerRestaurants(ownerId, pageNumber, pageSize);
+			return ContactService.GetContactAddressByRestaurantIdAsync(restaurantId);
 		}
 
-		public PhoneContacts GetPhoneContact(long contactId)
+		public Task<LocationContact> GetLocationContactAsync(long contactId)
 		{
-			return ContactService.GetPhoneContact(contactId);
+			return ContactService.GetLocationContactAsync(contactId);
 		}
 
-		public RestaurantObjects GetRestaurant(long id)
+		public Task<MenuLanguages> GetMenuLanguageAsync(long menuLanguageId)
 		{
-			return RestaurantService.GetRestaurant(id);
+			return MenuService.GetMenuLanguageAsync(menuLanguageId);
 		}
 
-		public List<EmployersRestaurants> GetRestaurantOwners(long restaurantId, int pageNumber, int pageSize)
+		public Task<List<MenuLanguages>> GetMenuLanguagesAsync(long restaurantId)
 		{
-			return RestaurantService.GetRestaurantOwners(restaurantId, pageNumber, pageSize);
+			return MenuService.GetMenuLanguagesAsync(restaurantId);
 		}
 
-		public OpenHoursSchedule GetWorkTimeById(long id)
+		public Task<List<MenuLanguages>> GetMenuLanguagesPagedAsync(long restaurantId, int pageNumber, int pageSize)
 		{
-			return ScheduleSerice.GetWorkTimeById(id);
+			return MenuService.GetMenuLanguagesPagedAsync(restaurantId, pageNumber, pageSize);
 		}
 
-		public bool RemoveContactAddress(long ownerId, long restaurantId, long contactId)
+		public Task<List<RestaurantObjects>> GetOwnerRestaurantsAsync(long ownerId, int pageNumber, int pageSize)
 		{
-			return ContactService.RemoveContactAddress(ownerId, restaurantId, contactId);
+			return RestaurantService.GetOwnerRestaurantsAsync(ownerId, pageNumber, pageSize);
 		}
 
-		public bool RemoveContactNumber(long ownerId, long restaurantId, long contactId)
+		public Task<PhoneContacts> GetPhoneContactAsync(long contactId)
 		{
-			return ContactService.RemoveContactNumber(ownerId, restaurantId, contactId);
+			return ContactService.GetPhoneContactAsync(contactId);
 		}
 
-		public bool RemoveCoowner(long ownerId, long restaurantId, long coownerId)
+		public Task<RestaurantObjects> GetRestaurantAsync(long id)
 		{
-			return RestaurantService.RemoveCoowner(ownerId, restaurantId, coownerId);
+			return RestaurantService.GetRestaurantAsync(id);
 		}
 
-		public bool RemoveOutOfScheduleInterval(long employerId, long restaurantId, long scheduleId)
+		public Task<List<EmployersRestaurants>> GetRestaurantOwnersAsync(long restaurantId, int pageNumber, int pageSize)
 		{
-			return ScheduleSerice.RemoveOutOfScheduleInterval(employerId, restaurantId, scheduleId);
+			return RestaurantService.GetRestaurantOwnersAsync(restaurantId, pageNumber, pageSize);
 		}
 
-		public bool RemoveWorkingInterval(long employerId, long restaurantId, long scheduleId)
+		public Task<OpenHoursSchedule> GetWorkTimeByIdAsync(long id)
 		{
-			return ScheduleSerice.RemoveWorkingInterval(employerId, restaurantId, scheduleId);
+			return ScheduleSerice.GetWorkTimeByIdAsync(id);
 		}
 
-		public bool TransferOwnership(long ownerId, long restaurantId, long newOwnerId)
+		public Task<bool> RemoveContactAddressAsync(long ownerId, long restaurantId, long contactId)
 		{
-			return RestaurantService.TransferOwnership(ownerId, restaurantId, newOwnerId);
+			return ContactService.RemoveContactAddressAsync(ownerId, restaurantId, contactId);
 		}
 
-		public LocationContact UpdateContactAddress(long ownerId, long restaurantId, long contactId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
+		public Task<bool> RemoveContactNumberAsync(long ownerId, long restaurantId, long contactId)
 		{
-			return ContactService.UpdateContactAddress(ownerId, restaurantId, contactId, floor, steetNumber, route, locality, country, zipCode, latitude, longitude, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
+			return ContactService.RemoveContactNumberAsync(ownerId, restaurantId, contactId);
 		}
 
-		public PhoneContacts UpdateContactNumber(long ownerId, long restaurantId, long contactId, string phoneNumber, string phoneDescription)
+		public Task<bool> RemoveCoownerAsync(long ownerId, long restaurantId, long coownerId)
 		{
-			return ContactService.UpdateContactNumber(ownerId, restaurantId, contactId, phoneNumber, phoneDescription);
+			return RestaurantService.RemoveCoownerAsync(ownerId, restaurantId, coownerId);
 		}
 
-		public OutOfSchedulePeriods UpdateOutOfScheduleIntervals(long employerId, long restaurantId, long scheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
+		public bool RemoveMenuLanguage(long ownerId, long restaurantId, long menuLanguageId)
 		{
-			return ScheduleSerice.UpdateOutOfScheduleIntervals(employerId, restaurantId, scheduleId, startOn, endsOn, description);
+			return MenuService.RemoveMenuLanguage(ownerId, restaurantId, menuLanguageId);
 		}
 
-		public RestaurantObjects UpdateRestaurant(long ownerId, long restaurantId, string restaurantName, string restaurantDescription)
+		public Task<bool> RemoveOutOfScheduleIntervalAsync(long employerId, long restaurantId, long scheduleId)
 		{
-			return RestaurantService.UpdateRestaurant(ownerId, restaurantId, restaurantName, restaurantDescription);
+			return ScheduleSerice.RemoveOutOfScheduleIntervalAsync(employerId, restaurantId, scheduleId);
 		}
 
-		public OpenHoursSchedule UpdateWokingInterval(long employerId, long restaurantId, long scheduleId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
+		public Task<bool> RemoveWorkingIntervalAsync(long employerId, long restaurantId, long scheduleId)
 		{
-			return ScheduleSerice.UpdateWokingInterval(employerId, restaurantId, scheduleId, startDay, startTime, endDay, endTime);
+			return ScheduleSerice.RemoveWorkingIntervalAsync(employerId, restaurantId, scheduleId);
+		}
+
+		public Task<bool> TransferOwnershipAsync(long ownerId, long restaurantId, long newOwnerId)
+		{
+			return RestaurantService.TransferOwnershipAsync(ownerId, restaurantId, newOwnerId);
+		}
+
+		public Task<LocationContact> UpdateContactAddressAsync(long ownerId, long restaurantId, long contactId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
+		{
+			return ContactService.UpdateContactAddressAsync(ownerId, restaurantId, contactId, floor, steetNumber, route, locality, country, zipCode, latitude, longitude, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
+		}
+
+		public Task<PhoneContacts> UpdateContactNumberAsync(long ownerId, long restaurantId, long contactId, string phoneNumber, string phoneDescription)
+		{
+			return ContactService.UpdateContactNumberAsync(ownerId, restaurantId, contactId, phoneNumber, phoneDescription);
+		}
+
+		public Task<MenuLanguages> UpdateMenuLanguageAsync(long ownerId, long restaurantId, long menuLanguageId, long newLanguageId)
+		{
+			return MenuService.UpdateMenuLanguageAsync(ownerId, restaurantId, menuLanguageId, newLanguageId);
+		}
+
+		public Task<OutOfSchedulePeriods> UpdateOutOfScheduleIntervalsAsync(long employerId, long restaurantId, long scheduleId, DateTimeOffset startOn, DateTimeOffset endsOn, string description)
+		{
+			return ScheduleSerice.UpdateOutOfScheduleIntervalsAsync(employerId, restaurantId, scheduleId, startOn, endsOn, description);
+		}
+
+		public Task<RestaurantObjects> UpdateRestaurantAsync(long ownerId, long restaurantId, string restaurantName, string restaurantDescription)
+		{
+			return RestaurantService.UpdateRestaurantAsync(ownerId, restaurantId, restaurantName, restaurantDescription);
+		}
+
+		public Task<OpenHoursSchedule> UpdateWokingIntervalAsync(long employerId, long restaurantId, long scheduleId, DayOfWeek startDay, TimeSpan startTime, DayOfWeek endDay, TimeSpan endTime)
+		{
+			return ScheduleSerice.UpdateWokingIntervalAsync(employerId, restaurantId, scheduleId, startDay, startTime, endDay, endTime);
 		}
 	}
 }
