@@ -83,4 +83,13 @@ namespace Restaurants.API.Models.Api
 		public Int64 LanguageId { get; set; }
 	}
 
+	public class CurrencyModel {
+
+		[Required]
+		public Int64 RestaurantId { get; set; }
+
+		[Required]
+		public Int64 CurrencyId { get; set; }
+	}
+
 }

@@ -202,3 +202,26 @@ export class Worktime extends BaseModel {
         return [`${d} days`, `${h} h`, `${m} min`];
     }
 }
+
+export class Languages extends BaseModel {
+    languageName: string;
+}
+
+export class MenuLanguages extends BaseModel {
+    restaurantId: number;
+    menuId: number;
+    languageId: number;
+    theLanguage: Languages;
+}
+
+export class Currencies extends BaseModel {
+    currencySign: string;
+    currencyFullName: string;
+}
+
+export class MenuCurrencies extends BaseModel {
+    restaurantId: number;
+    menuId: number;
+    currencyId: number;
+    theCurrency: Currencies;
+}

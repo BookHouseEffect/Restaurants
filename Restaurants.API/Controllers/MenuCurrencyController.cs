@@ -10,18 +10,18 @@ using Restaurants.API.Models.Api;
 namespace Restaurants.API.Controllers
 {
 	[Produces("application/json")]
-    [Route("api/restaurant/menuLanguages")]
-    public class MenuLanguageController : BaseController
+    [Route("api/restaurant/menuCurrencies")]
+    public class MenuCurrencyController : BaseController
     {
 		[AllowAnonymous]
 		[HttpGet("list")]
-		public async Task<IActionResult> GetLanguageListAsync()
+		public async Task<IActionResult> GetCurrencyListAsync()
 		{
 
-			List<Languages> list;
+			List<Currencies> list;
 			try
 			{
-				list = await Services.GetAllAvailableLanguagesAsync();
+				list = await Services.GetAllAvailableCurrenciesAsync();
 			}
 			catch (Exception ex)
 			{
@@ -33,86 +33,86 @@ namespace Restaurants.API.Controllers
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetSingleMenuLanguageAsync(long id)
+		public async Task<IActionResult> GetSingleMenuCurrencyAsync(long id)
 		{
-			MenuLanguages existingMenuLanguage;
+			MenuCurrencies existingMenuCurrency;
 			try
 			{
-				existingMenuLanguage = await Services.GetMenuLanguageAsync(id);
+				existingMenuCurrency = await Services.GetMenuCurrencyAsync(id);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(existingMenuLanguage);
+			return Ok(existingMenuCurrency);
 		}
 
 		[AllowAnonymous]
 		[HttpGet("")]
-		public async Task<IActionResult> GetMenuLanguagesAsync(long restaurantId, int pageNumber=1, int pageSize = 10)
+		public async Task<IActionResult> GetMenuCurrenciesAsync(long restaurantId, int pageNumber=1, int pageSize = 10)
 		{
-			List<MenuLanguages> existingMenuLanguage;
+			List<MenuCurrencies> existingMenuCurrencies;
 			try
 			{
-				existingMenuLanguage = await Services.GetMenuLanguagesPagedAsync(restaurantId, pageNumber, pageSize);
+				existingMenuCurrencies = await Services.GetMenuCurrenciesPagedAsync(restaurantId, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(existingMenuLanguage);
+			return Ok(existingMenuCurrencies);
 		}
 
 		[HttpPost("")]
-		public async Task<IActionResult> AddMenuLanguageAsync([FromBody] LanguageModel model)
+		public async Task<IActionResult> AddMenuCurrencyAsync([FromBody] CurrencyModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
 
-			MenuLanguages newMenuLanguage;
+			MenuCurrencies newMenuCurrency;
 			try
 			{
 				People currentUser = GetCurrentUser();
-				newMenuLanguage = await Services.AddMenuLanguageAsync(currentUser.ThePersonAsEmployer.Id, 
-						model.RestaurantId, model.LanguageId);
+				newMenuCurrency = await Services.AddMenuCurrencyAsync(currentUser.ThePersonAsEmployer.Id, 
+						model.RestaurantId, model.CurrencyId);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(newMenuLanguage);
+			return Ok(newMenuCurrency);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateMenuLanguageAsync(long id, [FromBody] LanguageModel model)
+		public async Task<IActionResult> UpdateMenuCurrencyAsync(long id, [FromBody] CurrencyModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
 
-			MenuLanguages existingMenuLanguage;
+			MenuCurrencies existingMenuCurrency;
 			try
 			{
 				People currentUser = GetCurrentUser();
-				existingMenuLanguage = await Services.UpdateMenuLanguageAsync(currentUser.ThePersonAsEmployer.Id, model.RestaurantId, id, model.LanguageId);
+				existingMenuCurrency = await Services.UpdateMenuCurrenciesAsync(currentUser.ThePersonAsEmployer.Id, model.RestaurantId, id, model.CurrencyId);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(existingMenuLanguage);
+			return Ok(existingMenuCurrency);
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult DeleteMenuLanguage(long id, long restaurantId)
+		public IActionResult DeleteMenuCurrency(long id, long restaurantId)
 		{
 			try
 			{
 				People currentUser = GetCurrentUser();
-				Services.RemoveMenuLanguage(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
+				Services.RemoveMenuCurrency(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
 			}
 			catch (Exception ex)
 			{

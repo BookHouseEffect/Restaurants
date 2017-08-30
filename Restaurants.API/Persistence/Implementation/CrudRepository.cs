@@ -22,23 +22,23 @@ namespace Restaurants.API.Persistence.Implementation
             DbSet = _dbContext.Set<TEntity>();
         }
 
-        public void Add(TEntity item, long modifierId)
-        {
+		public async Task AddAsync(TEntity item, long modifierId)
+		{
 			DateTimeOffset now = DateTimeOffset.UtcNow;
 			item.CreatedByUserId = modifierId;
 			item.CreatedDateTime = now;
 			item.ModifiedByUserId = modifierId;
 			item.ModifiedDateTime = now;
 
-            DbSet.AddAsync(item);
-            _dbContext.SaveChangesAsync();
+			await DbSet.AddAsync(item);
+			await _dbContext.SaveChangesAsync();
 
-			_dbContext.Entry(item).ReloadAsync();
-			_dbContext.Entry(item).Reference(x => x.CreatedBy).LoadAsync();
-			_dbContext.Entry(item).Reference(x => x.ModifiedBy).LoadAsync();
+			await _dbContext.Entry(item).ReloadAsync();
+			await _dbContext.Entry(item).Reference(x => x.CreatedBy).LoadAsync();
+			await _dbContext.Entry(item).Reference(x => x.ModifiedBy).LoadAsync();
 		}
 
-        public Task<TEntity> FindById(long id)
+		public Task<TEntity> FindById(long id)
         {
 			return DbSet.Where(x => x.Id == id)
 				.Include(x => x.CreatedBy)
@@ -76,25 +76,25 @@ namespace Restaurants.API.Persistence.Implementation
                 .ToList();
         }
 
-        public void Remove(TEntity item)
-        {
-            DbSet.Attach(item);
-            DbSet.Remove(item);
-            _dbContext.SaveChangesAsync();
-        }
+		public async Task RemoveAsync(TEntity item)
+		{
+			DbSet.Attach(item);
+			DbSet.Remove(item);
+			await _dbContext.SaveChangesAsync();
+		}
 
-        public void Update(TEntity item, long modifierId)
-        {
+		public async Task UpdateAsync(TEntity item, long modifierId)
+		{
 			DateTimeOffset now = DateTimeOffset.UtcNow;
 			item.ModifiedByUserId = modifierId;
 			item.ModifiedDateTime = now;
 
 			_dbContext.Entry(item).State = EntityState.Modified;
-            _dbContext.SaveChangesAsync();
+			await _dbContext.SaveChangesAsync();
 
-			_dbContext.Entry(item).ReloadAsync();
-			_dbContext.Entry(item).Reference(x => x.CreatedBy).LoadAsync();
-			_dbContext.Entry(item).Reference(x => x.ModifiedBy).LoadAsync();
+			await _dbContext.Entry(item).ReloadAsync();
+			await _dbContext.Entry(item).Reference(x => x.CreatedBy).LoadAsync();
+			await _dbContext.Entry(item).Reference(x => x.ModifiedBy).LoadAsync();
 		}
-    }
+	}
 }

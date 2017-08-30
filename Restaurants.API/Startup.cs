@@ -44,7 +44,7 @@ namespace Restaurants.API
 			loggerFactory.AddConsole(Configuration.GetSection("Logging"));
 			loggerFactory.AddDebug();
 
-			//TODO: AppDbContext.Seed(app);
+			AppDbContext.Seed(app);
 
 			// Redirects any non-API calls to the Angular application
 			// so our application can handle the routing

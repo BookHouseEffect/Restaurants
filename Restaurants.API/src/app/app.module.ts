@@ -29,6 +29,14 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { ScheduleEditorComponent, IteratorNumberPipe, DayStringPipe } from './schedule/schedule-editor.component';
 import { ScheduleService } from './schedule/schedule.service';
 
+import { MenuLanguageComponent } from './menu-languages/menu-language.component';
+import { MenuLanguageEditorComponent } from './menu-languages/menu-language-editor.component';
+import { MenuLanguageService } from './menu-languages/menu-language.service';
+
+import { MenuCurrencyComponent } from './menu-currencies/menu-currency.component';
+import { MenuCurrencyEditorComponent } from './menu-currencies/menu-currency-editor.component';
+import { MenuCurrencyService } from './menu-currencies/menu-currency.service';
+
 import { SearchService } from './common/search.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -38,28 +46,14 @@ import { PopoverModule } from "ngx-popover";
 
 @NgModule({
     declarations: [
-        AppComponent, 
-        ModifyInfoPopoverComponent, 
-        AlertDispayComponent,
-        TableViewComponent,
-        ModalDialogComponent,
-
-        RestaurantComponent,
-        RestaurantEditorComponent,
-        RestaurantDetailComponent,
-
-        OwnerComponent,
-        OwnerSearchComponent,
-
-        PhoneComponent,
-        PhoneEditorComponent,
-
+        AppComponent, ModifyInfoPopoverComponent, AlertDispayComponent, TableViewComponent, ModalDialogComponent,
+        RestaurantComponent, RestaurantEditorComponent, RestaurantDetailComponent,
+        OwnerComponent, OwnerSearchComponent,
+        PhoneComponent, PhoneEditorComponent,
         AddressComponent,
-
-        ScheduleComponent,
-        ScheduleEditorComponent,
-        IteratorNumberPipe,
-        DayStringPipe
+        ScheduleComponent, ScheduleEditorComponent, IteratorNumberPipe, DayStringPipe,
+        MenuLanguageComponent, MenuLanguageEditorComponent,
+        MenuCurrencyComponent, MenuCurrencyEditorComponent
     ],
     imports: [
         BrowserModule,
@@ -79,7 +73,9 @@ import { PopoverModule } from "ngx-popover";
         OwnerService,
         PhoneService,
         AddressService,
-        ScheduleService
+        ScheduleService,
+        MenuLanguageService,
+        MenuCurrencyService
     ],
     bootstrap: [AppComponent]
 })

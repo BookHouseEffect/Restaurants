@@ -64,11 +64,11 @@
         </div>
 
         <div [class.active]="currentFragment === 'language'" class="tab-pane fade in">
-          <h3>MENU LANGUAGES</h3>
+          <menu-language [restaurant]="currentRestaurant"></menu-language>
         </div>
 
         <div [class.active]="currentFragment === 'currency'" class="tab-pane fade in">
-          <h3>MENU CURRENCIES</h3>
+          <menu-currency [restaurant]="currentRestaurant"></menu-currency>
         </div>
 
         <div [class.active]="currentFragment === 'category'" class="tab-pane fade in">

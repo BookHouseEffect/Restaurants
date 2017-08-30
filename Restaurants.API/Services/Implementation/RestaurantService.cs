@@ -26,7 +26,7 @@ namespace Restaurants.API.Services.Implementation
 				RestaurantId = currentConnection.TheRestaurant.Id
 			};
 
-			EmployerRestaurantRepo.Add(item, ModifierId);
+			await EmployerRestaurantRepo.AddAsync(item, ModifierId);
 
 			return item;
 		}
@@ -43,7 +43,7 @@ namespace Restaurants.API.Services.Implementation
 				Description = restaurantDescription
 			};
 
-			RestaurantRepo.Add(restaurantItem, ModifierId);
+			await RestaurantRepo.AddAsync(restaurantItem, ModifierId);
 
 			EmployersRestaurants item = new EmployersRestaurants
 			{
@@ -51,7 +51,7 @@ namespace Restaurants.API.Services.Implementation
 				RestaurantId = restaurantItem.Id
 			};
 
-			EmployerRestaurantRepo.Add(item, ModifierId);
+			await EmployerRestaurantRepo.AddAsync(item, ModifierId);
 
 			return new Tuple<RestaurantObjects, EmployersRestaurants>(restaurantItem, item);
 		}
@@ -62,7 +62,7 @@ namespace Restaurants.API.Services.Implementation
 
 			List<EmployersRestaurants> dataToRemove = await EmployerRestaurantRepo.GetByRestaurantId(restaurantId);
 			foreach (var data in dataToRemove)
-				EmployerRestaurantRepo.Remove(data);
+				await EmployerRestaurantRepo.RemoveAsync(data);
 
 			return true;
 		}
@@ -98,7 +98,7 @@ namespace Restaurants.API.Services.Implementation
 			if (data == null)
 				throw new Exception(String.Format("The given owner with id:{0} can't be removed beacause is not an owner", coownerId));
 
-			EmployerRestaurantRepo.Remove(data);
+			await EmployerRestaurantRepo.RemoveAsync(data);
 
 			return true;
 		}
@@ -116,7 +116,7 @@ namespace Restaurants.API.Services.Implementation
 			if (newData != null)
 				throw new Exception(String.Format("The given new owner with id:{0} is already an owner.", newOwnerId));
 
-			EmployerRestaurantRepo.Add
+			await EmployerRestaurantRepo.AddAsync
 			(
 				new EmployersRestaurants
 				{
@@ -126,7 +126,7 @@ namespace Restaurants.API.Services.Implementation
 				ModifierId
 			);
 
-			EmployerRestaurantRepo.Remove(oldData);
+			await EmployerRestaurantRepo.RemoveAsync(oldData);
 
 			return true;
 		}
@@ -141,7 +141,7 @@ namespace Restaurants.API.Services.Implementation
 
 			CheckTheLoggedInPerson();
 
-			RestaurantRepo.Update(currentRestaurant, ModifierId);
+			await RestaurantRepo.UpdateAsync(currentRestaurant, ModifierId);
 
 			return currentRestaurant;
 		}

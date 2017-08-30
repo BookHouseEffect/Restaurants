@@ -40,5 +40,40 @@ namespace Restaurants.API.Services.Helpers
 			long restaurantId,
 			long menuLanguageId
 		);
-    }
+
+		Task<List<Currencies>> GetAllAvailableCurrenciesAsync();
+
+		Task<MenuCurrencies> AddMenuCurrencyAsync(
+			long ownerId,
+			long restaurantId,
+			long currencyId
+		);
+
+		Task<MenuCurrencies> GetMenuCurrencyAsync(
+			long menuCurrencyId
+		);
+
+		Task<List<MenuCurrencies>> GetMenuCurrenciesAsync(
+			long restaurantId
+		);
+
+		Task<List<MenuCurrencies>> GetMenuCurrenciesPagedAsync(
+			long restaurantId,
+			int pageNumber,
+			int pageSize
+		);
+
+		Task<MenuCurrencies> UpdateMenuCurrenciesAsync(
+			long ownerId,
+			long restaurantId,
+			long menuCurrencyId,
+			long newCurrencyId
+		);
+
+		bool RemoveMenuCurrency(
+			long ownerId,
+			long restaurantId,
+			long menuCurrencyId
+		);
+	}
 }

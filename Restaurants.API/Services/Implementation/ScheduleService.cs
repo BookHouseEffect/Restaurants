@@ -54,7 +54,7 @@ namespace Restaurants.API.Services.Implementation
 
 			if (existingSchedules.Count == 0)
 			{
-				OutOfScheduleRepo.Add(outSchedule, this.ModifierId);
+				await OutOfScheduleRepo.AddAsync(outSchedule, this.ModifierId);
 				return outSchedule;
 			}
 
@@ -81,17 +81,17 @@ namespace Restaurants.API.Services.Implementation
 
 			if (overlappingShedules.Count == 0)
 			{
-				ScheduleRepo.Add(schedule, this.ModifierId);
+				await ScheduleRepo.AddAsync(schedule, this.ModifierId);
 				return schedule;
 			}
 
 			OpenHoursSchedule newSchedule = SolveOverlappedSchedules(schedule, overlappingShedules);
 
 			newSchedule.RestaurantId = restaurantId;
-			ScheduleRepo.Add(newSchedule, this.ModifierId);
+			await ScheduleRepo.AddAsync(newSchedule, this.ModifierId);
 
 			foreach (var sch in overlappingShedules)
-				ScheduleRepo.Remove(sch);
+				await ScheduleRepo.RemoveAsync(sch);
 
 			return newSchedule;
 		}
@@ -118,7 +118,7 @@ namespace Restaurants.API.Services.Implementation
 
 			OutOfSchedulePeriods current = await CheckOutPeriodExistanceAsync(scheduleId);
 
-			OutOfScheduleRepo.Remove(current);
+			await OutOfScheduleRepo.RemoveAsync(current);
 			return true;
 		}
 
@@ -129,7 +129,7 @@ namespace Restaurants.API.Services.Implementation
 
 			OpenHoursSchedule current = await CheckScheduleExistanceAsync(scheduleId);
 
-			ScheduleRepo.Remove(current);
+			await ScheduleRepo.RemoveAsync(current);
 			return true;
 		}
 
@@ -156,7 +156,7 @@ namespace Restaurants.API.Services.Implementation
 
 			if (overlappingSchedules.Count == 0)
 			{
-				ScheduleRepo.Update(existing, this.ModifierId);
+				await ScheduleRepo.UpdateAsync(existing, this.ModifierId);
 				return existing;
 			}
 
@@ -166,11 +166,11 @@ namespace Restaurants.API.Services.Implementation
 			existing.StartTime = newSchedule.StartTime;
 			existing.EndDay = newSchedule.EndDay;
 			existing.EndTime = newSchedule.EndTime;
-			ScheduleRepo.Update(existing, this.ModifierId);
+			await ScheduleRepo.UpdateAsync(existing, this.ModifierId);
 
 			foreach (var sch in overlappingSchedules)
-				ScheduleRepo.Remove(sch);
-
+				await ScheduleRepo.RemoveAsync(sch);
+				 
 			return existing;
 		}
 

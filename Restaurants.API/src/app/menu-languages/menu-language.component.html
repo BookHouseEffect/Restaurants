@@ -1,0 +1,42 @@
+﻿
+<alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+<alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+
+<div class="panel panel-info">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">Menu languages offered on Guests</h3>
+
+    <div class="btn-group pull-right">
+      <modal-dialog [buttonTitle]="'Add New Language'" [title]="'Add New Language'"
+                      (notify)="newClicked($event)">
+        <menu-language-editor [isNew]="!hasEditing" [restaurant]="restaurant" [currentLanguage]="editedlanguage"
+                      (notify)="(!hasEditing && onResultReturn($event)) || (hasEditing && onEdit($event))">
+        </menu-language-editor>
+      </modal-dialog>
+    </div>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="well-sm">
+      <div *ngIf="!languageList || languageList.length === 0">
+        <h3 class="text text-info">No results available.</h3>
+      </div>
+
+      <table-view [columnNames]="['Language name']"
+                  [properties]="['theLanguage.languageName']"
+                  [hasInfo]="true"
+                  [hasEdit]="true"
+                  [hasRemove]="true"
+                  [data]="languageList"
+                  [pageNumber]="pageNumber"
+                  [pageSize]="pageSize"
+                  (editClick)="editClicked($event)"
+                  (removeClick)="remove($event)"
+                  (previousClick)="getPreviousPage()"
+                  (nextClick)="getNextPage()">
+      </table-view>
+    </div>
+  </div>
+</div>

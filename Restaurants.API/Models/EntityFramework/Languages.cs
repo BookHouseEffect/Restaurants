@@ -1,4 +1,5 @@
-﻿using Restaurants.API.Models.Enums;
+﻿using Newtonsoft.Json;
+using Restaurants.API.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,7 +31,8 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<MenuLanguages> _MenuLanguage;
 
-        public virtual ICollection<MenuLanguages> TheMenuLanguagesAssosiatedWithThisLanguages
+		[JsonIgnore]
+		public virtual ICollection<MenuLanguages> TheMenuLanguagesAssosiatedWithThisLanguages
         {
             get
             {

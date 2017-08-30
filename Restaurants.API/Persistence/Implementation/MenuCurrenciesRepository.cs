@@ -1,37 +1,35 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
 using System.Threading.Tasks;
-using System;
 
 namespace Restaurants.API.Persistence.Implementation
-{
-	public class MenuLanguagesRepository : CrudRepository<MenuLanguages>
+{ 
+	public class MenuCurrenciesRepository : CrudRepository<MenuCurrencies>
 	{
-		public MenuLanguagesRepository(AppDbContext dbContext) : base(dbContext)
+		public MenuCurrenciesRepository(AppDbContext dbContext) : base(dbContext)
 		{
 		}
 
-		internal Task<List<MenuLanguages>> GetItemsByMenuId(long menuId)
+		internal Task<List<MenuCurrencies>> GetItemsByMenuId(long menuId)
 		{
 			return this.DbSet
 				.Where(x => x.MenuId == menuId)
 				.Include(x => x.ModifiedBy)
 				.Include(x => x.CreatedBy)
-				.Include(x => x.TheLanguage)
+				.Include(x => x.TheCurrency)
 				.ToListAsync();
 		}
 
-		internal Task<List<MenuLanguages>> GetItemsByMenuIdPaged(long menuId, int pageNumber, int pageSize)
+		internal Task<List<MenuCurrencies>> GetItemsByMenuIdPaged(long menuId, int pageNumber, int pageSize)
 		{
 			return this.DbSet
 				.Where(x => x.MenuId == menuId)
 				.Include(x => x.ModifiedBy)
 				.Include(x => x.CreatedBy)
-				.Include(x => x.TheLanguage)
+				.Include(x => x.TheCurrency)
 				.Skip((pageNumber - 1 )*pageSize)
 				.Take(pageSize)
 				.ToListAsync();

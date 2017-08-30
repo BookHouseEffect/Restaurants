@@ -33,20 +33,20 @@ namespace Restaurants.API.Services.Implementation
 				Latitude = latitude,
 				Longitude = longitude
 			};
-			PointRepo.Add(point, ModifierId);
+			await PointRepo.AddAsync(point, ModifierId);
 
 			LocationContact contact = new LocationContact() { LocationPointId = point.Id, RestaurantId = connection.TheRestaurant.Id };
 			contact.FillOrUpdateFields(floor, steetNumber, route, locality, country, zipCode, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
 			try
 			{
-				LocationRepo.Add(contact, ModifierId);
+				await LocationRepo.AddAsync(contact, ModifierId);
 			}
 			catch (Exception ex)
 			{
 				if (contact.Id <= 0)
 				{
 					contact = null;
-					PointRepo.Remove(point);
+					await PointRepo.RemoveAsync(point);
 				}
 
 				throw ex;
@@ -67,7 +67,7 @@ namespace Restaurants.API.Services.Implementation
 			};
 
 			CheckTheLoggedInPerson();
-			PhoneRepo.Add(phone, ModifierId);
+			await PhoneRepo.AddAsync(phone, ModifierId);
 
 			return phone;
 		}
@@ -90,8 +90,8 @@ namespace Restaurants.API.Services.Implementation
 			LocationPoints point = await CheckLocationPointExistenceAsync(loc.LocationPointId);
 
 			CheckTheLoggedInPerson();
-			PointRepo.Remove(point);
-			LocationRepo.Remove(loc);
+			await PointRepo.RemoveAsync(point);
+			await LocationRepo.RemoveAsync(loc);
 
 			return true;
 		}
@@ -103,7 +103,7 @@ namespace Restaurants.API.Services.Implementation
 			PhoneContacts phone = await CheckPhoneExistenceAsync(contactId);
 
 			CheckTheLoggedInPerson();
-			PhoneRepo.Remove(phone);
+			await PhoneRepo.RemoveAsync(phone);
 
 			return true;
 		}
@@ -119,10 +119,10 @@ namespace Restaurants.API.Services.Implementation
 			point.Longitude = longitude;
 
 			CheckTheLoggedInPerson();
-			PointRepo.Update(point, ModifierId);
+			await PointRepo.UpdateAsync(point, ModifierId);
 
 			contact.FillOrUpdateFields(floor, steetNumber, route, locality, country, zipCode, administrativeAreaLevel1, administrativeAreaLevel2, googleLink);
-			LocationRepo.Update(contact, ModifierId);
+			await LocationRepo.UpdateAsync(contact, ModifierId);
 
 			return contact;
 		}
@@ -135,7 +135,7 @@ namespace Restaurants.API.Services.Implementation
 			CheckTheLoggedInPerson();
 			phone.PhoneNumber = phoneNumber;
 			phone.PhoneDescription = phoneDescription;
-			PhoneRepo.Update(phone, ModifierId);
+			await PhoneRepo.UpdateAsync(phone, ModifierId);
 
 			return phone;
 		}

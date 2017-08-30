@@ -105,9 +105,18 @@ export abstract class BaseService<TEntity, TCreateReturn, TReadReturn, TUpdateRe
     }
 
     protected handleError(error: Response): Promise<any> {
-        // TODO: for demo purposes only
-        console.error('An error occurred', error);
+        var x;
+        var y = ['Something went wrong'];
 
-        return Promise.reject(error.json() || error);
+        try {
+            x = error.json()
+        } catch (e) {
+            x = y;
+        }
+
+        if (Array.isArray(x))
+            return Promise.reject(x)
+        else
+            return Promise.reject(y);
     }
 }

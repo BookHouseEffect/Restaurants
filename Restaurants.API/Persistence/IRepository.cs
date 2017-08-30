@@ -7,7 +7,7 @@ namespace Restaurants.API.Persistence
 {
     interface IRepository<T> where T : BaseEntity
     {
-        void Add(
+        Task AddAsync(
             T item,
 			long modifierId
         );
@@ -27,11 +27,11 @@ namespace Restaurants.API.Persistence
             Func<T, bool> predicate
         );
 
-        void Remove(
+        Task RemoveAsync(
             T item
         );
 
-        void Update(
+        Task UpdateAsync(
             T item,
 			long modiierId
         );

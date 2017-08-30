@@ -10,17 +10,27 @@ namespace Restaurants.API.Services.Implementation
 {
 	public class MenuService : BaseService, IMenuService
 	{
-		LanguagesRepository LanguageRepo;
 		MenusRepository MenusRepo;
+
+		LanguagesRepository LanguageRepo;
 		MenuLanguagesRepository MenuLanguagesRepo;
 
-		public MenuService(AppDbContext dbContext, People logedInPerson) 
+		CurrenciesRepository CurrencyRepo;
+		MenuCurrenciesRepository MenuCurrencyRepo;
+
+		public MenuService(AppDbContext dbContext, People logedInPerson)
 			: base(dbContext, logedInPerson)
 		{
-			this.LanguageRepo = new LanguagesRepository(dbContext);
 			this.MenusRepo = new MenusRepository(dbContext);
+
+			this.LanguageRepo = new LanguagesRepository(dbContext);
 			this.MenuLanguagesRepo = new MenuLanguagesRepository(dbContext);
+
+			this.CurrencyRepo = new CurrenciesRepository(dbContext);
+			this.MenuCurrencyRepo = new MenuCurrenciesRepository(dbContext);
 		}
+
+		#region MenuLanguages
 
 		public async Task<MenuLanguages> AddMenuLanguageAsync(long ownerId, long restaurantId, long languageId)
 		{
@@ -30,7 +40,7 @@ namespace Restaurants.API.Services.Implementation
 
 			CheckTheLoggedInPerson();
 			MenuLanguages item = new MenuLanguages { MenuId = currentMenu.Id, LanguageId = languageToAdd.Id };
-			MenuLanguagesRepo.Add(item, this.ModifierId);
+			await MenuLanguagesRepo.AddAsync(item, this.ModifierId);
 
 			return item;
 		}
@@ -72,18 +82,80 @@ namespace Restaurants.API.Services.Implementation
 			CheckTheLoggedInPerson();
 			menuLanguage.LanguageId = newLanguage.Id;
 			menuLanguage.TheLanguage = newLanguage;
-			MenuLanguagesRepo.Update(menuLanguage, this.ModifierId);
+			await MenuLanguagesRepo.UpdateAsync(menuLanguage, this.ModifierId);
 
 			return menuLanguage;
 		}
+		#endregion
+
+		#region MenuCurrencies
+
+		public async Task<List<Currencies>> GetAllAvailableCurrenciesAsync()
+		{
+			return await CurrencyRepo.GetCurrencyList();
+		}
+
+		public async Task<MenuCurrencies> AddMenuCurrencyAsync(long ownerId, long restaurantId, long currencyId)
+		{
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			Menus currentMenu = await CheckMenuExistanceAsync(restaurantId);
+			Currencies currencyToAdd = await CheckCurrencyExistance(currencyId);
+
+			CheckTheLoggedInPerson();
+			MenuCurrencies item = new MenuCurrencies { MenuId = currentMenu.Id, CurrencyId = currencyToAdd.Id };
+			await MenuCurrencyRepo.AddAsync(item, this.ModifierId);
+
+			return item;
+		}
+
+		public async Task<MenuCurrencies> GetMenuCurrencyAsync(long menuCurrencyId)
+		{
+			return await MenuCurrencyRepo.FindById(menuCurrencyId);
+		}
+
+		public async Task<List<MenuCurrencies>> GetMenuCurrenciesAsync(long restaurantId)
+		{
+			Menus menu = await CheckMenuExistanceAsync(restaurantId);
+			return await MenuCurrencyRepo.GetItemsByMenuId(menu.Id);
+		}
+
+		public async Task<List<MenuCurrencies>> GetMenuCurrenciesPagedAsync(long restaurantId, int pageNumber, int pageSize)
+		{
+			Menus menu = await CheckMenuExistanceAsync(restaurantId);
+			return await MenuCurrencyRepo.GetItemsByMenuIdPaged(menu.Id, pageNumber, pageSize);
+		}
+
+		public async Task<MenuCurrencies> UpdateMenuCurrenciesAsync(long ownerId, long restaurantId, long menuCurrencyId, long newCurrencyId)
+		{
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			MenuCurrencies menuCurrency = await CheckMenuCurrencyExistence(menuCurrencyId);
+			Currencies newCurrency = await CheckCurrencyExistance(newCurrencyId);
+
+			CheckTheLoggedInPerson();
+			menuCurrency.CurrencyId = newCurrency.Id;
+			menuCurrency.TheCurrency = newCurrency;
+			await MenuCurrencyRepo.UpdateAsync(menuCurrency, this.ModifierId);
+
+			return menuCurrency;
+		}
+
+		public bool RemoveMenuCurrency(long ownerId, long restaurantId, long menuLanguageId)
+		{
+			//TODO: remove categories, menuItemContent and menuCurrencies corresponding to given menuLanguage
+			throw new NotImplementedException();
+		}
+		#endregion
+
+		#region Private functions
 
 		private async Task<Menus> CheckMenuExistanceAsync(long restaurantId)
 		{
 			Menus menu = await MenusRepo.GetMenuByRestaurantId(restaurantId);
-			if (menu == null){
+			if (menu == null)
+			{
 				RestaurantObjects currentRestaurant = await CheckRestaurantExistenceAsync(restaurantId);
 				menu = new Menus { RestaurantId = currentRestaurant.Id };
-				MenusRepo.Add(menu, this.ModifierId);
+				await MenusRepo.AddAsync(menu, this.ModifierId);
 			}
 			return menu;
 		}
@@ -96,11 +168,30 @@ namespace Restaurants.API.Services.Implementation
 			return language;
 		}
 
-		private async Task<MenuLanguages> CheckMenuLanguageExistence(long menuLanguageId){
+		private async Task<MenuLanguages> CheckMenuLanguageExistence(long menuLanguageId)
+		{
 			MenuLanguages menuLanguage = await MenuLanguagesRepo.FindById(menuLanguageId);
 			if (menuLanguage == null)
 				throw new Exception("Non existing entry");
 			return menuLanguage;
 		}
+
+		private async Task<Currencies> CheckCurrencyExistance(long currencyId)
+		{
+			Currencies currency = await CurrencyRepo.GetCurrencyById(currencyId);
+			if (currency == null)
+				throw new Exception("Invalid currency!");
+			return currency;
+		}
+
+		private async Task<MenuCurrencies> CheckMenuCurrencyExistence(long menuCurrencyId)
+		{
+			MenuCurrencies menuCurrency = await MenuCurrencyRepo.FindById(menuCurrencyId);
+			if (menuCurrency == null)
+				throw new Exception("Non existing entry");
+			return menuCurrency;
+		}
+
+		#endregion
 	}
 }

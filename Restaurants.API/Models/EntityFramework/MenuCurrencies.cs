@@ -34,10 +34,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private Currencies _Currency;
 
-		[JsonIgnore]
 		[ForeignKey("CurrencyId")]
         public virtual Currencies TheCurrency
         {

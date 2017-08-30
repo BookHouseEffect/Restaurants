@@ -1,0 +1,39 @@
+﻿<div class="form">
+
+  <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+  <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+  <input type="hidden" [value]="currentLanguage.id" *ngIf="!isNew" />
+
+  <div class="form-group">
+    <label class="control-label">Choose language:</label>
+    <div>
+      <select [(ngModel)]="currentLanguage.languageId"
+             class="form-control"
+             placeholder="Choose language from list">
+             <option *ngFor="let lang of languageList" [attr.value]="lang.id">{{lang.languageName}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-3" [class.col-xs-offset-3]="!isNew" *ngIf="!isNew">
+      <modify-info-popover [entity]="currentLanguage"></modify-info-popover>
+    </div>
+    <div class=" col-xs-3" *ngIf="!isNew">
+      <button class=" btn btn-danger btn-block"
+              (click)="getOriginal()">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span> Discard </span>
+      </button>
+    </div>
+    <div class="col-xs-3" [class.col-xs-offset-9]="isNew">
+      <button class=" btn btn-success btn-block"
+              (click)="save()">
+        <span class="glyphicon glyphicon-save"></span>
+        <span> Save </span>
+      </button>
+    </div>
+  </div>
+
+</div>
