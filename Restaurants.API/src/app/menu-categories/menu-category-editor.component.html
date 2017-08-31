@@ -1,0 +1,54 @@
+﻿<div class="form">
+
+  <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+  <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+  <input type="hidden" [value]="currentCategory.id" *ngIf="!isNew" />
+
+  <table class="table table-condensed table-stripped">
+    <thead>
+      <tr>
+        <th class="col-xs-2">Language</th>
+        <th class="col-xs-3">Name</th>
+        <th class="col-xs-6">Description</th>
+        <th class="col-xs-1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cat of currentCategory.theCategories">
+        <th>{{cat.theMenuLanguage.theLanguage.languageName}}</th>
+        <td>
+          <input type="text" class="form-control" [(ngModel)]="cat.categoryName" />
+        </td>
+        <td>
+          <textarea rows="2" class="form-control" [(ngModel)]="cat.categoryDescription"></textarea>
+        </td>
+        <td>
+          <modify-info-popover [entity]="cat"></modify-info-popover>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <div class="row">
+    <div class="col-xs-3" [class.col-xs-offset-3]="!isNew" *ngIf="!isNew">
+      <modify-info-popover [entity]="currentCategory"></modify-info-popover>
+    </div>
+    <div class=" col-xs-3" *ngIf="!isNew">
+      <button class=" btn btn-danger btn-block"
+              (click)="getOriginal()">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span> Discard </span>
+      </button>
+    </div>
+    <div class="col-xs-3" [class.col-xs-offset-9]="isNew">
+      <button class=" btn btn-success btn-block"
+              (click)="save()">
+        <span class="glyphicon glyphicon-save"></span>
+        <span> Save </span>
+      </button>
+    </div>
+  </div>
+
+</div>

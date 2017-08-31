@@ -1,0 +1,133 @@
+﻿
+<alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+<alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+
+<div class="panel panel-info">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">Menu Categories</h3>
+
+    <div class="btn-group pull-right">
+      <modal-dialog [buttonTitle]="'Add New Category'" [title]="'Add New Category'"
+                    (notify)="newClicked($event)">
+        <menu-category-editor [isNew]="!hasEditing" [restaurant]="restaurant" [currentCategory]="editedCategory"
+                              (notify)="(!hasEditing && remove($event)) || (hasEditing && onEdit($event))">
+        </menu-category-editor>
+      </modal-dialog>
+    </div>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="well-sm">
+      <div *ngIf="!categoryList || categoryList.length === 0">
+        <h3 class="text text-info">No results available.</h3>
+      </div>
+
+      <table class="table table-bordered table-condensed table-hover">
+
+        <thead>
+          <tr>
+            <th>Category Details</th>
+            <th class="col-xs-1"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <ng-container *ngFor="let item of categoryList">
+            <tr>
+              <td>
+
+                <table class="table table-bordered table-condensed">
+                  <thead>
+                    <tr>
+                      <th class="col-xs-2">Language Name</th>
+                      <th class="col-xs-3">Category Name</th>
+                      <th class="col-xs-6">Category Description </th>
+                      <th class="col-xs-1"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let detail of item.theCategories">
+                      <td>{{detail.theMenuLanguage.theLanguage.languageName}}</td>
+                      <td>{{detail.categoryName}}</td>
+                      <td>{{detail.categoryDescription}}</td>
+                      <td>
+                        <modify-info-popover [entity]="detail"></modify-info-popover>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </td>
+
+              <td>
+
+                <table class="table table-bordered">
+
+                  <tbody>
+                    <tr>
+                      <td><modify-info-popover [entity]="item"></modify-info-popover></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button type="button" class="btn btn-warning btn-sm btn-block" (click)="editClicked(item)">
+                          <span class="glyphicon glyphicon-pencil"></span> <span> Edit </span>
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <button type="button" class="btn btn-danger btn-sm btn-block" (click)="removeClicked(item)">
+                          <span class="glyphicon glyphicon-remove"></span> <span> Remove </span>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </td>
+            </tr>
+          </ng-container>
+
+        </tbody>
+
+        <tfoot>
+          <tr>
+            <td colspan="2">
+              <ul class="pager">
+
+                <li class="previous">
+                  <button type="button" class="btn btn-primary"
+                          [class.disabled]="(pageNumber <= 1)"
+                          (click)="(pageNumber <= 1) || getPreviousPage()">
+                    Previous
+                  </button>
+                </li>
+
+                <li>
+                  <span *ngIf="categoryList && categoryList.length !== 0">
+                    Page #{{pageNumber}} ( Results from {{(pageNumber - 1) * pageSize + 1}} to {{(pageNumber - 1) * pageSize + categoryList.length}} )
+                  </span>
+                  <span *ngIf="!categoryList || categoryList.length === 0">
+                    Page #{{pageNumber}} ( No results available )
+                  </span>
+                </li>
+
+                <li class="next">
+                  <button type="button" class="btn btn-primary"
+                          [class.disabled]="(!categoryList || categoryList.length !== pageSize)"
+                          (click)="(!categoryList || categoryList.length !== pageSize) || getNextPage()">
+                    Next
+                  </button>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+  </div>
+</div>

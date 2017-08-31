@@ -2,11 +2,11 @@
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 
 import { BaseService } from './../common/base.service';
-import { Restaurant, EmployersRestaurants, Tupple } from './../common/model';
+import { Restaurant, EmployersRestaurants, Tuple } from './../common/model';
 
 @Injectable()
 export class RestaurantService extends BaseService<
-  Restaurant, Tupple<Restaurant, EmployersRestaurants>, Restaurant, Restaurant, Boolean> {
+  Restaurant, Tuple<Restaurant, EmployersRestaurants>, Restaurant, Restaurant, Boolean> {
 
     constructor(
         injector: Injector

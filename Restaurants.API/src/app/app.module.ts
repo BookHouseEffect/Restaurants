@@ -37,6 +37,10 @@ import { MenuCurrencyComponent } from './menu-currencies/menu-currency.component
 import { MenuCurrencyEditorComponent } from './menu-currencies/menu-currency-editor.component';
 import { MenuCurrencyService } from './menu-currencies/menu-currency.service';
 
+import { MenuCategoryEditorComponent } from './menu-categories/menu-category-editor.component';
+import { MenuCategoryComponent } from './menu-categories/menu-category.component';
+import { MenuCategoryService } from './menu-categories/menu-category.service';
+
 import { SearchService } from './common/search.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -53,7 +57,8 @@ import { PopoverModule } from "ngx-popover";
         AddressComponent,
         ScheduleComponent, ScheduleEditorComponent, IteratorNumberPipe, DayStringPipe,
         MenuLanguageComponent, MenuLanguageEditorComponent,
-        MenuCurrencyComponent, MenuCurrencyEditorComponent
+        MenuCurrencyComponent, MenuCurrencyEditorComponent,
+        MenuCategoryComponent, MenuCategoryEditorComponent
     ],
     imports: [
         BrowserModule,
@@ -75,7 +80,8 @@ import { PopoverModule } from "ngx-popover";
         AddressService,
         ScheduleService,
         MenuLanguageService,
-        MenuCurrencyService
+        MenuCurrencyService,
+        MenuCategoryService
     ],
     bootstrap: [AppComponent]
 })

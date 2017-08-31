@@ -75,5 +75,36 @@ namespace Restaurants.API.Services.Helpers
 			long restaurantId,
 			long menuCurrencyId
 		);
+
+		Task<MenuCategories> AddMenuCategoryAsync(
+			long ownerId,
+			long restaurantId,
+			Dictionary<long, string> categoryName,
+			Dictionary<long, string> categoryDescription
+		);
+
+		Task<MenuCategories> GetMenuCategoryAsync(
+			long menuCategoriesId
+		);
+
+		Task<List<MenuCategories>> GetAllMenuCategoriesAsync(
+			long restaurantId,
+			int pageNumber,
+			int pageSize
+		);
+
+		Task<MenuCategories> UpdateMenuCategoryAsync(
+			long ownerId,
+			long restaurantId,
+			long menuCategoryId,
+			Dictionary<long, string> categoryName,
+			Dictionary<long, string> categoryDescription
+		);
+
+		bool RemoveMenuCategory(
+			long ownerId,
+			long restaurantId,
+			long menuCategoryId
+		);
 	}
 }

@@ -13,27 +13,27 @@
   </thead>
 
   <tbody>
-    <ng-container *ngFor="let item of data">
-      <tr>
-        <ng-container *ngFor="let property of properties">
-          <td>{{getValueByProperty(item, property)}}</td>
-        </ng-container>
+      <ng-container *ngFor="let item of data">
+        <tr>
+          <ng-container *ngFor="let property of properties">
+            <td>{{getValueByProperty(item, property)}}</td>
+          </ng-container>
 
-        <td *ngIf="hasInfo">
-          <modify-info-popover [entity]="item"></modify-info-popover>
-        </td>
-        <td *ngIf="hasEdit"> 
-          <button type="button" class="btn btn-warning btn-sm btn-block" (click)="notifyEdit(item)">
-            <span class="glyphicon glyphicon-pencil"></span> <span> Edit </span>
-          </button>
-        </td>
-        <td *ngIf="hasRemove">
-          <button type="button" class="btn btn-danger btn-sm btn-block" (click)="notifyForRemove(item)">
-            <span class="glyphicon glyphicon-remove"></span> <span> Remove </span>
-          </button>
-        </td>
-      </tr>
-    </ng-container>
+          <td *ngIf="hasInfo">
+            <modify-info-popover [entity]="item"></modify-info-popover>
+          </td>
+          <td *ngIf="hasEdit">
+            <button type="button" class="btn btn-warning btn-sm btn-block" (click)="notifyEdit(item)">
+              <span class="glyphicon glyphicon-pencil"></span> <span> Edit </span>
+            </button>
+          </td>
+          <td *ngIf="hasRemove">
+            <button type="button" class="btn btn-danger btn-sm btn-block" (click)="notifyForRemove(item)">
+              <span class="glyphicon glyphicon-remove"></span> <span> Remove </span>
+            </button>
+          </td>
+        </tr>
+      </ng-container>
   </tbody>
 
   <tfoot *ngIf="hasPaging">

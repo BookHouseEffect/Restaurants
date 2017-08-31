@@ -1,4 +1,5 @@
-﻿using Restaurants.API.Persistence.Implementation;
+﻿using System.Linq;
+using Restaurants.API.Persistence.Implementation;
 using Restaurants.API.Services.Helpers;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,9 @@ namespace Restaurants.API.Services.Implementation
 		CurrenciesRepository CurrencyRepo;
 		MenuCurrenciesRepository MenuCurrencyRepo;
 
+		CategoriesRepository CategoriesRepo;
+		MenuCategoriesRepository MenuCategoriesRepo;
+
 		public MenuService(AppDbContext dbContext, People logedInPerson)
 			: base(dbContext, logedInPerson)
 		{
@@ -28,6 +32,9 @@ namespace Restaurants.API.Services.Implementation
 
 			this.CurrencyRepo = new CurrenciesRepository(dbContext);
 			this.MenuCurrencyRepo = new MenuCurrenciesRepository(dbContext);
+
+			this.CategoriesRepo = new CategoriesRepository(dbContext);
+			this.MenuCategoriesRepo = new MenuCategoriesRepository(dbContext);
 		}
 
 		#region MenuLanguages
@@ -69,7 +76,7 @@ namespace Restaurants.API.Services.Implementation
 
 		public bool RemoveMenuLanguage(long ownerId, long restaurantId, long menuLanguageId)
 		{
-			//TODO: remove categories, menuItemContent and menulanguages corresponding to given menuLanguage
+			//TODO: remove menuLanguages, categories, menuItemContents
 			throw new NotImplementedException();
 		}
 
@@ -141,9 +148,103 @@ namespace Restaurants.API.Services.Implementation
 
 		public bool RemoveMenuCurrency(long ownerId, long restaurantId, long menuLanguageId)
 		{
-			//TODO: remove categories, menuItemContent and menuCurrencies corresponding to given menuLanguage
+			//TODO: remove menuCurrencies, menuItemValues
 			throw new NotImplementedException();
 		}
+		#endregion
+
+		#region MenuCategoriesRegion 
+
+		public async Task<MenuCategories> AddMenuCategoryAsync(long ownerId, long restaurantId, Dictionary<long, string> categoryName, Dictionary<long, string> categoryDescription)
+		{
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			Menus currentMenu = await CheckMenuExistanceAsync(restaurantId);
+			List<MenuLanguages> menuLanguages = await MenuLanguagesRepo.GetItemsByMenuId(currentMenu.Id);
+
+			MenuCategories menuCat = new MenuCategories();
+			await MenuCategoriesRepo.AddAsync(menuCat, this.ModifierId);
+
+			foreach (var menuLang in menuLanguages)
+			{
+				bool checkName = categoryName.TryGetValue(menuLang.Id, out string name);
+				categoryDescription.TryGetValue(menuLang.Id, out string description);
+
+				if (!checkName) 
+					name = "<< no name >>";
+
+				Categories cat = new Categories
+				{
+					CategoryName = name,
+					CategoryDescription = description,
+					MenuLanguageId = menuLang.Id,
+					MenuCategoryId = menuCat.Id
+				};
+
+				await CategoriesRepo.AddAsync(cat, this.ModifierId);
+			}
+			
+			return menuCat;
+		}
+
+		public async Task<MenuCategories> GetMenuCategoryAsync(long menuCategoriesId)
+		{
+			return await MenuCategoriesRepo.GetSingleMenuCategoryById(menuCategoriesId);
+		}
+
+		public async Task<List<MenuCategories>> GetAllMenuCategoriesAsync(long restaurantId, int pageNumber, int pageSize)
+		{
+			Menus currentMenu = await CheckMenuExistanceAsync(restaurantId);
+			return await MenuCategoriesRepo.GetMenuCategoriesById(currentMenu.Id, pageNumber, pageSize);
+		}
+
+		public async Task<MenuCategories> UpdateMenuCategoryAsync(long ownerId, long restaurantId, long menuCategoryId, Dictionary<long, string> categoryName, Dictionary<long, string> categoryDescription)
+		{
+			EmployersRestaurants connection = await CheckEmployerRestaurantAsync(ownerId, restaurantId);
+			Menus currentMenu = await CheckMenuExistanceAsync(restaurantId);
+			List<MenuLanguages> menuLanguages = await MenuLanguagesRepo.GetItemsByMenuId(currentMenu.Id);
+			MenuCategories menuCategory = await CheckMenuCategoryExistance(menuCategoryId);
+			List<Categories> categories = await CategoriesRepo.GetByMenuCategoryId(menuCategory.Id);
+
+			foreach (var menuLang in menuLanguages)
+			{
+				bool checkName = categoryName.TryGetValue(menuLang.Id, out string name);
+				categoryDescription.TryGetValue(menuLang.Id, out string description);
+
+				if (!checkName) 
+					name = "<< no name >>";
+
+				Categories cat = categories.Where(x => x.MenuLanguageId == menuLang.Id).SingleOrDefault();
+				if (cat == null)
+				{
+					cat = new Categories
+					{
+						CategoryName = name,
+						CategoryDescription = description,
+						MenuCategoryId = menuCategory.Id,
+						MenuLanguageId = menuLang.Id
+					};
+
+					categories.Add(cat);
+					await CategoriesRepo.AddAsync(cat, this.ModifierId);
+				}
+				else
+				{
+					cat.CategoryName = name;
+					cat.CategoryDescription = description;
+
+					await CategoriesRepo.UpdateAsync(cat, this.ModifierId);
+				}
+			}
+
+			return menuCategory;
+		}
+
+		public bool RemoveMenuCategory(long ownerId, long restaurantId, long menuCategoryId)
+		{
+			//TODO: implement remove over menucategories, categories, items, menuItems
+			throw new NotImplementedException();
+		}
+
 		#endregion
 
 		#region Private functions
@@ -190,6 +291,14 @@ namespace Restaurants.API.Services.Implementation
 			if (menuCurrency == null)
 				throw new Exception("Non existing entry");
 			return menuCurrency;
+		}
+
+		private async Task<MenuCategories> CheckMenuCategoryExistance(long menuCategoryId)
+		{
+			MenuCategories menuCategory = await MenuCategoriesRepo.FindById(menuCategoryId);
+			if (menuCategory == null)
+				throw new Exception("Non existing entry");
+			return menuCategory;
 		}
 
 		#endregion

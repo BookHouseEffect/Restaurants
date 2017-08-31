@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Restaurants.API.Models.Api
@@ -26,15 +27,16 @@ namespace Restaurants.API.Models.Api
 	{
 		[Required]
 		public Int64 RestaurantId { get; set; }
-
 	}
 
-	public class PhoneModel
+	public abstract class RestaurantModel
 	{
-
 		[Required]
 		public Int64 RestaurantId { get; set; }
+	}
 
+	public class PhoneModel : RestaurantModel
+	{
 		[Required(AllowEmptyStrings = false, ErrorMessage = "Phone number can't be empty string.")]
 		[DataType(DataType.PhoneNumber, ErrorMessage = "It must be phone number format.")]
 		[Phone]
@@ -44,10 +46,8 @@ namespace Restaurants.API.Models.Api
 		public string PhoneDescription { get; set; }
 	}
 
-	public class LocationModel
+	public class LocationModel : RestaurantModel
 	{
-
-		[Required] public Int64 RestaurantId { get; set; }
 		[Required] public Int32 Floor { get; set; }
 		[Required] public string StreetNumber { get; set; }
 		[Required] public string Route { get; set; }
@@ -73,23 +73,51 @@ namespace Restaurants.API.Models.Api
 		public Single Longitude { get; set; }
 	}
 
-	public class LanguageModel
+	public class LanguageModel : RestaurantModel
 	{
-
-		[Required]
-		public Int64 RestaurantId { get; set; }
-
 		[Required]
 		public Int64 LanguageId { get; set; }
 	}
 
-	public class CurrencyModel {
-
-		[Required]
-		public Int64 RestaurantId { get; set; }
-
+	public class CurrencyModel : RestaurantModel
+	{
 		[Required]
 		public Int64 CurrencyId { get; set; }
+	}
+
+	public class CategoryModel : RestaurantModel
+	{
+		public CategoryModel()
+		{
+			this.CategoryName = new List<Tuple<long, string>>();
+			this.CategoryDescription = new List<Tuple<long, string>>();
+		}
+
+		[Required]
+		public List<Tuple<long, string>> CategoryName { get; set; }
+
+		[Required]
+		public List<Tuple<long, string>> CategoryDescription { get; set; }
+
+		public Dictionary<long, string> GetNameDictionary()
+		{
+			Dictionary<long, string> dictionary = new Dictionary<long, string>();
+			foreach (var item in CategoryName)
+			{
+				dictionary.Add(item.Item1, item.Item2);
+			}
+			return dictionary;
+		}
+
+		public Dictionary<long, string> GetDescriptionDictionary()
+		{
+			Dictionary<long, string> dictionary = new Dictionary<long, string>();
+			foreach (var item in CategoryDescription)
+			{
+				dictionary.Add(item.Item1, item.Item2);
+			}
+			return dictionary;
+		}
 	}
 
 }

@@ -44,6 +44,11 @@ namespace Restaurants.API.Services
 			return RestaurantService.AddCoownerAsync(ownerId, restaurantId, coownerId);
 		}
 
+		public Task<MenuCategories> AddMenuCategoryAsync(long ownerId, long restaurantId, Dictionary<long, string> categoryName, Dictionary<long, string> categoryDescription)
+		{
+			return MenuService.AddMenuCategoryAsync(ownerId, restaurantId, categoryName, categoryDescription);
+		}
+
 		public Task<MenuCurrencies> AddMenuCurrencyAsync(long ownerId, long restaurantId, long currencyId)
 		{
 			return MenuService.AddMenuCurrencyAsync(ownerId, restaurantId, currencyId);
@@ -89,6 +94,11 @@ namespace Restaurants.API.Services
 			return ContactService.GetAllContactNumbersAsync(restaurantId, pageNumber, pageSize);
 		}
 
+		public Task<List<MenuCategories>> GetAllMenuCategoriesAsync(long restaurantId, int pageNumber, int pageSize)
+		{
+			return MenuService.GetAllMenuCategoriesAsync(restaurantId, pageNumber, pageSize);
+		}
+
 		public Task<List<OutOfSchedulePeriods>> GetAllOutOfScheduleIntervalsAsync(long restaurantId, int pageNumber, int pageSize)
 		{
 			return ScheduleSerice.GetAllOutOfScheduleIntervalsAsync(restaurantId, pageNumber, pageSize);
@@ -107,6 +117,11 @@ namespace Restaurants.API.Services
 		public Task<LocationContact> GetLocationContactAsync(long contactId)
 		{
 			return ContactService.GetLocationContactAsync(contactId);
+		}
+
+		public Task<MenuCategories> GetMenuCategoryAsync(long menuCategoriesId)
+		{
+			return MenuService.GetMenuCategoryAsync(menuCategoriesId);
 		}
 
 		public Task<List<MenuCurrencies>> GetMenuCurrenciesAsync(long restaurantId)
@@ -179,6 +194,11 @@ namespace Restaurants.API.Services
 			return RestaurantService.RemoveCoownerAsync(ownerId, restaurantId, coownerId);
 		}
 
+		public bool RemoveMenuCategory(long ownerId, long restaurantId, long menuCategoryId)
+		{
+			return MenuService.RemoveMenuCategory(ownerId, restaurantId, menuCategoryId);
+		}
+
 		public bool RemoveMenuCurrency(long ownerId, long restaurantId, long menuCurrencyId)
 		{
 			return MenuService.RemoveMenuCurrency(ownerId, restaurantId, menuCurrencyId);
@@ -212,6 +232,11 @@ namespace Restaurants.API.Services
 		public Task<PhoneContacts> UpdateContactNumberAsync(long ownerId, long restaurantId, long contactId, string phoneNumber, string phoneDescription)
 		{
 			return ContactService.UpdateContactNumberAsync(ownerId, restaurantId, contactId, phoneNumber, phoneDescription);
+		}
+
+		public Task<MenuCategories> UpdateMenuCategoryAsync(long ownerId, long restaurantId, long menuCategoryId, Dictionary<long, string> categoryName, Dictionary<long, string> categoryDescription)
+		{
+			return MenuService.UpdateMenuCategoryAsync(ownerId, restaurantId, menuCategoryId, categoryName, categoryDescription);
 		}
 
 		public Task<MenuCurrencies> UpdateMenuCurrenciesAsync(long ownerId, long restaurantId, long menuCurrencyId, long newCurrencyId)

@@ -1,19 +1,37 @@
 ﻿export abstract class BaseModel {
+
+    constructor() {
+        this.createdBy = null;
+        this.modifiedBy = null;
+    }
+
     id: number;
     createdByUserId: number;
-    createdBy: People = {} as People;
+    createdBy: People;
     createdDateTime: string;
     modifiedByUserId: number;
-    modifiedBy: People = {} as People;
+    modifiedBy: People;
     modifiedDateTime: string;
 }
 
 export class Restaurant extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
     name: string;
     description: string;
 }
 
 export class EmployersRestaurants extends BaseModel {
+
+    constructor() {
+        super();
+        this.theEmployer = new Employers();
+        this.theRestaurant = new Restaurant();
+    }
+
     restaurantId: number;
     theEmployer: Employers;
     employerId: number;
@@ -21,28 +39,50 @@ export class EmployersRestaurants extends BaseModel {
 }
 
 export class Employers extends BaseModel {
+
+    constructor() {
+        super();
+        this.theEmployerDetails = new People();
+    }
+
     personId: number;
     theEmployerDetails: People;
 }
 
 export class People extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
     personFirstName: string;
     personMiddleName: string;
     personLastName: string;
 }
 
-export class Tupple<IFirst, ISecond> {
+export class Tuple<IFirst, ISecond> {
     item1: IFirst;
     item2: ISecond;
 }
 
 export class Phone extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
     restaurantId: number;
     phoneNumber: string;
     phoneDescription: string;
 }
 
 export class Address extends BaseModel {
+
+    constructor() {
+        super();
+        this.theLocationPoint = new Coordinates();
+    }
+
     restaurantId: number;
     floor: number;
     streetNumber: string;
@@ -57,6 +97,11 @@ export class Address extends BaseModel {
 }
 
 export class Coordinates extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
     latitude: number;
     longitude: number;
 }
@@ -109,7 +154,7 @@ export class Worktime extends BaseModel {
         this._startDay = value;
         this.startDayName = DayOfWeek[value].toString();
     }
-    
+
 
     private _endDay: DayOfWeek;
     endDayName: string;
@@ -204,10 +249,21 @@ export class Worktime extends BaseModel {
 }
 
 export class Languages extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
     languageName: string;
 }
 
 export class MenuLanguages extends BaseModel {
+
+    constructor() {
+        super();
+        this.theLanguage = new Languages();
+    }
+
     restaurantId: number;
     menuId: number;
     languageId: number;
@@ -215,13 +271,55 @@ export class MenuLanguages extends BaseModel {
 }
 
 export class Currencies extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
     currencySign: string;
     currencyFullName: string;
 }
 
 export class MenuCurrencies extends BaseModel {
+
+    constructor() {
+        super();
+        this.theCurrency = new Currencies();
+    }
+
     restaurantId: number;
     menuId: number;
     currencyId: number;
     theCurrency: Currencies;
+}
+
+export class Categories extends BaseModel {
+
+    constructor() {
+        super();
+        this.theMenuLanguage = new MenuLanguages();
+    }
+
+    categoryName: string;
+    categoryDescription: string;
+    menuCategoryId: number;
+    menuLanguageId: number;
+    theMenuLanguage: MenuLanguages;
+}
+
+export class MenuCategories extends BaseModel {
+
+    constructor() {
+        super();
+        this.theCategories = new Array<Categories>(0);
+        this.categoryName = new Array<Tuple<number, string>>();
+        this.categoryDescription = new Array<Tuple<number, string>>();
+
+    }
+
+    restaurantId: number;
+    categoryName: Array<Tuple<number, string>>;
+    categoryDescription: Array<Tuple<number, string>>;
+
+    theCategories: Categories[];
 }

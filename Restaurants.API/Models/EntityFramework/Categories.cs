@@ -40,10 +40,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private MenuLanguages _MenuLanguages;
 
-		[JsonIgnore]
 		[ForeignKey("MenuLanguageId")]
         public virtual MenuLanguages TheMenuLanguage
         {

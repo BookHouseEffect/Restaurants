@@ -72,7 +72,7 @@
         </div>
 
         <div [class.active]="currentFragment === 'category'" class="tab-pane fade in">
-          <h3>MENU CATEGORIES</h3>
+          <menu-category [restaurant]="currentRestaurant"></menu-category>
         </div>
 
         <div [class.active]="currentFragment === 'content'" class="tab-pane fade in">

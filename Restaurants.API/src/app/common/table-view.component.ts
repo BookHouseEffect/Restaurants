@@ -14,7 +14,7 @@ export class TableViewComponent implements OnInit {
     @Input() hasEdit: Boolean = false;
     @Input() hasRemove: Boolean = false;
     @Input() hasPaging: Boolean = true;
-    @Input() data: Array<any> = new Array<any>(0);;
+    @Input() data: Array<any> = new Array<any>(0);
 
     @Input() pageNumber: number = 1;
     @Input() pageSize: number = 10;

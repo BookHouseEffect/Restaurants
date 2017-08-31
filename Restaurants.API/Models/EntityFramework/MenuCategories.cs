@@ -24,10 +24,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private ICollection<Categories> _Categories;
 
-		[JsonIgnore]
 		public virtual ICollection<Categories> TheCategories
         {
             get
