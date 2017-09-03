@@ -112,7 +112,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				Services.RemoveMenuCurrency(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
+				Services.RemoveMenuCurrencyAsync(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
 			}
 			catch (Exception ex)
 			{

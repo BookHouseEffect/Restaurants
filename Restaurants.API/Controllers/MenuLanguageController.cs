@@ -112,7 +112,7 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				People currentUser = GetCurrentUser();
-				Services.RemoveMenuLanguage(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
+				Services.RemoveMenuLanguageAsync(currentUser.ThePersonAsEmployer.Id, restaurantId, id);
 			}
 			catch (Exception ex)
 			{

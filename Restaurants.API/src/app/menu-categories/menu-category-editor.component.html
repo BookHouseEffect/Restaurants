@@ -1,4 +1,4 @@
-﻿<div class="form">
+<div class="form">
 
   <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
   <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
@@ -8,10 +8,9 @@
   <table class="table table-condensed table-stripped">
     <thead>
       <tr>
-        <th class="col-xs-2">Language</th>
+        <th class="col-xs-3">Language</th>
         <th class="col-xs-3">Name</th>
         <th class="col-xs-6">Description</th>
-        <th class="col-xs-1"></th>
       </tr>
     </thead>
     <tbody>
@@ -22,9 +21,6 @@
         </td>
         <td>
           <textarea rows="2" class="form-control" [(ngModel)]="cat.categoryDescription"></textarea>
-        </td>
-        <td>
-          <modify-info-popover [entity]="cat"></modify-info-popover>
         </td>
       </tr>
     </tbody>

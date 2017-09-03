@@ -1,4 +1,4 @@
-﻿import { Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { Headers, Http, RequestOptions, URLSearchParams } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';

@@ -1,4 +1,4 @@
-﻿export abstract class BaseModel {
+export abstract class BaseModel {
 
     constructor() {
         this.createdBy = null;
@@ -322,4 +322,59 @@ export class MenuCategories extends BaseModel {
     categoryDescription: Array<Tuple<number, string>>;
 
     theCategories: Categories[];
+}
+
+export class MenuItemContents extends BaseModel {
+
+    constructor() {
+        super();
+        this.theMenuLanguage = new MenuLanguages();
+    }
+
+    itemName: string;
+    itemDescription: string;
+    itemWarnings: string;
+    menuItemId: number;
+    menuLanguageId: number;
+
+    theMenuLanguage: MenuLanguages;
+}
+
+export class MenuItemValues extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
+    price: number;
+    menuItemId: number;
+    menuCurrencyId: number;
+
+    theMenuCurrency: MenuCurrencies;
+}
+
+export class MenuItems extends BaseModel {
+
+    constructor() {
+        super();
+        this.itemName = new Array<Tuple<number, string>>(0);
+        this.itemDescription = new Array<Tuple<number, string>>(0);
+        this.itemWarnings = new Array<Tuple<number, string>>(0);
+        this.itemPrice = new Array<Tuple<number, number>>(0);
+
+        this.theContent = new Array<MenuItemContents>(0);
+        this.theValue = new Array<MenuItemValues>(0);
+    }
+
+    restaurantId: number;
+    menuId: number;
+    menuCategoryId: number;
+
+    itemName: Array<Tuple<number, string>>;
+    itemDescription: Array<Tuple<number, string>>;
+    itemWarnings: Array<Tuple<number, string>>;
+    itemPrice: Array<Tuple<number, number>>;
+
+    theContent: Array<MenuItemContents>;
+    theValue: Array<MenuItemValues>;
 }

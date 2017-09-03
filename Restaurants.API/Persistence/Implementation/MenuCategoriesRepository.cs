@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Restaurants.API.Models.Context;
@@ -29,7 +29,7 @@ namespace Restaurants.API.Persistence.Implementation
 				.SingleOrDefaultAsync();
 		}
 
-		internal Task<List<MenuCategories>> GetMenuCategoriesById(long menuId, int pageNumber, int pageSize)
+		internal Task<List<MenuCategories>> GetMenuCategoriesByMenuIdPaged(long menuId, int pageNumber, int pageSize)
 		{
 			return DbSet
 				.Where(x => x.TheCategories.All(y => y.TheMenuLanguage.MenuId == menuId))

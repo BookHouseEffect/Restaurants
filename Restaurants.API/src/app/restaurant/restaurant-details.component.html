@@ -1,4 +1,4 @@
-﻿<div *ngIf="currentRestaurant">
+<div *ngIf="currentRestaurant">
   <div class="row">
     <div class="col-md-2">
       <ul class="nav nav-pills nav-stacked">
@@ -76,7 +76,7 @@
         </div>
 
         <div [class.active]="currentFragment === 'content'" class="tab-pane fade in">
-          <h3>MENU CONTENT</h3>
+          <menu-item [restaurant]="currentRestaurant"></menu-item>
         </div>
 
         <div [class.active]="currentFragment === 'transfer'" class="tab-pane fade in">

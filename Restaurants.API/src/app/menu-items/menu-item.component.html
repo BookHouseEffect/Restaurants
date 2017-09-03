@@ -8,19 +8,45 @@
     <h3 class="panel-title pull-left">Menu Categories</h3>
 
     <div class="btn-group pull-right">
-      <modal-dialog [buttonTitle]="'Add New Category'" [title]="'Add New Category'"
+      <modal-dialog [buttonTitle]="'Add New Item'" [title]="'Add New Item'"
                     (notify)="newClicked($event)">
-        <menu-category-editor [isNew]="!hasEditing" [restaurant]="restaurant" [currentCategory]="editedCategory"
+        <menu-item-editor [isNew]="!hasEditing" [restaurant]="restaurant" [currentItem]="editedItem"
                               (notify)="(!hasEditing && remove($event)) || (hasEditing && onEdit($event))">
-        </menu-category-editor>
+        </menu-item-editor>
       </modal-dialog>
     </div>
   </div>
 
   <div class="panel-body">
 
+    <div class="well" *ngIf="categoryList && categoryList.length != 0">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="col-xs-2 text-right"><label class="control-label">Choose Category:</label></td>
+              <td>
+                <select class="form-control" [(ngModel)]="selectedCategoryId">
+                  <option *ngFor="let category of categoryList" [attr.value]="category.id">
+                    <ng-container *ngFor="let item of category.theCategories">
+                      {{item.categoryName}} - 
+                    </ng-container>
+                  </option>
+                </select>
+              </td>
+              <td class="col-xs-2">
+                <button type="button" class="btn btn-primary btn-block" (click)="getItemsOnCategoryChange()">
+                  Load items
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
     <div class="well-sm">
-      <div *ngIf="!categoryList || categoryList.length === 0">
+
+      <div *ngIf="!itemList || itemList.length === 0">
         <h3 class="text text-info">No results available.</h3>
       </div>
 
@@ -28,40 +54,60 @@
 
         <thead>
           <tr>
-            <th>Category Details</th>
+            <th class="col-xs-7">Item Content</th>
+            <th class="col-xs-4">Item Price</th>
             <th class="col-xs-1"></th>
           </tr>
         </thead>
 
         <tbody>
 
-          <ng-container *ngFor="let item of categoryList">
+          <ng-container *ngFor="let item of itemList">
             <tr>
-              <td>
 
+              <td>
                 <table class="table table-bordered table-condensed">
                   <thead>
                     <tr>
                       <th class="col-xs-3">Language Name</th>
-                      <th class="col-xs-3">Category Name</th>
-                      <th class="col-xs-6">Category Description </th>
+                      <th class="col-xs-3">Item Name</th>
+                      <th class="col-xs-3">Item Description</th>
+                      <th class="col-xs-3">Item Warnings</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let detail of item.theCategories">
-                      <th>{{detail.theMenuLanguage.theLanguage.languageName}}</th>
-                      <td>{{detail.categoryName}}</td>
-                      <td>{{detail.categoryDescription}}</td>
+                    <tr *ngFor="let content of item.theContent">
+                      <th>{{content.theMenuLanguage.theLanguage.languageName}}</th>
+                      <td>{{content.itemName}}</td>
+                      <td>{{content.itemDescription}}</td>
+                      <td>{{content.itemWarnings}}</td>
                     </tr>
                   </tbody>
                 </table>
-
               </td>
 
               <td>
+                <table class="table table-bordered table-condensed">
+                  <thead>
+                    <tr>
+                      <th class="col-xs-6">Currency Name</th>
+                      <th class="col-xs-6">Item Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let value of item.theValue">
+                      <th>
+                        {{value.theMenuCurrency.theCurrency.currencyFullName}}
+                        ({{value.theMenuCurrency.theCurrency.currencySign}})
+                      </th>
+                      <td class="text-right">{{value.price}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
 
+              <td>
                 <table class="table table-bordered">
-
                   <tbody>
                     <tr>
                       <td><modify-info-popover [entity]="item"></modify-info-popover></td>
@@ -82,8 +128,8 @@
                     </tr>
                   </tbody>
                 </table>
-
               </td>
+
             </tr>
           </ng-container>
 
@@ -91,7 +137,7 @@
 
         <tfoot>
           <tr>
-            <td colspan="2">
+            <td colspan="3">
               <ul class="pager">
 
                 <li class="previous">
@@ -103,18 +149,18 @@
                 </li>
 
                 <li>
-                  <span *ngIf="categoryList && categoryList.length !== 0">
-                    Page #{{pageNumber}} ( Results from {{(pageNumber - 1) * pageSize + 1}} to {{(pageNumber - 1) * pageSize + categoryList.length}} )
+                  <span *ngIf="itemList && itemList.length !== 0">
+                    Page #{{pageNumber}} ( Results from {{(pageNumber - 1) * pageSize + 1}} to {{(pageNumber - 1) * pageSize + itemList.length}} )
                   </span>
-                  <span *ngIf="!categoryList || categoryList.length === 0">
+                  <span *ngIf="!itemList || itemList.length === 0">
                     Page #{{pageNumber}} ( No results available )
                   </span>
                 </li>
 
                 <li class="next">
                   <button type="button" class="btn btn-primary"
-                          [class.disabled]="(!categoryList || categoryList.length !== pageSize)"
-                          (click)="(!categoryList || categoryList.length !== pageSize) || getNextPage()">
+                          [class.disabled]="(!itemList || itemList.length !== pageSize)"
+                          (click)="(!itemList || itemList.length !== pageSize) || getNextPage()">
                     Next
                   </button>
                 </li>

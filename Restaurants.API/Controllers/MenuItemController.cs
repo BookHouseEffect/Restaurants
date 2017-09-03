@@ -1,4 +1,4 @@
-﻿using Restaurants.API.Models.EntityFramework;
+using Restaurants.API.Models.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,88 +10,92 @@ using Restaurants.API.Models.Api;
 namespace Restaurants.API.Controllers
 {
 	[Produces("application/json")]
-    [Route("api/restaurant/menuCategories")]
-    public class MenuCategoryController : BaseController
+    [Route("api/restaurant/menuItems")]
+    public class MenuItemController : BaseController
     {
 
 		[AllowAnonymous]
 		[HttpGet("{id}")]
-		public async Task<IActionResult> GetSingleMenuCategoryAsync(long id)
+		public async Task<IActionResult> GetSingleMenuItemAsync(long id)
 		{
-			MenuCategories existingMenuCategory;
+			MenuItems existingMenuItem;
 			try
 			{
-				existingMenuCategory = await Services.GetMenuCategoryAsync(id);
+				existingMenuItem = await Services.GetMenuItemAsync(id);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(existingMenuCategory);
+			return Ok(existingMenuItem);
 		}
 
 		[AllowAnonymous]
 		[HttpGet("")]
-		public async Task<IActionResult> GetMenuCategoriesAsync(long restaurantId, int pageNumber=1, int pageSize = 10)
+		public async Task<IActionResult> GetMenuItemsAsync(long restaurantId, long menuCategoryId, int pageNumber=1, int pageSize = 10)
 		{
-			List<MenuCategories> existingMenuCategories;
+			List<MenuItems> existingMenuItems;
 			try
 			{
-				existingMenuCategories = await Services.GetAllMenuCategoriesAsync(restaurantId, pageNumber, pageSize);
+				existingMenuItems = await Services.GetAllMenuItemsPagedAsync(restaurantId, menuCategoryId, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(existingMenuCategories);
+			return Ok(existingMenuItems);
 		}
 
 		[HttpPost("")]
-		public async Task<IActionResult> AddMenuCategoryAsync([FromBody] CategoryModel model)
+		public async Task<IActionResult> AddMenuItemAsync([FromBody] ItemModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
 
-			MenuCategories newMenuCategory;
+			MenuItems newMenuItem;
 			try
 			{
 				People currentUser = GetCurrentUser();
-				newMenuCategory = await Services.AddMenuCategoryAsync(currentUser.ThePersonAsEmployer.Id, 
-						model.RestaurantId, model.GetNameDictionary(), model.GetDescriptionDictionary());
+				newMenuItem = await Services.AddMenuItemAsync(currentUser.ThePersonAsEmployer.Id,
+						model.RestaurantId, model.MenuCategoryId, model.GetItemNameDictionary(),
+						model.GetItemDescriptionDictionary(), model.GetItemWarningsDictionary(),
+						model.GetItemPriceDictionary());
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(newMenuCategory);
+			return Ok(newMenuItem);
 		}
 
 		[HttpPut("{id}")]
-		public async Task<IActionResult> UpdateMenuCateogryAsync(long id, [FromBody] CategoryModel model)
+		public async Task<IActionResult> UpdateMenuItemAsync(long id, [FromBody] ItemModel model)
 		{
 			if (!ModelState.IsValid)
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ModelState));
 
-			MenuCategories existingMenuCategory;
+			MenuItems existingMenuItem;
 			try
 			{
 				People currentUser = GetCurrentUser();
-				existingMenuCategory = await Services.UpdateMenuCategoryAsync(currentUser.ThePersonAsEmployer.Id, 
-						model.RestaurantId, id, model.GetNameDictionary(), model.GetDescriptionDictionary());
+				existingMenuItem = await Services.UpdateMenuItemAsync(currentUser.ThePersonAsEmployer.Id,
+						model.RestaurantId, id, model.GetItemNameDictionary(),
+						model.GetItemDescriptionDictionary(), model.GetItemWarningsDictionary(),
+						model.GetItemPriceDictionary());
 			}
 			catch (Exception ex)
 			{
 				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
 			}
 
-			return Ok(existingMenuCategory);
+			return Ok(existingMenuItem);
 		}
 
 		[HttpDelete("{id}")]
-		public IActionResult DeleteMenuCategory(long id, long restaurantId)
+		public IActionResult DeleteMenuItem(long id, long restaurantId)
 		{
 			try
 			{

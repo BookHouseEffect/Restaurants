@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -113,6 +113,71 @@ namespace Restaurants.API.Models.Api
 		{
 			Dictionary<long, string> dictionary = new Dictionary<long, string>();
 			foreach (var item in CategoryDescription)
+			{
+				dictionary.Add(item.Item1, item.Item2);
+			}
+			return dictionary;
+		}
+	}
+
+	public class ItemModel : RestaurantModel {
+
+		public ItemModel(){
+			ItemName = new List<Tuple<long, string>>();
+			ItemDescription = new List<Tuple<long, string>>();
+			ItemWarnings = new List<Tuple<long, string>>();
+			ItemPrice = new List<Tuple<long, float>>();
+		}
+
+		[Required]
+		public Int64 MenuCategoryId { get; set; }
+
+		[Required]
+		public List<Tuple<long, string>> ItemName { get; set; }
+
+		[Required]
+		public List<Tuple<long, string>> ItemDescription { get; set; }
+
+		[Required]
+		public List<Tuple<long, string>> ItemWarnings { get; set; }
+
+		[Required]
+		public List<Tuple<long, float>> ItemPrice { get; set; }
+
+		public Dictionary<long, string> GetItemNameDictionary()
+		{
+			Dictionary<long, string> dictionary = new Dictionary<long, string>();
+			foreach (var item in ItemName)
+			{
+				dictionary.Add(item.Item1, item.Item2);
+			}
+			return dictionary;
+		}
+
+		public Dictionary<long, string> GetItemDescriptionDictionary()
+		{
+			Dictionary<long, string> dictionary = new Dictionary<long, string>();
+			foreach (var item in ItemDescription)
+			{
+				dictionary.Add(item.Item1, item.Item2);
+			}
+			return dictionary;
+		}
+
+		public Dictionary<long, string> GetItemWarningsDictionary()
+		{
+			Dictionary<long, string> dictionary = new Dictionary<long, string>();
+			foreach (var item in ItemWarnings)
+			{
+				dictionary.Add(item.Item1, item.Item2);
+			}
+			return dictionary;
+		}
+
+		public Dictionary<long, float> GetItemPriceDictionary()
+		{
+			Dictionary<long, float> dictionary = new Dictionary<long, float>();
+			foreach (var item in ItemPrice)
 			{
 				dictionary.Add(item.Item1, item.Item2);
 			}

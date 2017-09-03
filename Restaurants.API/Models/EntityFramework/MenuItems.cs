@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -51,10 +51,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private ICollection<MenuItemContents> _Content;
 
-		[JsonIgnore]
 		public virtual ICollection<MenuItemContents> TheContent
         {
             get
@@ -66,5 +64,19 @@ namespace Restaurants.API.Models.EntityFramework
                 _Content = value;
             }
         }
-    }
+
+		private ICollection<MenuItemValues> _Value;
+
+		public virtual ICollection<MenuItemValues> TheValue
+		{
+			get
+			{
+				return _Value;
+			}
+			set
+			{
+				_Value = value;
+			}
+		}
+	}
 }

@@ -1,4 +1,4 @@
-﻿using Restaurants.API.Models.EntityFramework;
+using Restaurants.API.Models.EntityFramework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -35,7 +35,7 @@ namespace Restaurants.API.Services.Helpers
 			long newLanguageId
 		);
 
-		bool RemoveMenuLanguage(
+		Task<bool> RemoveMenuLanguageAsync(
 			long ownerId,
 			long restaurantId,
 			long menuLanguageId
@@ -70,7 +70,7 @@ namespace Restaurants.API.Services.Helpers
 			long newCurrencyId
 		);
 
-		bool RemoveMenuCurrency(
+		Task<bool> RemoveMenuCurrencyAsync(
 			long ownerId,
 			long restaurantId,
 			long menuCurrencyId
@@ -101,10 +101,47 @@ namespace Restaurants.API.Services.Helpers
 			Dictionary<long, string> categoryDescription
 		);
 
-		bool RemoveMenuCategory(
+		Task<bool> RemoveMenuCategoryAsync(
 			long ownerId,
 			long restaurantId,
 			long menuCategoryId
+		);
+
+		Task<MenuItems> AddMenuItemAsync(
+			long ownerId,
+			long restaurantId,
+			long menuCategoryId,
+			Dictionary<long, string> itemName,
+			Dictionary<long, string> itemDescription,
+			Dictionary<long, string> itemWarnings,
+			Dictionary<long, float> itemPrice
+		);
+
+		Task<MenuItems> GetMenuItemAsync(
+			long menuItemId
+		);
+
+		Task<List<MenuItems>> GetAllMenuItemsPagedAsync(
+			long restaurantId,
+			long menuCategoryId,
+			int pageNumber,
+			int pageSize
+		);
+
+		Task<MenuItems> UpdateMenuItemAsync(
+			long ownerId,
+			long restaurantId,
+			long menuItemId,
+			Dictionary<long, string> itemName,
+			Dictionary<long, string> itemDescription,
+			Dictionary<long, string> itemWarnings,
+			Dictionary<long, float> itemPrice
+		);
+
+		Task<bool> RemoveMenuItemAsync(
+			long ownerId,
+			long restaurantId,
+			long menuItemId
 		);
 	}
 }

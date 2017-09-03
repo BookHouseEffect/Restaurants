@@ -1,4 +1,4 @@
-﻿import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 
@@ -41,6 +41,10 @@ import { MenuCategoryEditorComponent } from './menu-categories/menu-category-edi
 import { MenuCategoryComponent } from './menu-categories/menu-category.component';
 import { MenuCategoryService } from './menu-categories/menu-category.service';
 
+import { MenuItemComponent } from './menu-items/menu-item.component';
+import { MenuItemEditorComponent } from './menu-items/menu-item-editor.component';
+import { MenuItemService } from './menu-items/menu-item.service';
+
 import { SearchService } from './common/search.service';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -58,7 +62,8 @@ import { PopoverModule } from "ngx-popover";
         ScheduleComponent, ScheduleEditorComponent, IteratorNumberPipe, DayStringPipe,
         MenuLanguageComponent, MenuLanguageEditorComponent,
         MenuCurrencyComponent, MenuCurrencyEditorComponent,
-        MenuCategoryComponent, MenuCategoryEditorComponent
+        MenuCategoryComponent, MenuCategoryEditorComponent,
+        MenuItemComponent, MenuItemEditorComponent
     ],
     imports: [
         BrowserModule,
@@ -81,7 +86,8 @@ import { PopoverModule } from "ngx-popover";
         ScheduleService,
         MenuLanguageService,
         MenuCurrencyService,
-        MenuCategoryService
+        MenuCategoryService,
+        MenuItemService
     ],
     bootstrap: [AppComponent]
 })

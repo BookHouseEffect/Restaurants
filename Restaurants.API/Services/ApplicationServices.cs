@@ -1,4 +1,4 @@
-﻿using Restaurants.API.Services.Helpers;
+using Restaurants.API.Services.Helpers;
 using Restaurants.API.Services.Implementation;
 using System;
 using System.Collections.Generic;
@@ -54,6 +54,11 @@ namespace Restaurants.API.Services
 			return MenuService.AddMenuCurrencyAsync(ownerId, restaurantId, currencyId);
 		}
 
+		public Task<MenuItems> AddMenuItemAsync(long ownerId, long restaurantId, long menuCategoryId, Dictionary<long, string> itemName, Dictionary<long, string> itemDescription, Dictionary<long, string> itemWarnings, Dictionary<long, float> itemPrice)
+		{
+			return MenuService.AddMenuItemAsync(ownerId, restaurantId, menuCategoryId, itemName, itemDescription, itemWarnings, itemPrice);
+		}
+
 		public Task<MenuLanguages> AddMenuLanguageAsync(long ownerId, long restaurantId, long languageId)
 		{
 			return MenuService.AddMenuLanguageAsync(ownerId, restaurantId, languageId);
@@ -99,6 +104,11 @@ namespace Restaurants.API.Services
 			return MenuService.GetAllMenuCategoriesAsync(restaurantId, pageNumber, pageSize);
 		}
 
+		public Task<List<MenuItems>> GetAllMenuItemsPagedAsync(long restaurantId, long menuCategoryId, int pageNumber, int pageSize)
+		{
+			return MenuService.GetAllMenuItemsPagedAsync(restaurantId, menuCategoryId, pageNumber, pageSize);
+		}
+
 		public Task<List<OutOfSchedulePeriods>> GetAllOutOfScheduleIntervalsAsync(long restaurantId, int pageNumber, int pageSize)
 		{
 			return ScheduleSerice.GetAllOutOfScheduleIntervalsAsync(restaurantId, pageNumber, pageSize);
@@ -137,6 +147,11 @@ namespace Restaurants.API.Services
 		public Task<MenuCurrencies> GetMenuCurrencyAsync(long menuCurrencyId)
 		{
 			return MenuService.GetMenuCurrencyAsync(menuCurrencyId);
+		}
+
+		public Task<MenuItems> GetMenuItemAsync(long menuItemId)
+		{
+			return MenuService.GetMenuItemAsync(menuItemId);
 		}
 
 		public Task<MenuLanguages> GetMenuLanguageAsync(long menuLanguageId)
@@ -194,19 +209,24 @@ namespace Restaurants.API.Services
 			return RestaurantService.RemoveCoownerAsync(ownerId, restaurantId, coownerId);
 		}
 
-		public bool RemoveMenuCategory(long ownerId, long restaurantId, long menuCategoryId)
+		public Task<bool> RemoveMenuCategoryAsync(long ownerId, long restaurantId, long menuCategoryId)
 		{
-			return MenuService.RemoveMenuCategory(ownerId, restaurantId, menuCategoryId);
+			return MenuService.RemoveMenuCategoryAsync(ownerId, restaurantId, menuCategoryId);
 		}
 
-		public bool RemoveMenuCurrency(long ownerId, long restaurantId, long menuCurrencyId)
+		public Task<bool> RemoveMenuCurrencyAsync(long ownerId, long restaurantId, long menuCurrencyId)
 		{
-			return MenuService.RemoveMenuCurrency(ownerId, restaurantId, menuCurrencyId);
+			return MenuService.RemoveMenuCurrencyAsync(ownerId, restaurantId, menuCurrencyId);
 		}
 
-		public bool RemoveMenuLanguage(long ownerId, long restaurantId, long menuLanguageId)
+		public Task<bool> RemoveMenuItemAsync(long ownerId, long restaurantId, long menuItemId)
 		{
-			return MenuService.RemoveMenuLanguage(ownerId, restaurantId, menuLanguageId);
+			return MenuService.RemoveMenuItemAsync(ownerId, restaurantId, menuItemId);
+		}
+
+		public Task<bool> RemoveMenuLanguageAsync(long ownerId, long restaurantId, long menuLanguageId)
+		{
+			return MenuService.RemoveMenuLanguageAsync(ownerId, restaurantId, menuLanguageId);
 		}
 
 		public Task<bool> RemoveOutOfScheduleIntervalAsync(long employerId, long restaurantId, long scheduleId)
@@ -242,6 +262,11 @@ namespace Restaurants.API.Services
 		public Task<MenuCurrencies> UpdateMenuCurrenciesAsync(long ownerId, long restaurantId, long menuCurrencyId, long newCurrencyId)
 		{
 			return MenuService.UpdateMenuCurrenciesAsync(ownerId, restaurantId, menuCurrencyId, newCurrencyId);
+		}
+
+		public Task<MenuItems> UpdateMenuItemAsync(long ownerId, long restaurantId, long menuItemId, Dictionary<long, string> itemName, Dictionary<long, string> itemDescription, Dictionary<long, string> itemWarnings, Dictionary<long, float> itemPrice)
+		{
+			return MenuService.UpdateMenuItemAsync(ownerId, restaurantId, menuItemId, itemName, itemDescription, itemWarnings, itemPrice);
 		}
 
 		public Task<MenuLanguages> UpdateMenuLanguageAsync(long ownerId, long restaurantId, long menuLanguageId, long newLanguageId)

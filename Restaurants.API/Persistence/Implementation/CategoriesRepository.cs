@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
@@ -18,6 +18,12 @@ namespace Restaurants.API.Persistence.Implementation
 				.ToListAsync();
 		}
 
+		internal Task<List<Categories>> GetByMenuLanguageId(long menuLanguageId)
+		{
+			return DbSet
+				.Where(x => x.MenuLanguageId == menuLanguageId)
+				.ToListAsync();
+		}
 	}
 
 }

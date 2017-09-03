@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -45,10 +45,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private MenuLanguages _MenuLanguages;
 
-		[JsonIgnore]
 		[ForeignKey("MenuLanguageId")]
         public virtual MenuLanguages TheMenuLanguage
         {

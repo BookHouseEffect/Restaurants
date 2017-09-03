@@ -1,0 +1,107 @@
+<div class="form">
+
+  <alert-dispay [messages]="error" [isError]="true" (notify)="clearError()"></alert-dispay>
+  <alert-dispay [messages]="success" [isError]="false" (notify)="clearSuccess()"></alert-dispay>
+
+  <input type="hidden" [value]="currentItem.id" *ngIf="!isNew" />
+
+  <section>
+    <h3 class="page-header">The item category</h3>
+
+    <select class="form-control" [(ngModel)]="currentItem.menuCategoryId">
+      <option *ngFor="let category of categoryList" [attr.value]="category.id">
+        <ng-container *ngFor="let item of category.theCategories">
+          {{item.categoryName}} -
+        </ng-container>
+      </option>
+    </select>
+  </section>
+
+  <section>
+    <h3 class="page-header">The item content</h3>
+
+    <table class="table table-condensed table-stripped">
+      <thead>
+        <tr>
+          <th class="col-xs-3">Language</th>
+          <th class="col-xs-9"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let content of currentItem.theContent">
+          <th>{{content.theMenuLanguage.theLanguage.languageName}}</th>
+          <td>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th class="col-xs-3">Name</th>
+                  <td class="col-xs-9">
+                    <input type="text" class="form-control" [(ngModel)]="content.itemName" />
+                  </td>
+                </tr>
+                <tr>
+                  <th class="col-xs-3">Description</th>
+                  <td class="col-xs-9">
+                    <textarea rows="2" class="form-control" [(ngModel)]="content.itemDescription"></textarea>
+                  </td>
+                </tr>
+                <tr>
+                  <th class="col-xs-3">Warnings</th>
+                  <td class="col-xs-9">
+                    <textarea rows="2" class="form-control" [(ngModel)]="content.itemWarnings"></textarea>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h3 class="page-header">The item price</h3>
+
+    <table class="table table-condensed table-stripped">
+      <thead>
+        <tr>
+          <th class="col-xs-6">Currency</th>
+          <th class="col-xs-6">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let value of currentItem.theValue">
+          <th>
+            {{value.theMenuCurrency.theCurrency.currencyFullName}}
+            ({{value.theMenuCurrency.theCurrency.currencySign}})
+          </th>
+          <td>
+            <input type="number" step='0.01' value='0.00' placeholder='0.00'
+                   class="form-control text-right" [(ngModel)]="value.price" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="row">
+    <div class="col-xs-3" [class.col-xs-offset-3]="!isNew" *ngIf="!isNew">
+      <modify-info-popover [entity]="currentItem"></modify-info-popover>
+    </div>
+    <div class=" col-xs-3" *ngIf="!isNew">
+      <button class=" btn btn-danger btn-block"
+              (click)="getOriginal()">
+        <span class="glyphicon glyphicon-remove"></span>
+        <span> Discard </span>
+      </button>
+    </div>
+    <div class="col-xs-3" [class.col-xs-offset-9]="isNew">
+      <button class=" btn btn-success btn-block"
+              (click)="save()">
+        <span class="glyphicon glyphicon-save"></span>
+        <span> Save </span>
+      </button>
+    </div>
+  </div>
+
+</div>
