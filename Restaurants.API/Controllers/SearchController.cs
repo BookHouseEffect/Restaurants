@@ -1,4 +1,5 @@
-﻿using System;
+using Restaurants.API.Models.Api;
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +29,23 @@ namespace Restaurants.API.Controllers
 			try
 			{
 				result = await Service.SearchEmployersAsync(searchTerm, searchForRestaurantId, pageNumber, pageSize);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode((int)HttpStatusCode.InternalServerError, GetErrorList(ex));
+			}
+
+			return Ok(result);
+		}
+
+		[HttpGet("restaurant")]
+		[AllowAnonymous]
+		public async Task<IActionResult> SearchRestaurantsAsync(string searchTerm = "", float currentLongitude = 0, float currentLatitude = 0, int pageNumber = 1, int pageSize = 20)
+		{
+			List<SearchRestaurantResult> result;
+			try
+			{
+				result = await Service.SearchRestaurantAsync(searchTerm, currentLongitude, currentLatitude, pageNumber, pageSize);
 			}
 			catch (Exception ex)
 			{

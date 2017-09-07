@@ -1,4 +1,5 @@
-﻿using Restaurants.API.Models.Enums;
+using Newtonsoft.Json;
+using Restaurants.API.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,7 +18,7 @@ namespace Restaurants.API.Models.EntityFramework
 
         private EmployeeTypes(EmployeeTypeEnum @enum)
         {
-            this.Id = (int)@enum;
+            this.Id = (long)@enum;
             this.EmployeeTypeName = @enum.ToString();
         }
 
@@ -30,6 +31,7 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private ICollection<AssignedEmployeeTypes> _AssignedEmployees;
 
+		[JsonIgnore]
         public virtual ICollection<AssignedEmployeeTypes> TheAssignedEmployees
         {
             get

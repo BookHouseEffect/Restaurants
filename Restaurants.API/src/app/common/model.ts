@@ -378,3 +378,44 @@ export class MenuItems extends BaseModel {
     theContent: Array<MenuItemContents>;
     theValue: Array<MenuItemValues>;
 }
+
+export class EmployeeType extends BaseModel {
+
+    constructor() {
+        super();
+    }
+
+    employeeTypeName: string;
+}
+
+export class AssignedEmployeeTypes extends BaseModel {
+
+    constructor() {
+        super();
+        this.tasks = new Array<number>(0);
+        this.theType = new EmployeeType();
+    }
+
+    typeId: number;
+    employeeId: number;
+    tasks: Array<number>;
+
+    theType: EmployeeType;
+}
+
+export class Employees extends BaseModel {
+
+    constructor() {
+        super()
+        this.theEmployeeDetails = new People();
+        this.theAssignedTypes = new Array<AssignedEmployeeTypes>(0);
+    }
+
+    restaurantId: number;
+    employeeId: number;
+    newRestaurantId: number;
+    personId: number;
+
+    theEmployeeDetails: People;
+    theAssignedTypes: Array<AssignedEmployeeTypes>;
+}

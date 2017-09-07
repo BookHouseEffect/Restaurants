@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -41,22 +41,6 @@ namespace Restaurants.API.Models.EntityFramework
             set
             {
                 _Restaurnant = value;
-            }
-        }
-
-        [NonSerialized]
-        private ICollection<Employees> _Employee;
-
-		[JsonIgnore]
-		public virtual ICollection<Employees> TheEmployees
-        {
-            get
-            {
-                return _Employee;
-            }
-            set
-            {
-                _Employee = value;
             }
         }
     }

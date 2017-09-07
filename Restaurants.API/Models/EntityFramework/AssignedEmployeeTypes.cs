@@ -1,4 +1,5 @@
-﻿using System;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,7 +16,6 @@ namespace Restaurants.API.Models.EntityFramework
         [Required]
         public long EmployeeId { get; set; }
 
-        [NonSerialized]
         private EmployeeTypes _Type;
 
         [ForeignKey("TypeId")]
@@ -34,6 +34,7 @@ namespace Restaurants.API.Models.EntityFramework
         [NonSerialized]
         private Employees _Employee;
 
+		[JsonIgnore]
         [ForeignKey("EmployeeId")]
         public virtual Employees TheEmployee
         {

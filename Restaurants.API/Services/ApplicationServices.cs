@@ -6,6 +6,7 @@ using Restaurants.API.Models.Context;
 using Restaurants.API.Models.EntityFramework;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Restaurants.API.Models.Enums;
 
 namespace Restaurants.API.Services
 {
@@ -14,12 +15,14 @@ namespace Restaurants.API.Services
 	IRestaurantService, 
 	IContactSerivce,
 	IScheduleService,
-	IMenuService
-    {
+	IMenuService,
+	IRestaurantEmployeeService
+	{
 		private IRestaurantService RestaurantService;
 		private IContactSerivce ContactService;
 		private IScheduleService ScheduleSerice;
 		private IMenuService MenuService;
+		private IRestaurantEmployeeService RestaurantEmployeeService;
 
 		public ApplicationServices(AppDbContext dbContext, People logedInPerson) 
 			: base(dbContext, logedInPerson) {
@@ -27,6 +30,7 @@ namespace Restaurants.API.Services
 			this.ContactService = new ContactService(dbContext, logedInPerson);
 			this.ScheduleSerice = new ScheduleService(dbContext, logedInPerson);
 			this.MenuService = new MenuService(dbContext, logedInPerson);
+			this.RestaurantEmployeeService = new RestaurantEmployeeService(dbContext, logedInPerson);
 		}
 
 		public Task<LocationContact> AddContactAddressAsync(long ownerId, long restaurantId, int floor, string steetNumber, string route, string locality, string country, int zipCode, float latitude, float longitude, [Optional] string administrativeAreaLevel1, [Optional] string administrativeAreaLevel2, [Optional] string googleLink)
@@ -42,6 +46,11 @@ namespace Restaurants.API.Services
 		public Task<EmployersRestaurants> AddCoownerAsync(long ownerId, long restaurantId, long coownerId)
 		{
 			return RestaurantService.AddCoownerAsync(ownerId, restaurantId, coownerId);
+		}
+
+		public Task<Employees> AddEmployeeToRestaurantAsync(long ownerId, long restaurantId, long employeeId)
+		{
+			return RestaurantEmployeeService.AddEmployeeToRestaurantAsync(ownerId, restaurantId, employeeId);
 		}
 
 		public Task<MenuCategories> AddMenuCategoryAsync(long ownerId, long restaurantId, Dictionary<long, string> categoryName, Dictionary<long, string> categoryDescription)
@@ -79,9 +88,19 @@ namespace Restaurants.API.Services
 			return ScheduleSerice.AddWorkingIntervalAsync(employerId, restaurantId, startDay, startTime, endDay, endTime);
 		}
 
+		public Task<List<AssignedEmployeeTypes>> AssignResponsibilitiesForEmployeeAsync(long ownerId, long restaurantId, long employeeId, List<EmployeeTypeEnum> responsibilities)
+		{
+			return RestaurantEmployeeService.AssignResponsibilitiesForEmployeeAsync(ownerId, restaurantId, employeeId, responsibilities);
+		}
+
 		public Task<bool> CloseRestaurantAsync(long ownerId, long restaurantId)
 		{
 			return RestaurantService.CloseRestaurantAsync(ownerId, restaurantId);
+		}
+
+		public Task<Employees> FireEmployeeOutAsync(long ownerId, long restaurantId, long employeeId)
+		{
+			return RestaurantEmployeeService.FireEmployeeOutAsync(ownerId, restaurantId, employeeId);
 		}
 
 		public Task<List<Currencies>> GetAllAvailableCurrenciesAsync()
@@ -122,6 +141,26 @@ namespace Restaurants.API.Services
 		public Task<LocationContact> GetContactAddressByRestaurantIdAsync(long restaurantId)
 		{
 			return ContactService.GetContactAddressByRestaurantIdAsync(restaurantId);
+		}
+
+		public Task<Employees> GetEmployeeDetailsAsync(long employeeId)
+		{
+			return RestaurantEmployeeService.GetEmployeeDetailsAsync(employeeId);
+		}
+
+		public Task<List<Employees>> GetEmployeeListForRestaurantAsync(long restaurantId, int pageNumber, int pageSize)
+		{
+			return RestaurantEmployeeService.GetEmployeeListForRestaurantAsync(restaurantId, pageNumber, pageSize);
+		}
+
+		public Task<List<AssignedEmployeeTypes>> GetEmployeeResponsibilitiesAsync(long employeeId)
+		{
+			return RestaurantEmployeeService.GetEmployeeResponsibilitiesAsync(employeeId);
+		}
+
+		public Task<List<EmployeeTypes>> GetEmployeeTypesEnumAsync()
+		{
+			return RestaurantEmployeeService.GetEmployeeTypesEnumAsync();
 		}
 
 		public Task<LocationContact> GetLocationContactAsync(long contactId)
@@ -237,6 +276,11 @@ namespace Restaurants.API.Services
 		public Task<bool> RemoveWorkingIntervalAsync(long employerId, long restaurantId, long scheduleId)
 		{
 			return ScheduleSerice.RemoveWorkingIntervalAsync(employerId, restaurantId, scheduleId);
+		}
+
+		public Task<Employees> TransferEmployeeToAnotherRestaurantAsync(long ownerId, long restaurantId, long employeeId, long newRestaurantId)
+		{
+			return RestaurantEmployeeService.TransferEmployeeToAnotherRestaurantAsync(ownerId, restaurantId, employeeId, newRestaurantId);
 		}
 
 		public Task<bool> TransferOwnershipAsync(long ownerId, long restaurantId, long newOwnerId)

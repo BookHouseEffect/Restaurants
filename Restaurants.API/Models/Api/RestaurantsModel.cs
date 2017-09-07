@@ -1,3 +1,4 @@
+using Restaurants.API.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -120,9 +121,11 @@ namespace Restaurants.API.Models.Api
 		}
 	}
 
-	public class ItemModel : RestaurantModel {
+	public class ItemModel : RestaurantModel
+	{
 
-		public ItemModel(){
+		public ItemModel()
+		{
 			ItemName = new List<Tuple<long, string>>();
 			ItemDescription = new List<Tuple<long, string>>();
 			ItemWarnings = new List<Tuple<long, string>>();
@@ -185,4 +188,28 @@ namespace Restaurants.API.Models.Api
 		}
 	}
 
+	public class EmployeeModel : RestaurantModel
+	{
+
+		[Required]
+		public Int64 EmployeeId { get; set; }
+	}
+
+	public class TransferEmployeeModel : RestaurantModel
+	{
+
+		[Required]
+		public Int64 NewRestaurantId { get; set; }
+	}
+
+	public class TaskModel : EmployeeModel
+	{
+		[Required]
+		public List<EmployeeTypeEnum> Tasks { get; set; }
+	}
+
+	public class SearchRestaurantResult : RestaurantModel {
+
+		public Nullable<double> Distance { get; set; }
+	}
 }

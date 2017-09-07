@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,22 +9,15 @@ namespace Restaurants.API.Models.EntityFramework
     [Serializable]
     public class Employees : BaseEntity
     {
-        [Required]
         [Column(Order = 1)]
-        public long RestaurantId { get; set; }
+        public Nullable<long> RestaurantId { get; set; }
 
         [Required]
         [Column(Order = 2)]
-        public long OwnerId { get; set; }
-
-        [Required]
-        [Column(Order = 3)]
         public long PersonId { get; set; }
 
-        [NonSerialized]
         private People _Person;
 
-		[JsonIgnore]
 		[ForeignKey("PersonId")]
         public virtual People TheEmployeeDetails
         {
@@ -55,27 +48,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
-        private Employers _Owner;
-
-		[JsonIgnore]
-		[ForeignKey("OwnerId")]
-        public virtual Employers TheEmployerEmployeeWorksFor
-        {
-            get
-            {
-                return _Owner;
-            }
-            set
-            {
-                _Owner = value;
-            }
-        }
-
-        [NonSerialized]
         private ICollection<AssignedEmployeeTypes> _AssignedType;
 
-		[JsonIgnore]
 		public virtual ICollection<AssignedEmployeeTypes> TheAssignedTypes
         {
             get

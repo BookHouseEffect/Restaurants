@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurants.API", "Restaurants.API\Restaurants.API.csproj", "{40CABC21-4ADD-46BF-9976-C84ACC9384FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurants.API", "Restaurants.API\Restaurants.API.csproj", "{40CABC21-4ADD-46BF-9976-C84ACC9384FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBCEB2EA-1B99-4B5F-B279-7DC27A6DCFF2}
 	EndGlobalSection
 EndGlobal

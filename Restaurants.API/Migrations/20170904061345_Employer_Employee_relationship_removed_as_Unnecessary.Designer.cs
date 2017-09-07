@@ -8,9 +8,10 @@ using Restaurants.API.Models.Context;
 namespace Restaurants.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170904061345_Employer_Employee_relationship_removed_as_Unnecessary")]
+    partial class Employer_Employee_relationship_removed_as_Unnecessary
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -113,7 +114,7 @@ namespace Restaurants.API.Migrations
 
                     b.Property<long>("PersonId");
 
-                    b.Property<long?>("RestaurantId");
+                    b.Property<long>("RestaurantId");
 
                     b.HasKey("Id");
 

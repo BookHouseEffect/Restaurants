@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,10 +13,8 @@ namespace Restaurants.API.Models.EntityFramework
         [Column(Order = 1)]
         public long PersonId { get; set; }
 
-        [NonSerialized]
         private People _Person;
 
-		[JsonIgnore]
 		[ForeignKey("PersonId")]
         public virtual People TheGuestDetails
         {

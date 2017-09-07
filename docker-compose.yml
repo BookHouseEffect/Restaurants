@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  restaurants.api:
+    image: restaurants.api
+    build:
+      context: ./Restaurants.API
+      dockerfile: Dockerfile

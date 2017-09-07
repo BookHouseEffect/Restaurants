@@ -37,13 +37,16 @@ import { MenuCurrencyComponent } from './menu-currencies/menu-currency.component
 import { MenuCurrencyEditorComponent } from './menu-currencies/menu-currency-editor.component';
 import { MenuCurrencyService } from './menu-currencies/menu-currency.service';
 
-import { MenuCategoryEditorComponent } from './menu-categories/menu-category-editor.component';
 import { MenuCategoryComponent } from './menu-categories/menu-category.component';
+import { MenuCategoryEditorComponent } from './menu-categories/menu-category-editor.component';
 import { MenuCategoryService } from './menu-categories/menu-category.service';
 
 import { MenuItemComponent } from './menu-items/menu-item.component';
 import { MenuItemEditorComponent } from './menu-items/menu-item-editor.component';
 import { MenuItemService } from './menu-items/menu-item.service';
+
+import { RestaurantEmployeeComponent } from './employees/restaurant-employee.component';
+import { RestaurantEmployeeService } from './employees/restaurant-employee.service';
 
 import { SearchService } from './common/search.service';
 
@@ -63,7 +66,8 @@ import { PopoverModule } from "ngx-popover";
         MenuLanguageComponent, MenuLanguageEditorComponent,
         MenuCurrencyComponent, MenuCurrencyEditorComponent,
         MenuCategoryComponent, MenuCategoryEditorComponent,
-        MenuItemComponent, MenuItemEditorComponent
+        MenuItemComponent, MenuItemEditorComponent,
+        RestaurantEmployeeComponent
     ],
     imports: [
         BrowserModule,
@@ -87,7 +91,8 @@ import { PopoverModule } from "ngx-popover";
         MenuLanguageService,
         MenuCurrencyService,
         MenuCategoryService,
-        MenuItemService
+        MenuItemService,
+        RestaurantEmployeeService
     ],
     bootstrap: [AppComponent]
 })

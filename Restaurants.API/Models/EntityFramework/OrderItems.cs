@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -62,10 +62,8 @@ namespace Restaurants.API.Models.EntityFramework
             }
         }
 
-        [NonSerialized]
         private OrderItemStatuses _Status;
 
-		[JsonIgnore]
 		[ForeignKey("OrderItemStatusId")]
         public virtual OrderItemStatuses TheStatusForThisOrderItem
         {
